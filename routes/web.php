@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,9 +28,8 @@ Route::get('/interviewerdashboard', function () {
 })->name('interviewerdashboard');
 
 //categories
-Route::get('/categories', function () {
-    return view('Admin.categories.index');
-})->name('categories');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 Route::get('/editcategory', function () {
     return view('Admin.categories.editcategory');
 })->name('editcategory');
