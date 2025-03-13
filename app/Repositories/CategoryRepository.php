@@ -33,7 +33,7 @@ class CategoryRepository implements CategoryInterface
     public function update($id, array $data)
     {
         $category = Category::findOrFail($id);
-        $category->update($category);
+        $category->update($data);
         return $category;
     }
 

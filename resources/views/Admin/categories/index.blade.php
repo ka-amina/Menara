@@ -38,7 +38,7 @@
                                 </td>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <a href="{{route('editcategory')}}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                <a href="{{ route('categories.edit', $category->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                     <button class="ml-4 text-red-600 hover:text-red-900">Delete</button>
                                 </td>
                             </tr>

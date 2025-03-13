@@ -55,7 +55,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('Admin.categories.editcategory', compact('category'));
+
     }
 
     /**
@@ -64,8 +65,9 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data=$request->validated();
-        $this->categoryInterface->update($category->id, $data);
-        return redirect()->route('categories');
+        $result=$this->categoryInterface->update($category->id, $data);
+// dd($result);
+        return redirect()->route('categories')->with('success', 'Category updated successfully.');
     }
 
     /**

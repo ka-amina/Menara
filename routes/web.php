@@ -30,9 +30,9 @@ Route::get('/interviewerdashboard', function () {
 //categories
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-Route::get('/editcategory', function () {
-    return view('Admin.categories.editcategory');
-})->name('editcategory');
+Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+
 
 //soft skills
 
