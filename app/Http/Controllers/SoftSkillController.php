@@ -15,7 +15,8 @@ class SoftSkillController extends Controller
     public function index()
     {
         try {
-            $softSkill = SoftSkill::all();
+            $softSkills = SoftSkill::all();
+            // dd($softSkill);
             return view('Admin.softSkills.index', compact('softSkills'));
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'error fetching soft skills');
@@ -85,7 +86,7 @@ class SoftSkillController extends Controller
             $softSkill->delete($softSkill->id);
             return redirect()->back()->with('success', $softSkill->name . 'deleted successfully.');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'faild to delete category: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'faild to delete skill: ' . $e->getMessage());
         }
     }
 }
