@@ -27,10 +27,13 @@
 @section('scripts')
 <script src="{{ mix('resources/js/app.js') }}"></script>
 <script>
-    const hasErrors = @json($errors - > any());
+    const input =document.getElementById('category_name');
+    const hasErrors = @json($errors -> any());
     if (hasErrors) {
+        input.classList.add('border-red-500')
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+
     }
 </script>
 @endsection
