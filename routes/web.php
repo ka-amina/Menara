@@ -11,7 +11,7 @@ Route::get('/login', function () {
     return view('Auth.login');
 })->name('login');
 Route::get('/forgetPassword', function () {
-    return view('Auth.forgetPassword');
+
 })->name('forgetpassword');
 Route::get('/resetPassword', function () {
     return view('Auth.resetPassword');
