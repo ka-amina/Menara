@@ -38,8 +38,13 @@
                                 </td>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <a href="{{ route('categories.edit', $category->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                    <button class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                    <a href="{{ route('categories.edit', $category->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                    </form>
+
                                 </td>
                             </tr>
 
