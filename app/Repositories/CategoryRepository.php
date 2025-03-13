@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\interfaces\CategoryInterface;
 use App\Models\Category;
+use Exception;
 
 class CategoryRepository implements CategoryInterface
 {
@@ -17,30 +18,50 @@ class CategoryRepository implements CategoryInterface
 
     public function getAll()
     {
-        return Category::all();
+        try {
+            return Category::all();
+        } catch (Exception $e) {
+            return response()->json(['error' => 'failed to fetch categories:' . $e->getMessage()], 500);
+        }
     }
 
     public function getById($id)
     {
-        return Category::findOrFail($id);
+        try {
+            return Category::findOrFail($id);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'category not found: ' . $e->getMessage()], 404);
+        }
     }
 
     public function create(array $data)
     {
-        return Category::create($data);
+        try {
+            return Category::create($data);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'faild to create category: ' . $e->getMessage()], 500);
+        }
     }
 
     public function update($id, array $data)
     {
-        $category = Category::findOrFail($id);
-        $category->update($data);
-        return $category;
+        try {
+            $category = Category::findOrFail($id);
+            $category->update($data);
+            return $category;
+        } catch (Exception $e) {
+            return response()->json(['error' => 'faild to update category: ' . $e->getMessage()], 500);
+        }
     }
 
     public function delete($id)
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
-        return $category;
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+            return $category;
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete category: ' . $e->getMessage()], 500);
+        }
     }
 }

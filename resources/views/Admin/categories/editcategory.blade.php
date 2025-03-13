@@ -1,7 +1,6 @@
 @extends('layouts.dashboard')
 @section('content')
 <div class="min-h-screen flex flex-col w-full">
-
     <div id="categoryModal" class="fixed flex inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 ">
         <div class="bg-white rounded-lg p-6 max-w-sm w-full">
             <h3 class="text-xl font-semibold text-gray-800 mb-4">Edit Category: {{$category->name}}</h3>
@@ -12,10 +11,13 @@
                 <div class="mb-4">
                     <label for="category_name" class="block text-sm text-gray-700">Category Name</label>
                     <input type="text" name="name" id="category_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $category->name }}">
+                    @if ($errors->has('name'))
+                    <div class="text-red-500 mt-2">{{ $errors->first('name') }}</div>
+                    @endif
                 </div>
                 <div class="flex justify-end space-x-2">
                     <button type="button" id="closeModalBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"><a href="{{route('categories')}}">Cancel</a></button>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
                 </div>
             </form>
         </div>
@@ -24,4 +26,11 @@
 @endsection
 @section('scripts')
 <script src="{{ mix('resources/js/app.js') }}"></script>
+<script>
+    const hasErrors = @json($errors - > any());
+    if (hasErrors) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+</script>
 @endsection

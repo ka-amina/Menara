@@ -22,7 +22,16 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required'
+            'name' => 'required|max:255|unique:categories,name,' . $this->category->id
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'The category name is required',
+            'name.unique' => 'This category already exists',
+            'name.max' => 'Category name cannot exceed 255 characters',
         ];
     }
 }

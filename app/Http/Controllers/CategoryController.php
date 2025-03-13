@@ -6,22 +6,28 @@ use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\interfaces\CategoryInterface;
+use Exception;
 
 class CategoryController extends Controller
 {
 
     public $categoryInterface;
 
-    public function __construct (CategoryInterface $categoryInterface){
-        $this->categoryInterface=$categoryInterface;
+    public function __construct(CategoryInterface $categoryInterface)
+    {
+        $this->categoryInterface = $categoryInterface;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories= $this->categoryInterface->getAll();
-        return view('Admin.categories.index', compact('categories'));
+        try {
+            $categories = $this->categoryInterface->getAll();
+            return view('Admin.categories.index', compact('categories'));
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error fetching categories: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -37,9 +43,13 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $data=$request->validated();
-        $this->categoryInterface->create($data);
-        return redirect()->back()->with('success', 'Category created successfully.');
+        try {
+            $data = $request->validated();
+            $this->categoryInterface->create($data);
+            return redirect()->back()->with('success', 'Category created successfully.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'faild to create category: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -56,7 +66,6 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return view('Admin.categories.editcategory', compact('category'));
-
     }
 
     /**
@@ -64,10 +73,14 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data=$request->validated();
-        $result=$this->categoryInterface->update($category->id, $data);
-// dd($result);
+        try{
+        $data = $request->validated();
+        $result = $this->categoryInterface->update($category->id, $data);
+        // dd($result);
         return redirect()->route('categories')->with('success', 'Category updated successfully.');
+        }catch(Exception $e){
+            return redirect()->back()->with('error',' faild to update category: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -75,7 +88,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        try{
         $this->categoryInterface->delete($category->id);
         return redirect()->back()->with('success', 'Category created successfully.');
+        }catch(Exception $e){
+            return redirect()->back()->with('error','faild to delete category: ' . $e->getMessage());
+        }
     }
 }
