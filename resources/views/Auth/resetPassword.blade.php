@@ -4,8 +4,9 @@
 
 <div
     class="max-w-md w-full mx-auto rounded-xl shadow-[0_2px_10px_-2px_rgba(195,169,50,0.5)] p-8 relative mt-12">
-    <form action="#" method="POST">
-    <div class="flex justify-center my-5">logo</div>
+    <form action="{{route('reset')}}" method="POST">
+        @csrf
+        <div class="flex justify-center my-5">logo</div>
         <div class="flex justify-center my-5">
             <h2 class="text-2xl font-bold text-primary">Reset Password</h2>
         </div>
@@ -17,23 +18,32 @@
         </div>
 
         <div class="flex flex-col p-2">
-            <label for="new-password" class="mb-2">New Password</label>
+            <label for="email" class="mb-2">email</label>
+            <input
+                id="email"
+                class="p-2 border-b border-primary"
+                type="email"
+                name="email"
+                placeholder="email" />
+        </div>
+        <div class="flex flex-col p-2">
+            <label for="new-password" class="mb-2">code</label>
             <input
                 id="new-password"
                 class="p-2 border-b border-primary"
                 type="password"
-                placeholder="••••••••"
-                 />
+                name="token"
+                placeholder="1234" />
         </div>
 
         <div class="flex flex-col p-2">
-            <label for="confirm-password" class="mb-2">Confirm New Password</label>
+            <label for="confirm-password" class="mb-2">New Password</label>
             <input
-                id="confirm-password"
+                id="password"
                 class="p-2 border-b border-primary"
                 type="password"
-                placeholder="••••••••"
-                 />
+                name="password"
+                placeholder="••••••••" />
         </div>
 
         <div class="flex justify-center">

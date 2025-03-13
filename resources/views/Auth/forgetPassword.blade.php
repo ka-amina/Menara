@@ -4,7 +4,8 @@
 
 <div
     class="max-w-md w-full mx-auto rounded-xl shadow-[0_2px_10px_-2px_rgba(195,169,50,0.5)] p-8 relative mt-12">
-    <form action="#" method="POST">
+    <form action="{{ route('forgot') }}" method="POST">
+    @csrf
     <div class="flex justify-center my-5">logo</div>
         <div class="flex justify-center my-5">
             <h2 class="text-2xl font-bold text-primary">Forgot Password</h2>
@@ -19,10 +20,11 @@
         <div class="flex flex-col p-2">
             <label for="email" class="mb-2">Email Address</label>
             <input
+            name="email"
                 id="email"
                 class="p-2 border-b border-primary"
                 type="email"
-                placeholder="test@example.com"
+                placeholder="name@gmail.com"
                  />
         </div>
 

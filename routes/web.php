@@ -2,21 +2,30 @@
 
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 //Auth
 Route::get('/login', function () {
     return view('Auth.login');
 })->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
 Route::get('/forgetPassword', function () {
 
 })->name('forgetpassword');
+Route::post('/forget', [AuthController::class, 'forgot'])->name('forgot');
+
+
+
 Route::get('/resetPassword', function () {
     return view('Auth.resetPassword');
 })->name('resetpassword');
+Route::post('/resetPassword', [AuthController::class, 'reset'])->name('reset');
+
 
 //dashboards
 
