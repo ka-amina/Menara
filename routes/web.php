@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -14,7 +15,7 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/forgetPassword', function () {
-    return view('Auth.forgetPassword');
+
 })->name('forgetpassword');
 Route::post('/forget', [AuthController::class, 'forgot'])->name('forgot');
 
@@ -36,12 +37,12 @@ Route::get('/interviewerdashboard', function () {
 })->name('interviewerdashboard');
 
 //categories
-Route::get('/categories', function () {
-    return view('Admin.categories.index');
-})->name('categories');
-Route::get('/editcategory', function () {
-    return view('Admin.categories.editcategory');
-})->name('editcategory');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
 
 //soft skills
 

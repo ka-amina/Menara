@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\interfaces\CategoryInterface;
+use App\Repositories\CategoryRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -14,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(CategoryInterface::class,CategoryRepository::class);
     }
 
     /**
