@@ -15,7 +15,7 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/forgetPassword', function () {
-
+    return view('Auth.forgetPassword');
 })->name('forgetpassword');
 Route::post('/forget', [AuthController::class, 'forgot'])->name('forgot');
 
