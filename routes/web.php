@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SoftSkillController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -45,10 +46,16 @@ Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])-
 
 
 //soft skills
+Route::get('/softskills', [SoftSkillController::class, 'index'])->name('softskills');
+Route::post('/softskills', [SoftSkillController::class, 'store'])->name('softskills.store');
+Route::get('/softskills/{softSkill}/edit', [SoftSkillController::class, 'edit'])->name('softskills.edit');
+Route::put('/softskills/{softSkill}', [SoftSkillController::class, 'update'])->name('softskills.update');
+Route::delete('/softskills/{softSkill}', [SoftSkillController::class, 'destroy'])->name('softskills.destroy');
 
-Route::get('/softskills', function () {
-    return view('Admin.softSkills.index');
-})->name('softskills');
+
+// Route::get('/softskills', function () {
+//     return view('Admin.softSkills.index');
+// })->name('softskills');
 Route::get('/editsoftskill', function () {
     return view('Admin.softSkills.editsoftskill');
 })->name('editsoftskill');

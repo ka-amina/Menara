@@ -90,7 +90,7 @@ class CategoryController extends Controller
     {
         try{
         $this->categoryInterface->delete($category->id);
-        return redirect()->back()->with('success', 'Category created successfully.');
+        return redirect()->back()->with('success', 'Category deleted successfully.');
         }catch(Exception $e){
             return redirect()->back()->with('error','faild to delete category: ' . $e->getMessage());
         }
