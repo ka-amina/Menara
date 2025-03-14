@@ -16,7 +16,7 @@
             <div class="bg-white rounded-lg p-6 max-w-sm w-full">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Hardskill</h3>
                 <form action="{{ route('hardskills.store') }}" method="POST">
-                @csrf
+                    @csrf
                     <div class="mb-4">
                         <label for="hardskill_name" class="block text-sm text-gray-700">Hardskill Name</label>
                         <input type="text" name="name" id="hardskill_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
@@ -56,7 +56,11 @@
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <a href="{{ route('hardskills.edit', $hardSkill->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                <form action="{{ route('hardskills.destroy', $hardSkill->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
