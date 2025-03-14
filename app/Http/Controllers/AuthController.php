@@ -83,7 +83,7 @@ class AuthController extends Controller
         // dd($request);
         $user = User::where('email', $request->input('email'))->first();
 
-        if (!$user || !$user->email) {
+        if (!$user) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'no record found',

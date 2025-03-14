@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\SoftSkillController;
 
 // Route::get('/', function () {
@@ -56,17 +57,22 @@ Route::delete('/softskills/{softSkill}', [SoftSkillController::class, 'destroy']
 // Route::get('/softskills', function () {
 //     return view('Admin.softSkills.index');
 // })->name('softskills');
-Route::get('/editsoftskill', function () {
-    return view('Admin.softSkills.editsoftskill');
-})->name('editsoftskill');
+// Route::get('/editsoftskill', function () {
+//     return view('Admin.softSkills.editsoftskill');
+// })->name('editsoftskill');
 
 //hard skills
-Route::get('/hardskills', function () {
-    return view('Admin.hardSkills.index');
-})->name('hardskills');
-Route::get('/edithardskill', function () {
-    return view('Admin.hardSkills.edithardskill');
-})->name('edithardskill');
+Route::get('/hardskills', [HardSkillController::class, 'index'])->name('hardskills');
+Route::post('/hardskills', [HardSkillController::class, 'store'])->name('hardskills.store');
+Route::get('/hardskills/{hardSkill}/edit', [HardSkillController::class, 'edit'])->name('hardskills.edit');
+Route::put('/hardskills/{hardSkill}', [HardSkillController::class, 'update'])->name('hardskills.update');
+Route::delete('/hardskills/{hardSkill}', [HardSkillController::class, 'destroy'])->name('hardskills.destroy');
+// Route::get('/hardskills', function () {
+//     return view('Admin.hardSkills.index');
+// })->name('hardskills');
+// Route::get('/edithardskill', function () {
+//     return view('Admin.hardSkills.edithardskill');
+// })->name('edithardskill');
 
 
 //jobs

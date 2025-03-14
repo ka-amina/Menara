@@ -58,7 +58,7 @@ class HardSkillController extends Controller
      */
     public function edit(HardSkill $hardSkill)
     {
-        return view('Admin.hardSkills.editsoftSkill', compact('hardSkill'));
+        return view('Admin.hardSkills.edithardSkill', compact('hardSkill'));
     }
 
     /**
