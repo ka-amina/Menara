@@ -110,7 +110,7 @@
         modal.classList.remove('flex');
     });
     
-    const hasErrors = @json($errors->any());
+    const hasErrors = JSON.parse("@json($errors->any())");
     if (hasErrors) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');

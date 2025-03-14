@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="min-h-screen flex flex-col w-full">
+@if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+    @endif
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
 
@@ -60,6 +71,9 @@
                         <div class="mb-4">
                             <label for="softskill_name" class="block text-sm text-gray-700">Soft Skill Name</label>
                             <input type="text" name="name" id="softskill_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            @if ($errors->has('name'))
+                                <div class="text-red-500 mt-2">{{ $errors->first('name') }}</div>
+                            @endif
                         </div>
                         <div class="flex justify-end space-x-2">
                             <button type="button" id="closeSoftskillModalBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
@@ -93,6 +107,11 @@
             softskillModal.classList.add("hidden");
         }
     });
+    const hasErrors = JSON.parse("@json($errors->any())");
+    if (hasErrors) {
+        softskillModal.classList.remove('hidden');
+        softskillModal.classList.add('flex');
+    }
 </script>
 
 <script src="{{ mix('resources/js/app.js') }}"></script>

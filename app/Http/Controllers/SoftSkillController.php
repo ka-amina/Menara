@@ -72,7 +72,7 @@ class SoftSkillController extends Controller
             $skill = SoftSkill::findOrFail($softSkill->id);
 
             $skill->update($data);
-            return redirect()->route('softskills')->with('success', $softSkill->name . 'updated to :' . $skill . ' successfully.');
+            return redirect()->route('softskills')->with('success', $softSkill->name . ' updated to : ' . $skill->name . ' successfully.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'faild to update skill: ' . $e->getMessage());
         }
