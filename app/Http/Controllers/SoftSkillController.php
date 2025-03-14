@@ -82,8 +82,9 @@ class SoftSkillController extends Controller
     public function destroy(SoftSkill $softSkill)
     {
         try {
-            $softSkill = SoftSkill::findOrFail($softSkill);
-            $softSkill->delete($softSkill->id);
+
+            // dd($softSkill->name);
+            $softSkill->delete();
             return redirect()->back()->with('success', $softSkill->name . 'deleted successfully.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'faild to delete skill: ' . $e->getMessage());
