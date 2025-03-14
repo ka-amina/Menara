@@ -58,7 +58,7 @@ class SoftSkillController extends Controller
      */
     public function edit(SoftSkill $softSkill)
     {
-        return view('Admin.softSkills.editsoftSkill', compact('softskill'));
+        return view('Admin.softSkills.editsoftSkill', compact('softSkill'));
     }
 
     /**
@@ -67,12 +67,14 @@ class SoftSkillController extends Controller
     public function update(UpdateSoftSkillRequest $request, SoftSkill $softSkill)
     {
         try {
+            // dd($request);
             $data = $request->validated();
-            $skill = SoftSkill::findOrFail($softSkill);
+            $skill = SoftSkill::findOrFail($softSkill->id);
 
             $skill->update($data);
             return redirect()->route('softskills')->with('success', $softSkill->name . 'updated to :' . $skill . ' successfully.');
         } catch (Exception $e) {
+            return redirect()->back()->with('error', 'faild to update skill: ' . $e->getMessage());
         }
     }
 
