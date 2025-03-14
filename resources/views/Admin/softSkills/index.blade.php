@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen flex flex-col w-full">
-@if (session('success'))
+    @if (session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
         <span class="block sm:inline">{{ session('success') }}</span>
     </div>
@@ -72,7 +72,7 @@
                             <label for="softskill_name" class="block text-sm text-gray-700">Soft Skill Name</label>
                             <input type="text" name="name" id="softskill_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             @if ($errors->has('name'))
-                                <div class="text-red-500 mt-2">{{ $errors->first('name') }}</div>
+                            <div class="text-red-500 mt-2">{{ $errors->first('name') }}</div>
                             @endif
                         </div>
                         <div class="flex justify-end space-x-2">
