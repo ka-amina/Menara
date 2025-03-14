@@ -39,7 +39,7 @@ class HardSkillController extends Controller
         try {
             $data = $request->validated();
             $hardSkill = HardSkill::create($data);
-            return redirect()->back()->with('success', $hardSkill->name . 'soft skill created successfully.');
+            return redirect()->back()->with('success', $hardSkill->name . ' skill created successfully.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'faild to create soft skill: ' . $e->getMessage());
         }

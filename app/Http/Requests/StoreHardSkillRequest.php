@@ -22,7 +22,7 @@ class StoreHardSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:soft_skills|max:255'
+            'name' => 'required|unique:hard_skills|max:255'
         ];
     }
     public function message()
