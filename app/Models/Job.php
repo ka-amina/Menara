@@ -15,4 +15,15 @@ class Job extends Model
         'description',
         'category_id',
     ];
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    public function hardSkills(){
+        return $this->belongsToMany(Hardskill::class,'job_hard_skills');
+    }
+    public function softSkills(){
+        return $this->belongsToMany(SoftSkill::class,'job_soft_skills');
+    }
+   
 }

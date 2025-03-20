@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JobController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -11,3 +12,6 @@ Route::post('logout',[AuthController::class,'logout'])->middleware('auth:sanctum
 Route::post('forgot',[AuthController::class,'forgot']);
 Route::post('reset',[AuthController::class,'reset']);
 
+// to fetch job details
+
+Route::get('jobs/{id}', [JobController::class, 'show']);

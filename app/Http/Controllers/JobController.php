@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use App\Models\Category;
+use App\Models\HardSkill;
+use App\Models\SoftSkill;
 
 class JobController extends Controller
 {
@@ -13,7 +16,11 @@ class JobController extends Controller
      */
     public function index()
     {
-        //
+        $jobs = Job::with(['category', 'hardSkills', 'softSkills'])->get();
+        $categories = Category::all();
+        $hardSkills = HardSkill::all();
+        $softSkills = SoftSkill::all();
+        return view('Admin.job.index', compact('jobs', 'categories', 'hardSkills', 'softSkills'));
     }
 
     /**
@@ -35,9 +42,10 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Job $job)
+    public function show($id)
     {
-        //
+        $job = Job::with(['category', 'hardSkills', 'softSkills'])->findOrFail($id);
+        return response()->json($job);
     }
 
     /**
