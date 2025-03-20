@@ -6,12 +6,19 @@ use App\Models\HardSkill;
 use App\Http\Requests\StoreHardSkillRequest;
 use App\Http\Requests\UpdateHardSkillRequest;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class HardSkillController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->authorize('isAdmin');
+    }
+    
     public function index()
     {
         try {

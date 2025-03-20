@@ -17,7 +17,7 @@
         <div class="py-8">
 
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-semibold leading-tight">Soft Skills Management</h2>
+                <h2 class="text-2xl font-semibold leading-tight">Soft Skills</h2>
                 <button id="openSoftskillModalBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     Add New Soft Skill
                 </button>
