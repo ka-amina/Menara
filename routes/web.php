@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HardSkillController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\SoftSkillController;
 
 // Route::get('/', function () {
@@ -77,9 +78,7 @@ Route::delete('/hardskills/{hardSkill}', [HardSkillController::class, 'destroy']
 
 
 //jobs
-Route::get('/jobs', function () {
-    return view('Admin.job.index');
-})->name('jobs');
+Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
 Route::get('/editjob', function () {
     return view('Admin.job.editjob');
 })->name('editjob');
