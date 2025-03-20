@@ -14,13 +14,13 @@
         <!-- Menu Items -->
         <nav class="mt-4">
             <a href="{{ route('admindashboard') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
-                <i class="fas fa-tachometer-alt w-5"></i> 
+                <i class="fas fa-tachometer-alt w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Dashboard</span>
                 <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-                    Dashboard 
+                    Dashboard
                 </div>
             </a>
-
+            @can('isAdmin')
             <a href="{{ route('categories') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-th-large w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Categories</span>
@@ -28,6 +28,8 @@
                     Categories
                 </div>
             </a>
+          
+
             <a href="{{ route('softskills') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-comments w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Soft Skills</span>
@@ -42,6 +44,7 @@
                     Hard Skills
                 </div>
             </a>
+            @endcan
             <a href="{{ route('inclined') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-thumbs-up w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Inclined</span>
@@ -84,6 +87,7 @@
                     Questions
                 </div>
             </a>
+            @can('isAdmin')
             <a href="{{route('users')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-users w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Users</span>
@@ -91,6 +95,15 @@
                     Users
                 </div>
             </a>
+            @endcan
+            <a href="{{route('logout')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
+                <i class="fas fa-users w-5"></i>
+                <span class="ml-4 sidebar-text hidden">logout</span>
+                <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                    logout
+                </div>
+            </a>
+
         </nav>
     </div>
 

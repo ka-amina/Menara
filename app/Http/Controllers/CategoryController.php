@@ -7,15 +7,19 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\interfaces\CategoryInterface;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CategoryController extends Controller
 {
 
+    use AuthorizesRequests;
     public $categoryInterface;
 
     public function __construct(CategoryInterface $categoryInterface)
     {
         $this->categoryInterface = $categoryInterface;
+        $this->authorize('isAdmin');
+        
     }
     /**
      * Display a listing of the resource.

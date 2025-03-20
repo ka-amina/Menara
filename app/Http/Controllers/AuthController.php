@@ -55,6 +55,7 @@ class AuthController extends Controller
                 'message' => 'invalid credentials'
             ], 401);
         }
+        Auth::login($user);
         $data['token'] = $user->createToken($request->name . 'Auth-Token')->plainTextToken;
         $data['user'] = $user;
         $response = [
@@ -62,6 +63,7 @@ class AuthController extends Controller
             'message' => 'user is logged in successfuly.',
             'data' => $data,
         ];
+        // dd(Auth::user()->role);
         // if ($request->expectsJson()) {
             // return response()->json($response, 200);
         // }
@@ -72,10 +74,13 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User is logged out',
-        ], 200);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        // return response()->json([
+        //     'status' => 'success',
+        //     'message' => 'User is logged out',
+        // ], 200);
+        return redirect()->route('login');
     }
 
     public function forgot(ForgotPasswordRequest $request)

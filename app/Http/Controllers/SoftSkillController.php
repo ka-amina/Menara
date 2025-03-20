@@ -6,9 +6,17 @@ use App\Models\SoftSkill;
 use App\Http\Requests\StoreSoftSkillRequest;
 use App\Http\Requests\UpdateSoftSkillRequest;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SoftSkillController extends Controller
 {
+    use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->authorize('isAdmin');
+    }
+
     /**
      * Display a listing of the resource.
      */
