@@ -3,15 +3,18 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SoftSkillController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 //Auth
+Route::get('/register',[CompanyController::class,'companyRegister'])->name('companyregister');
+Route::post('/register',[CompanyController::class,'register'])->name('register');
 Route::get('/login', function () {
     return view('Auth.login');
 })->name('login');
