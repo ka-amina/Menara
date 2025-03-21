@@ -16,9 +16,7 @@
                 <h1 class="ml-3 text-2xl font-bold text-blue-700">Menara</h1>
             </div>
             <div>
-                <a href="#" class="text-blue-600 hover:text-blue-800 mr-4">À propos</a>
-                <a href="#" class="text-blue-600 hover:text-blue-800 mr-4">Contact</a>
-                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Connexion</a>
+                <a href="{{route('login')}}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Connexion</a>
             </div>
         </div>
     </header>
@@ -200,7 +198,7 @@
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold mb-4">Prêt à transformer votre processus de recrutement?</h2>
             <p class="text-xl mb-8 max-w-2xl mx-auto">Créez votre compte entreprise dès aujourd'hui et commencez à publier vos offres d'emploi.</p>
-            <a href="#register" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg inline-block">Créer un compte maintenant</a>
+            <a href="{{route('companyregister')}}" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg inline-block">Créer un compte maintenant</a>
         </div>
     </section>
 
