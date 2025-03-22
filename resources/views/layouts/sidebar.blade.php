@@ -1,7 +1,7 @@
 <div class="relative flex">
-    <!-- Main Sidebar -->
+
     <div id="sidebar" class="bg-[#2c3e50] text-white w-16 transition-all duration-300">
-        <!-- Sidebar Header -->
+
         <div class="p-4 flex items-center">
             <div class="flex items-center group relative">
                 <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <!-- Menu Items -->
+
         <nav class="mt-4">
             <a href="{{ route('admindashboard') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-tachometer-alt w-5"></i>
@@ -28,7 +28,7 @@
                     Categories
                 </div>
             </a>
-          
+
 
             <a href="{{ route('softskills') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-comments w-5"></i>
@@ -96,6 +96,13 @@
                 </div>
             </a>
             @endcan
+            <a href="{{route('offres')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
+                <i class="fas fa-tags w-5"></i>
+                <span class="ml-4 sidebar-text hidden">Offers</span>
+                <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                    Offers
+                </div>
+            </a>
             <a href="{{route('logout')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-users w-5"></i>
                 <span class="ml-4 sidebar-text hidden">logout</span>

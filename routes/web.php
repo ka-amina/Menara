@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SoftSkillController;
 
 Route::get('/', function () {
@@ -128,3 +129,7 @@ Route::get('/profile', function () {
 Route::get('/editprofile', function () {
     return view('users.edit');
 })->name('editprofile');
+
+// offer
+
+Route::get('/offers',[OfferController::class,'index'])->name('offres');
