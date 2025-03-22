@@ -15,18 +15,15 @@
 
             <!-- Jobs Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($jobs as $job)
+                @foreach($offers as $job)
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer job-card" data-job-id="{{ $job->id }}">
                     <div class="p-5">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $job->title }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $job->contract_type }}</h3>
                         <div class="text-sm text-gray-600 mb-3">
-                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">{{ $job->category->name }}</span>
+                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">{{ $job->status }}</span>
                         </div>
                         <p class="text-sm text-gray-700 line-clamp-2 mb-4">{{ $job->description }}</p>
                         <div class="flex justify-between items-center">
-                            <div class="text-xs text-gray-500">
-                                {{ $job->hardSkills->count() }} hard skills • {{ $job->softSkills->count() }} soft skills
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,7 +36,7 @@
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Job</h3>
 
                     <div class="overflow-y-auto flex-grow">
-                        <form action="#" method="POST" id="addOfferForm">
+                        <form action="{{route('offers.store')}}" method="POST" id="addOfferForm">
                             @csrf
                             <!-- Job Title section - already existing -->
                             <div class="mb-4">
@@ -130,18 +127,12 @@
                                     @endforeach
                                 </div>
                             </div>
-
-                            <div class="mt-6">
-                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    Create Offer
-                                </button>
-                            </div>
                         </form>
                     </div>
 
                     <div class="flex justify-end space-x-2 mt-6 pt-4 border-t border-gray-200">
                         <button type="button" id="closeAddModalBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
-                        <button type="submit" form="addJobForm" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+                        <button type="submit" form="addOfferForm" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
                     </div>
                 </div>
             </div>

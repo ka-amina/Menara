@@ -133,3 +133,4 @@ Route::get('/editprofile', function () {
 // offer
 
 Route::get('/offers',[OfferController::class,'index'])->name('offres');
+Route::post('/offers',[OfferController::class,'store'])->name('offers.store');

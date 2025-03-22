@@ -10,6 +10,9 @@ use App\Models\Company;
 use App\Models\HardSkill;
 use App\Models\Job;
 use App\Models\SoftSkill;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class OfferController extends Controller
 {
@@ -23,8 +26,9 @@ class OfferController extends Controller
         $jobs=Job::all();
         $companies=Company::with('user')->get();
         $categories=Category::all();
+        $offers=Offer::all();
 
-        return view('company.offers',compact('jobs','categories','hardSkills','softSkills','companies'));
+        return view('company.offers',compact('jobs','categories','hardSkills','softSkills','companies','offers'));
     }
 
     /**
@@ -40,7 +44,14 @@ class OfferController extends Controller
      */
     public function store(StoreOfferRequest $request)
     {
-        //
+        
+        $data=$request->validated();
+        $company=Company::where('user_id', Auth::user()->id)->first();
+        
+        $data['company_id']=$company->id;
+        $data['status']='open';
+        Offer::create($data);
+
     }
 
     /**
