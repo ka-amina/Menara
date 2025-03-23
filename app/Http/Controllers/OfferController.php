@@ -86,9 +86,10 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Offer $offer)
+    public function show($id)
     {
-        //
+        $offer = Offer::with(['job', 'job.category', 'hardSkills', 'softSkills'])->findOrFail($id);
+        return response()->json($offer);
     }
 
     /**

@@ -14,18 +14,18 @@
 
             <!-- Jobs Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($offers as $job)
-                <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card" data-job-id="{{ $job->id }}">
+                @foreach($offers as $offer)
+                <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card" data-job-id="{{ $offer->id }}">
                     <div class="p-5">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $job->job->title }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $offer->job->title }}</h3>
                         <div class="text-sm text-gray-600 mb-3">
-                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">{{ $job->status }}</span>
+                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">{{ $offer->status }}</span>
                         </div>
-                        <p class="text-sm text-gray-700  mb-4">{{ $job->job->description }}</p>
+                        <p class="text-sm text-gray-700  mb-4">{{ $offer->job->description }}</p>
                         <div class="flex justify-between items-center">
                             requirements
                         </div>
-                        <p class="text-sm text-gray-700 line-clamp-2 mb-4">{{ $job->requirements }}</p>
+                        <p class="text-sm text-gray-700 line-clamp-2 mb-4">{{ $offer->requirements }}</p>
                     </div>
                 </div>
                 @endforeach
@@ -55,7 +55,7 @@
                                     <div class="flex justify-between items-start mb-4">
                                         <h3 id="modal-job-title" class="text-xl font-semibold text-gray-800"></h3>
                                         <button id="closeDetailsModalBtn" class="text-gray-500 hover:text-gray-700">
-                                        
+
                                         </button>
                                     </div>
                                     <div class="mb-4">
@@ -208,37 +208,77 @@
                 </div>
             </div>
             <div id="offerDetailsModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
-                <div class="bg-white rounded-lg p-6 max-w-lg w-full">
+                <div class="bg-white rounded-lg p-6 max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 id="modal-job-title" class="text-xl font-semibold text-gray-800"></h3>
-                        <button id="closeDetailsModalBtn" class="text-gray-500 hover:text-gray-700">
+                        <h3 id="modal-offer-title" class="text-xl font-semibold text-gray-800"></h3>
+                        <button id="closeDetailsModalBtn1" class="text-gray-500 hover:text-gray-700">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                     </div>
-                    <div class="mb-4">
-                        <div class="text-sm text-gray-600 mb-2">
+
+                    <!-- Scrollable Content -->
+                    <div class="overflow-y-auto pr-2" style="max-height: 70vh;">
+                        <div class="mb-4">
                             <span id="modal-category" class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs"></span>
+                            <p id="modal-offer-description" class="text-sm text-gray-700 mt-2"></p>
                         </div>
-                        <p id="modal-description" class="text-sm text-gray-700 mb-4"></p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800">Level</h4>
+                            <p id="modal-offer-level" class="text-sm text-gray-700"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800">Location</h4>
+                            <p id="modal-offer-location" class="text-sm text-gray-700"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800">Requirements</h4>
+                            <p id="modal-offer-requirements" class="text-sm text-gray-700"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800">Start Date</h4>
+                            <p id="modal-offer-start-date" class="text-sm text-gray-700"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800">Contract Type</h4>
+                            <p id="modal-offer-contract-type" class="text-sm text-gray-700"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800">Status</h4>
+                            <p id="modal-offer-status" class="text-sm text-gray-700"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800">About Offer</h4>
+                            <p id="modal-offer-about" class="text-sm text-gray-700"></p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800 mb-2">Hard Skills</h4>
+                            <div id="modal-offer-hard-skills" class="flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-800 mb-2">Soft Skills</h4>
+                            <div id="modal-offer-soft-skills" class="flex flex-wrap gap-2"></div>
+                        </div>
                     </div>
 
-                    <div class="mb-4">
-                        <h4 class="text-sm font-semibold text-gray-800 mb-2">Hard Skills</h4>
-                        <div id="modal-hard-skills" class="flex flex-wrap gap-2"></div>
-                    </div>
-
-                    <div class="mb-4">
-                        <h4 class="text-sm font-semibold text-gray-800 mb-2">Soft Skills</h4>
-                        <div id="modal-soft-skills" class="flex flex-wrap gap-2"></div>
-                    </div>
-
-                    <div class="flex justify-end space-x-2 mt-6">
+                    <!-- Close Button -->
+                    <div class="flex justify-end space-x-2 mt-4">
                         <button id="close-details-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Close</button>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -258,83 +298,81 @@
         }
     });
 
-    function fetchJobDetails(jobId) {
-        console.log("Fetching job details for ID:", jobId);
-        fetch(`/api/jobs/${jobId}`)
-            .then(response => {
-                console.log("Raw response:", response);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(jobDetails => {
-                console.log("Job details received:", jobDetails);
+    async function fetchJobDetails(jobId) {
+        try {
+            console.log("Fetching job details for ID:", jobId);
+            const response = await fetch(`/api/jobs/${jobId}`);
+            console.log("Raw response:", response);
 
-                document.getElementById("modal-job-title").innerText = jobDetails.title || '';
-                document.getElementById("modal-description").innerText = jobDetails.description || '';
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-                const hardSkillsContainer = document.getElementById("modal-hard-skills");
-                hardSkillsContainer.innerHTML = '';
+            const jobDetails = await response.json();
+            console.log("Job details received:", jobDetails);
 
-                 if (jobDetails.hard_skills && Array.isArray(jobDetails.hard_skills)) {
-                    jobDetails.hard_skills.forEach(skill => {
-                        const skillElement = document.createElement('span');
-                        skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
-                        skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
-                        hardSkillsContainer.appendChild(skillElement);
-                    });
-                }
+            document.getElementById("modal-job-title").innerText = jobDetails.title || '';
+            document.getElementById("modal-description").innerText = jobDetails.description || '';
 
-                const softSkillsContainer = document.getElementById("modal-soft-skills");
-                softSkillsContainer.innerHTML = ''; 
+            const hardSkillsContainer = document.getElementById("modal-hard-skills");
+            hardSkillsContainer.innerHTML = '';
 
-                 if (jobDetails.soft_skills && Array.isArray(jobDetails.soft_skills)) {
-                    jobDetails.soft_skills.forEach(skill => {
-                        const skillElement = document.createElement('span');
-                        skillElement.classList.add('bg-green-100', 'text-green-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
-                        skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
-                        softSkillsContainer.appendChild(skillElement);
-                    });
-                }
+            if (jobDetails.hard_skills && Array.isArray(jobDetails.hard_skills)) {
+                jobDetails.hard_skills.forEach(skill => {
+                    const skillElement = document.createElement('span');
+                    skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
+                    skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
+                    hardSkillsContainer.appendChild(skillElement);
+                });
+            }
 
-                // Show the modal
-                jobDetailsModal.classList.remove('hidden');
-            })
-            .catch(error => {
-                console.error("Error fetching job details:", error);
-                alert("There was an error loading the job details.");
-            });
+            const softSkillsContainer = document.getElementById("modal-soft-skills");
+            softSkillsContainer.innerHTML = '';
+
+            if (jobDetails.soft_skills && Array.isArray(jobDetails.soft_skills)) {
+                jobDetails.soft_skills.forEach(skill => {
+                    const skillElement = document.createElement('span');
+                    skillElement.classList.add('bg-green-100', 'text-green-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
+                    skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
+                    softSkillsContainer.appendChild(skillElement);
+                });
+            }
+
+            const jobDetailsModal = document.getElementById("jobDetailsModal");
+            jobDetailsModal.classList.remove('hidden');
+        } catch (error) {
+            console.error("Error fetching job details:", error);
+            alert("There was an error loading the job details.");
+        }
     }
+
 
     closeDetailsModalBtn.addEventListener("click", function() {
         jobDetailsModal.classList.add('hidden');
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const openAddModalBtn = document.getElementById("openAddModalBtn");
-        const closeAddModalBtn = document.getElementById("closeAddModalBtn");
-        const addJobModal = document.getElementById("addJobModal");
 
-        openAddModalBtn.addEventListener("click", () => {
-            addJobModal.classList.remove("hidden");
-            addJobModal.classList.add("flex");
-        });
+    const openAddModalBtn = document.getElementById("openAddModalBtn");
+    const closeAddModalBtn = document.getElementById("closeAddModalBtn");
+    const addJobModal = document.getElementById("addJobModal");
 
-        closeAddModalBtn.addEventListener("click", () => {
+    openAddModalBtn.addEventListener("click", () => {
+        addJobModal.classList.remove("hidden");
+        addJobModal.classList.add("flex");
+    });
+
+    closeAddModalBtn.addEventListener("click", () => {
+        addJobModal.classList.add("hidden");
+        addJobModal.classList.remove("flex");
+    });
+
+    addJobModal.addEventListener("click", (e) => {
+        if (e.target === addJobModal) {
             addJobModal.classList.add("hidden");
             addJobModal.classList.remove("flex");
-        });
-
-        addJobModal.addEventListener("click", (e) => {
-            if (e.target === addJobModal) {
-                addJobModal.classList.add("hidden");
-                addJobModal.classList.remove("flex");
-            }
-        });
-
-
+        }
     });
+
 
     const mewJob = document.getElementById("new-job-btn");
     const newJobForm = document.getElementById("new-job-form");
@@ -374,6 +412,94 @@
         })
 
     })
+
+
+    const offerCard = document.querySelectorAll('.offer-card');
+    const offerDetailsModal = document.getElementById("offerDetailsModal");
+    const closeDetailsBtn = document.getElementById("close-details-btn");
+    const closeDetailsModalBtn1 = document.getElementById("closeDetailsModalBtn1");
+
+    closeDetailsModalBtn1.addEventListener("click", () => {
+        offerDetailsModal.classList.add("hidden");
+        offerDetailsModal.classList.remove("flex");
+    });
+
+    closeDetailsBtn.addEventListener("click", () => {
+        offerDetailsModal.classList.add("hidden");
+        offerDetailsModal.classList.remove("flex");
+    });
+
+    offerDetailsModal.addEventListener("click", (e) => {
+        if (e.target === offerDetailsModal) {
+            offerDetailsModal.classList.add("hidden");
+            offerDetailsModal.classList.remove("flex");
+        }
+    });
+
+    // Add click event listeners to all offer cards
+    offerCard.forEach(card => {
+        card.addEventListener("click", (e) => {
+            const offerId = card.dataset.jobId;
+            console.log("Clicked on offer with ID:", offerId);
+            fetchOfferDetails(offerId);
+        });
+    });
+
+    async function fetchOfferDetails(offerId) {
+        try {
+            const response = await fetch(`/api/offers/${offerId}`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("Offer details received:", data);
+
+            document.getElementById("modal-offer-title").innerText = data.job.title;
+            document.getElementById("modal-category").innerText = data.job.category.name;
+            document.getElementById("modal-offer-description").innerText = data.job.description;
+            document.getElementById("modal-offer-level").innerText = data.level;
+            document.getElementById("modal-offer-location").innerText = `${data.location} (${data.location_type})`;
+            document.getElementById("modal-offer-requirements").innerText = data.requirements;
+            document.getElementById("modal-offer-start-date").innerText = data.start_date;
+            document.getElementById("modal-offer-contract-type").innerText = data.contract_type;
+            document.getElementById("modal-offer-status").innerText = data.status;
+            document.getElementById("modal-offer-about").innerText = data.about_offer;
+
+            const hardSkillsContainer = document.getElementById("modal-offer-hard-skills");
+            hardSkillsContainer.innerHTML = '';
+            if (data.hard_skills?.length) {
+                data.hard_skills.forEach(skill => {
+                    const skillElement = document.createElement('span');
+                    skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs', 'mb-2', 'mr-2');
+                    skillElement.innerText = skill.name;
+                    hardSkillsContainer.appendChild(skillElement);
+                });
+            }
+
+            const softSkillsContainer = document.getElementById("modal-offer-soft-skills");
+            softSkillsContainer.innerHTML = '';
+            if (data.soft_skills?.length) {
+                data.soft_skills.forEach(skill => {
+                    const skillElement = document.createElement('span');
+                    skillElement.classList.add('bg-green-100', 'text-green-800', 'px-2', 'py-1', 'rounded-full', 'text-xs', 'mb-2', 'mr-2');
+                    skillElement.innerText = skill.name;
+                    softSkillsContainer.appendChild(skillElement);
+                });
+
+            }
+
+
+            // Show the modal
+            const offerDetailsModal = document.getElementById("offerDetailsModal");
+            offerDetailsModal.classList.remove("hidden");
+            offerDetailsModal.classList.add("flex");
+        } catch (error) {
+            console.error("Error fetching offer details:", error);
+            alert("There was an error loading the offer details.");
+        }
+    }
 </script>
 
 
