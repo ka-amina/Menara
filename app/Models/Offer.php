@@ -31,4 +31,11 @@ class Offer extends Model
     public function job() {
         return $this->belongsTo(Job::class);
     }
+
+    public function hardSkills(){
+        return $this->belongsToMany(Hardskill::class,'offer_hard_skills');
+    }
+    public function softSkills(){
+        return $this->belongsToMany(SoftSkill::class,'offer_soft_skills');
+    }
 }

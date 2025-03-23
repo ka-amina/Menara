@@ -21,14 +21,14 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $softSkills=SoftSkill::all();
-        $hardSkills=HardSkill::all();
-        $jobs=Job::all();
-        $companies=Company::with('user')->get();
-        $categories=Category::all();
-        $offers=Offer::all();
+        $softSkills = SoftSkill::all();
+        $hardSkills = HardSkill::all();
+        $jobs = Job::all();
+        $companies = Company::with('user')->get();
+        $categories = Category::all();
+        $offers = Offer::all();
 
-        return view('company.offers',compact('jobs','categories','hardSkills','softSkills','companies','offers'));
+        return view('company.offers', compact('jobs', 'categories', 'hardSkills', 'softSkills', 'companies', 'offers'));
     }
 
     /**
@@ -44,13 +44,42 @@ class OfferController extends Controller
      */
     public function store(StoreOfferRequest $request)
     {
-        
-        $data=$request->validated();
-        $company=Company::where('user_id', Auth::user()->id)->first();
-        
-        $data['company_id']=$company->id;
-        $data['status']='open';
-        Offer::create($data);
+
+        $data = $request->validated();
+        $company = Company::where('user_id', Auth::user()->id)->first();
+
+        $data['company_id'] = $company->id;
+        $data['status'] = 'open';
+
+        if ($request->filled('title') && $request->filled('job_description')) {
+            $job = Job::create([
+                'title' => $request->title,
+                'description' => $request->job_description,
+                'category_id' => $request->category_id,
+            ]);
+
+            if ($request->has('job_hard_skills')) {
+                $job->hardSkills()->attach($request->job_hard_skills);
+            }
+
+            if ($request->has('job_soft_skills')) {
+                $job->softSkills()->attach($request->job_soft_skills);
+            }
+
+            $data['job_id'] = $job->id;
+        } else {
+            $data['job_id'] = $request->job_id;
+        }
+
+        $offer = Offer::create($data);
+
+        if ($request->has('hard_skills')) {
+            $offer->hardSkills()->attach($request->hard_skills);
+        }
+        if ($request->has('soft_skills')) {
+            $offer->softSkills()->attach($request->soft_skills);
+        }
+        return redirect()->route('offers.show');
 
     }
 

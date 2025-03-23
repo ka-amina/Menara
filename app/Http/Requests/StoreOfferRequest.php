@@ -22,7 +22,7 @@ class StoreOfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_id' => 'required|exists:jobs,id',
+            'job_id' => 'required_without:title',
             // 'company_id' => 'required|exists:companies,id',
             'level' => 'required|in:junior,mid,senior,lead',
             'location' => 'nullable|string|max:255',
