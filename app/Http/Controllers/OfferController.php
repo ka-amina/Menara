@@ -24,7 +24,8 @@ class OfferController extends Controller
         $softSkills = SoftSkill::all();
         $hardSkills = HardSkill::all();
         $jobs = Job::all();
-        $companies = Company::with('user')->get();
+        $companies = Company::where('user_id', Auth::user()->id)->with('user');
+        // dd($companies);
         $categories = Category::all();
         $offers = Offer::all();
 
@@ -88,7 +89,7 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        $offer = Offer::with(['job', 'job.category', 'hardSkills', 'softSkills'])->findOrFail($id);
+        $offer = Offer::with(['job', 'job.category','company','company.user', 'hardSkills', 'softSkills'])->findOrFail($id);
         return response()->json($offer);
     }
 

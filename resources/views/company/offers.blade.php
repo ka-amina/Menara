@@ -218,8 +218,34 @@
                         </button>
                     </div>
 
-                    <!-- Scrollable Content -->
+
                     <div class="overflow-y-auto pr-2" style="max-height: 70vh;">
+                        <div id="company-info-section" class="mb-6 p-4  rounded-lg">
+                            <h4 class="text-md font-semibold text-gray-800 mb-3">Company Information</h4>
+                            <div class="flex items-start">
+                                <img id="modal-company-logo" src="" alt="Company Logo" class="w-16 h-16 object-cover rounded-full mr-4 hidden">
+                                <div class="flex-1">
+                                    <h5 id="modal-company-name" class="text-sm font-medium text-gray-800 mb-1"></h5>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                                        <div>
+                                            <h6 class="text-xs font-semibold text-gray-700">Contact</h6>
+                                            <p id="modal-company-phone" class="text-sm text-gray-700"></p>
+                                            <p id="modal-company-email" class="text-sm text-gray-700"></p>
+                                        </div>
+                                        <div>
+                                            <h6 class="text-xs font-semibold text-gray-700">Address</h6>
+                                            <p id="modal-company-address" class="text-sm text-gray-700"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <h6 class="text-xs font-semibold text-gray-700">Description</h6>
+                                        <p id="modal-company-description" class="text-sm text-gray-700"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="mb-4">
                             <span id="modal-category" class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs"></span>
                             <p id="modal-offer-description" class="text-sm text-gray-700 mt-2"></p>
@@ -271,7 +297,6 @@
                         </div>
                     </div>
 
-                    <!-- Close Button -->
                     <div class="flex justify-end space-x-2 mt-4">
                         <button id="close-details-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Close</button>
                     </div>
@@ -436,7 +461,6 @@
         }
     });
 
-    // Add click event listeners to all offer cards
     offerCard.forEach(card => {
         card.addEventListener("click", (e) => {
             const offerId = card.dataset.jobId;
@@ -448,11 +472,9 @@
     async function fetchOfferDetails(offerId) {
         try {
             const response = await fetch(`/api/offers/${offerId}`);
-
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
             const data = await response.json();
             console.log("Offer details received:", data);
 
@@ -466,10 +488,17 @@
             document.getElementById("modal-offer-contract-type").innerText = data.contract_type;
             document.getElementById("modal-offer-status").innerText = data.status;
             document.getElementById("modal-offer-about").innerText = data.about_offer;
+            document.getElementById("modal-company-name").innerText = data.company.user.name;
+            document.getElementById("modal-company-email").innerText = data.company.user.email;
+            document.getElementById("modal-company-description").innerText = data.company.description;
+            document.getElementById("modal-company-address").innerText = data.company.address;
+            document.getElementById("modal-company-logo").src = `/storage/${data.company.user.avatar}`;
+            document.getElementById("modal-company-logo").classList.remove("hidden");
+            document.getElementById("company-info-section").classList.remove("hidden");
 
             const hardSkillsContainer = document.getElementById("modal-offer-hard-skills");
             hardSkillsContainer.innerHTML = '';
-            if (data.hard_skills?.length) {
+            if (data.hard_skills.length) {
                 data.hard_skills.forEach(skill => {
                     const skillElement = document.createElement('span');
                     skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs', 'mb-2', 'mr-2');
@@ -487,11 +516,7 @@
                     skillElement.innerText = skill.name;
                     softSkillsContainer.appendChild(skillElement);
                 });
-
             }
-
-
-            // Show the modal
             const offerDetailsModal = document.getElementById("offerDetailsModal");
             offerDetailsModal.classList.remove("hidden");
             offerDetailsModal.classList.add("flex");
