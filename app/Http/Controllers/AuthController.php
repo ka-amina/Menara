@@ -4,41 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Interfaces\UserInterface;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\PasswordResetNotification;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 
 
 class AuthController extends Controller
 {
+    protected $userRepository;
+    public function __construct(UserInterface $userRepository)
+    {
+        $this->userRepository=$userRepository;
+    }
+
+
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users',
             'password' => 'required|string',
+            
         ]);
-
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
-
-        if ($user->save()) {
-            $tokenResult = $user->createToken('personal acces token');
-            $token = $tokenResult->plainTextToken;
-
-            return response()->json([
-                'message' => 'Successfully created user!',
-                'accessToken' => $token,
-            ], 201);
-        } else {
-            return response()->json(['error' => 'Provide proper details'], 500);
-        }
+        return $this->userRepository->create($request->all());
     }
 
     public function login(Request $request)
