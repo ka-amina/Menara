@@ -81,7 +81,6 @@ class OfferController extends Controller
             $offer->softSkills()->attach($request->soft_skills);
         }
         return redirect()->route('offers.show');
-
     }
 
     /**
@@ -89,7 +88,7 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        $offer = Offer::with(['job', 'job.category','company','company.user', 'hardSkills', 'softSkills'])->findOrFail($id);
+        $offer = Offer::with(['job', 'job.category', 'company', 'company.user', 'hardSkills', 'softSkills'])->findOrFail($id);
         return response()->json($offer);
     }
 
@@ -104,10 +103,44 @@ class OfferController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOfferRequest $request, Offer $offer)
-    {
-        //
+    public function update(Request $request, $id)
+{
+    $offer = Offer::findOrFail($id);
+    
+    $validatedData = $request->validate([
+        'job_id' => 'required',
+        'level' => 'required',
+        'location' => 'required',
+        'location_type' => 'required',
+        'requirements' => 'required',
+        'start_date' => 'required',
+        'contract_type' => 'required',
+        'about_offer' => 'required',
+        'hard_skills' => 'array|nullable',
+        'soft_skills' => 'array|nullable',
+    ]);
+    
+    $offer->update([
+        'job_id' => $validatedData['job_id'],
+        'level' => $validatedData['level'],
+        'location' => $validatedData['location'],
+        'location_type' => $validatedData['location_type'],
+        'requirements' => $validatedData['requirements'],
+        'start_date' => $validatedData['start_date'],
+        'contract_type' => $validatedData['contract_type'],
+        'about_offer' => $validatedData['about_offer'],
+    ]);
+    
+    if (isset($validatedData['hard_skills'])) {
+        $offer->hardSkills()->sync($validatedData['hard_skills']);
     }
+    
+    if (isset($validatedData['soft_skills'])) {
+        $offer->softSkills()->sync($validatedData['soft_skills']);
+    }
+    
+    return response()->json(['message' => 'Offer updated successfully!']);
+}
 
     /**
      * Remove the specified resource from storage.

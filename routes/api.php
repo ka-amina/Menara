@@ -17,3 +17,4 @@ Route::post('reset',[AuthController::class,'reset']);
 
 Route::get('jobs/{id}', [JobController::class, 'show']);
 Route::get('offers/{id}', [OfferController::class, 'show']);
+Route::put('/offers/{id}',[OfferController::class,'update']);

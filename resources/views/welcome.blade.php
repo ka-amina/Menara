@@ -12,7 +12,7 @@
     <header class="bg-white shadow">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="/api/placeholder/120/60" alt="Menara Logo" class="h-10">
+                <img src="/api/placeholder/120/60" alt="Logo" class="h-10">
                 <h1 class="ml-3 text-2xl font-bold text-blue-700">Menara</h1>
             </div>
             <div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
-                <img src="/api/placeholder/600/400" alt="Recrutement" class="rounded-lg shadow-xl">
+            <img src="https://th.bing.com/th/id/R.ab6d5e968f97361bd87797f61278bc50?rik=Z4sgGszd3D92uw&riu=http%3a%2f%2fwww.entreprise20.fr%2fwp-content%2fuploads%2f2019%2f10%2frecrutement-des-employ%c3%a9s.jpg&ehk=r9KojIq3YdmVxDiZs83IxEWRbPBCzEOdTLvHSqtXDMs%3d&risl=&pid=ImgRaw&r=0" alt="Recrutement" class="rounded-lg shadow-xl">
             </div>
         </div>
     </section>
@@ -133,13 +133,13 @@
             
             <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
                 <div class="p-4 flex justify-center">
-                    <img src="/api/placeholder/120/60" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://vectorseek.com/wp-content/uploads/2022/02/vectorseek.com-Capgemini-Logo-Vector.png" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="/api/placeholder/120/60" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="/api/placeholder/120/60" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://www.wetech.ma/im/180/images/300/ca-6apddb3ibfe48c919y9gq3n9kv6plk30012020121302.jpg" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
                 </div>
                 <div class="p-4 flex justify-center">
                     <img src="/api/placeholder/120/60" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
@@ -159,7 +159,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow">
                     <div class="flex items-center mb-4">
-                        <img src="/api/placeholder/60/60" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
+                        <img src="img" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
                         <div>
                             <p class="font-bold">Ahmed Benjelloun</p>
                             <p class="text-gray-600">DRH, MarocTech</p>
@@ -170,7 +170,7 @@
                 
                 <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow">
                     <div class="flex items-center mb-4">
-                        <img src="/api/placeholder/60/60" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
+                        <img src="img" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
                         <div>
                             <p class="font-bold">Laila Alaoui</p>
                             <p class="text-gray-600">Responsable Recrutement, FinancePlus</p>
@@ -181,7 +181,7 @@
                 
                 <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow">
                     <div class="flex items-center mb-4">
-                        <img src="/api/placeholder/60/60" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
+                        <img src="img" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
                         <div>
                             <p class="font-bold">Karim Tazi</p>
                             <p class="text-gray-600">CEO, Startup Innovation</p>

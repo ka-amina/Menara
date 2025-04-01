@@ -24,9 +24,16 @@
         <!-- User Menu -->
         <div class="relative group">
             <button class="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-800 transition-colors">
-                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                @if (Auth::check() && Auth::user()->avatar)
+                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="User Avatar" class="w-10 h-10 rounded-full">
+                @else
+                <div class="w-10 h-10 rounded-full bg-indigo-600 flex justify-center items-center text-white">
+                    {{ collect(explode(' ', Auth::user()->name))->map(fn($word) => strtoupper($word[0]))->join('') }}
+                </div>
+                @endif
 
-                
+
+
                 <!-- Authenticated User's Name -->
                 <span class="text-sm font-medium text-gray-700">{{ Auth::user()->name }} </span>
 

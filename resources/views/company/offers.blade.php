@@ -12,7 +12,7 @@
                 </button>
             </div>
 
-            <!-- Jobs Cards Grid -->
+            <!-- offer Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($offers as $offer)
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card" data-job-id="{{ $offer->id }}">
@@ -31,15 +31,15 @@
                 @endforeach
             </div>
 
-            <!-- add job modal -->
+            <!-- add offer modal -->
             <div id="addJobModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
                 <div class="bg-white rounded-lg p-6 max-w-2xl w-full max-h-screen sm:max-h-[90vh] flex flex-col">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Job</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="add-new-job">Add New Job</h3>
 
                     <div class="overflow-y-auto flex-grow">
                         <form action="{{route('offers.store')}}" method="POST" id="addOfferForm">
                             @csrf
-
+                            <input type="hidden" name="id" id="offer_id" value="">
                             <div class="mb-4" id="job-id-select">
                                 <label for="job_id" class="block text-sm text-gray-700">Select Job</label>
                                 <select name="job_id" id="job_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
@@ -203,7 +203,8 @@
 
                     <div class="flex justify-end space-x-2 mt-6 pt-4 border-t border-gray-200">
                         <button type="button" id="closeAddModalBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
-                        <button type="submit" form="addOfferForm" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+                        <button id="add-offer" type="submit" form="addOfferForm" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+                        <button id="updateOffer" form="addOfferForm" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
                     </div>
                 </div>
             </div>
@@ -298,7 +299,11 @@
                     </div>
 
                     <div class="flex justify-end space-x-2 mt-4">
+                        <button id="editOffer" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Edit
+                        </button>
                         <button id="close-details-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Close</button>
+
                     </div>
                 </div>
             </div>
@@ -380,6 +385,8 @@
     const openAddModalBtn = document.getElementById("openAddModalBtn");
     const closeAddModalBtn = document.getElementById("closeAddModalBtn");
     const addJobModal = document.getElementById("addJobModal");
+    const edtBtn=document.getElementById("updateOffer");
+    edtBtn.classList.add("hidden")
 
     openAddModalBtn.addEventListener("click", () => {
         addJobModal.classList.remove("hidden");
@@ -477,6 +484,7 @@
             }
             const data = await response.json();
             console.log("Offer details received:", data);
+            document.getElementById("offerDetailsModal").dataset.offerId = offerId;
 
             document.getElementById("modal-offer-title").innerText = data.job.title;
             document.getElementById("modal-category").innerText = data.job.category.name;
@@ -525,6 +533,113 @@
             alert("There was an error loading the offer details.");
         }
     }
+
+
+    // to update an offer
+
+    const editBtn = document.getElementById('editOffer');
+    const updateForm = document.getElementById("addOfferForm");
+    editBtn.addEventListener("click", async function(e) {
+        e.preventDefault();
+        const offerId = document.getElementById("offerDetailsModal").dataset.offerId;
+        try {
+            const response = await fetch(`api/offers/${offerId}`)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            const offer_id = document.getElementById("offer_id");
+            const job_id = document.getElementById("job_id");
+            const level = document.getElementById("level");
+            const location = document.getElementById("location");
+            const location_type = document.getElementById("location_type");
+            const requirements = document.getElementById("requirements");
+            const start_date = document.getElementById("start_date");
+            const contract_type = document.getElementById("contract_type");
+            const about_offer = document.getElementById("about_offer");
+
+            offer_id.value = offerId;
+            job_id.value = data.job.id;
+            fetchJobDetails(data.job.id);
+            // console.log()
+            level.value = data.level;
+            location.value = data.location;
+            location_type.value = data.location_type;
+            requirements.value = data.requirements;
+            start_date.value = data.start_date;
+            contract_type.value = data.contract_type;
+            about_offer.value = data.about_offer;
+
+            const hardSkills = document.querySelectorAll("input[name='hard_skills[]']");
+            hardSkills.forEach(skill => {
+                skill.checked = data.hard_skills.some(hs => hs.id === parseInt(skill.value));
+            });
+
+            const softSkills = document.querySelectorAll("input[name='soft_skills[]']");
+            softSkills.forEach(skill => {
+                skill.checked = data.soft_skills.some(ss => ss.id === parseInt(skill.value));
+            });
+            addJobModal.classList.remove("hidden");
+            addJobModal.classList.add("flex");
+            offerDetailsModal.classList.add("hidden");
+            const newJobBtn = document.getElementById("new-job-btn");
+            newJobBtn.classList.add("hidden");
+            const addOfferBtn = document.getElementById("add-offer");
+            addOfferBtn.classList.add("hidden");
+            edtBtn.classList.remove("hidden")
+        } catch (error) {
+            console.log("there is an error", error)
+        }
+    })
+    const updateBtn = document.getElementById("updateOffer");
+    updateBtn.addEventListener("click", async function(e) {
+    e.preventDefault();
+    
+    const form = document.getElementById("addOfferForm");
+    const formData = new FormData(form);
+    const offerId = formData.get("id");
+    
+    const formDataObj = {};
+    
+
+    for (const [key, value] of formData.entries()) {
+        // Check if the key ends with [], which indicates an array
+        if (key.endsWith('[]')) {
+            const baseKey = key.slice(0, -2);
+            if (!formDataObj[baseKey]) {
+                formDataObj[baseKey] = [];
+            }
+            formDataObj[baseKey].push(value);
+        } else {
+            formDataObj[key] = value;
+        }
+    }
+    
+    try {
+        const response = await fetch(`/api/offers/${offerId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formDataObj)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        // alert("Offer updated successfully!");
+        
+        document.getElementById("addJobModal").classList.add("hidden");
+        document.getElementById("addJobModal").classList.remove("flex");
+        location.reload();
+    } catch (error) {
+        console.error("Error updating offer:", error);
+        alert("Error updating offer: " + error.message);
+    }
+});
 </script>
 
 
