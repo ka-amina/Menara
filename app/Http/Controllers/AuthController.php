@@ -28,9 +28,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users',
-            'password' => 'required|string',
-            
         ]);
+
         return $this->userRepository->create($request->all());
     }
 

@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Interfaces\UserInterface;
 use App\Models\PasswordReset;
 use App\Models\User;
+use App\Notifications\SendPasswordNotification;
+use Illuminate\Support\Str;
 
 class UserRepository implements UserInterface
 {
@@ -17,10 +19,11 @@ class UserRepository implements UserInterface
     }
 
     public function create($data){
+        $randomPassword=Str::random(8);
         $user=User::create([
             'name'=>$data['name'],
             'email'=>$data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => bcrypt($randomPassword),
             'role'=>'interviewer'
 
         ]);
@@ -28,10 +31,17 @@ class UserRepository implements UserInterface
             $tokenResult = $user->createToken('personal acces token');
             $token = $tokenResult->plainTextToken;
 
+            $user->notify(
+                new SendPasswordNotification(
+                    $randomPassword,$user->name
+                )
+            );
+
             return response()->json([
                 'message' => 'Successfully created user!',
                 'accessToken' => $token,
             ], 201);
+            
         } else {
             return response()->json(['error' => 'Provide proper details'], 500);
         }
