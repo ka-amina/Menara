@@ -51,7 +51,7 @@
                                 <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->first_name }} {{ $candidate->last_name }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->position->name ?? 'N/A' }}</p>
+                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->position ?? 'N/A' }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <span class="relative inline-block px-3 py-1 font-semibold leading-tight">
@@ -71,7 +71,7 @@
                                 <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->interview_date ?? 'N/A' }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <a href="" class="text-indigo-600 hover:text-indigo-900">View</a>
+                                <a href="{{ route('candidateinfo', $candidate->id) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
                                 <form action="" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')

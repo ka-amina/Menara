@@ -20,6 +20,9 @@ class CandidateSeeder extends Seeder
                 'phone_number' => $faker->phoneNumber,
                 'cv_path' => $faker->word . '.pdf',
                 'status' => $faker->randomElement(['accepted', 'rejected', 'pending']),
+                'position' => $faker->randomElement(['Developer', 'Designer', 'Manager', 'Intern', null]),
+                'interview_date' => $faker->dateTimeBetween('now', '+1 month')->format('Y-m-d'),
+                'score' => $faker->numberBetween(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

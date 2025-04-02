@@ -12,4 +12,9 @@ class CandidateController extends Controller
         $candidates = Candidate::all();
         return view('candidate.index', compact('candidates'));
     }
+    public function show($id)
+    {
+        $candidate = Candidate::findOrFail($id);
+        return view('candidate.show', compact('candidate'));
+    }
 }

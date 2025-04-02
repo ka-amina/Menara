@@ -100,9 +100,7 @@ Route::get('/declined', function () {
     return view('candidate.declined');
 })->name('declined');
 //candidate informations
-Route::get('/candidate', function () {
-    return view('candidate.show');
-})->name('candidateinfo');
+Route::get('/candidates/{id}', [CandidateController::class,'show'])->name('candidateinfo');
 //candidate list
 Route::get('/candidates', [CandidateController::class,'index'])->name('candidates');
 
