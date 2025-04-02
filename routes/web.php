@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\JobController;
@@ -103,9 +104,7 @@ Route::get('/candidate', function () {
     return view('candidate.show');
 })->name('candidateinfo');
 //candidate list
-Route::get('/candidates', function () {
-    return view('candidate.index');
-})->name('candidates');
+Route::get('/candidates', [CandidateController::class,'index'])->name('candidates');
 
 
 // interviewer questions

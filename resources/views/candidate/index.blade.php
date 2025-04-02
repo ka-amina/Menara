@@ -15,7 +15,7 @@
                 <input placeholder="Search" class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
             </div>
 
-            
+
             <button id="openModalBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Add New Candidate
             </button>
@@ -45,29 +45,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example Row -->
+                        @foreach ($candidates as $candidate)
                         <tr>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">John Doe</p>
+                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->first_name }} {{ $candidate->last_name }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Software Engineer</p>
+                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->position->name ?? 'N/A' }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span class="relative inline-block px-3 py-1 font-semibold leading-tight">
+                                    @if ($candidate->status === 'accepted')
                                     <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                    <span class="relative">Accepted</span>
+                                    <span class="relative text-green-900">Accepted</span>
+                                    @elseif ($candidate->status === 'rejected')
+                                    <span aria-hidden class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                    <span class="relative text-red-900">Rejected</span>
+                                    @else
+                                    <span aria-hidden class="absolute inset-0 bg-yellow-200 opacity-50 rounded-full"></span>
+                                    <span class="relative text-yellow-900">Pending</span>
+                                    @endif
                                 </span>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">2023-10-15</p>
+                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->interview_date ?? 'N/A' }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900"><a href="{{route('candidateinfo')}}">View</a></button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                <a href="" class="text-indigo-600 hover:text-indigo-900">View</a>
+                                <form action="" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                </form>
                             </td>
                         </tr>
-                        <!-- More rows can be added here -->
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -83,22 +95,22 @@
 
             <div class="mb-4">
                 <label for="fullName" class="block text-sm text-gray-700">Full Name</label>
-                <input type="text" name="fullName" id="fullName" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" >
+                <input type="text" name="fullName" id="fullName" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
                 <label for="email" class="block text-sm text-gray-700">Email</label>
-                <input type="email" name="email" id="email" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" >
+                <input type="email" name="email" id="email" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
                 <label for="cv" class="block text-sm text-gray-700">Upload CV</label>
-                <input type="file" name="cv" id="cv" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" >
+                <input type="file" name="cv" id="cv" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
                 <label for="status" class="block text-sm text-gray-700">Job</label>
-                <select name="status" id="status" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" >
+                <select name="status" id="status" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     <option value="Pending">full stack devvelopper</option>
                     <option value="Accepted">Software Engineer </option>
                     <option value="Rejected">.......</option>
@@ -117,7 +129,6 @@
 
 @section('scripts')
 <script>
-
     const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const candidateModal = document.getElementById('candidateModal');
@@ -125,7 +136,7 @@
     openModalBtn.addEventListener('click', () => {
         candidateModal.classList.remove('hidden');
         candidateModal.classList.add('flex');
-        
+
     });
 
     closeModalBtn.addEventListener('click', () => {
