@@ -72,7 +72,7 @@
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <a href="{{ route('candidateinfo', $candidate->id) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <form action="" method="POST" class="inline">
+                                <form action="{{ route('candidates.destroy', $candidate->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="ml-4 text-red-600 hover:text-red-900">Delete</button>

@@ -17,4 +17,11 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
         return view('candidate.show', compact('candidate'));
     }
+
+    public function destroy($id)
+    {
+        $candidate = Candidate::findOrFail($id);
+        $candidate->delete();
+        return redirect()->route('candidates')->with('success', 'Candidate deleted successfully.');
+    }
 }

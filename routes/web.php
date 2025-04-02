@@ -103,6 +103,8 @@ Route::get('/declined', function () {
 Route::get('/candidates/{id}', [CandidateController::class,'show'])->name('candidateinfo');
 //candidate list
 Route::get('/candidates', [CandidateController::class,'index'])->name('candidates');
+Route::delete('/candidates/{id}', [CandidateController::class,'destroy'])->name('candidates.destroy');
+
 
 
 // interviewer questions
