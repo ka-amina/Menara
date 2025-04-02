@@ -91,11 +91,17 @@
 <div id="candidateModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
     <div class="bg-white rounded-lg p-6 max-w-md w-full">
         <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Candidate</h3>
-        <form action="#">
+        <form action="{{ route('candidates.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
             <div class="mb-4">
-                <label for="fullName" class="block text-sm text-gray-700">Full Name</label>
-                <input type="text" name="fullName" id="fullName" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <label for="first_name" class="block text-sm text-gray-700">First Name</label>
+                <input type="text" name="first_name" id="first_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label for="last_name" class="block text-sm text-gray-700">Last Name</label>
+                <input type="text" name="last_name" id="last_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
@@ -104,19 +110,24 @@
             </div>
 
             <div class="mb-4">
+                <label for="phone_number" class="block text-sm text-gray-700">Phone Number</label>
+                <input type="text" name="phone_number" id="phone_number" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div class="mb-4">
                 <label for="cv" class="block text-sm text-gray-700">Upload CV</label>
                 <input type="file" name="cv" id="cv" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
-                <label for="status" class="block text-sm text-gray-700">Job</label>
-                <select name="status" id="status" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="Pending">full stack devvelopper</option>
-                    <option value="Accepted">Software Engineer </option>
-                    <option value="Rejected">.......</option>
+                <label for="position" class="block text-sm text-gray-700">Position</label>
+                <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Select Position</option>
+                    @foreach ($jobs as $job)
+                        <option value="{{ $job->title }}">{{ $job->title }}</option>
+                    @endforeach
                 </select>
             </div>
-
 
             <div class="flex justify-end space-x-2">
                 <button type="button" id="closeModalBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
