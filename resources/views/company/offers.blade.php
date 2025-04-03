@@ -3,6 +3,17 @@
 @section('content')
 
 <div class="min-h-screen flex flex-col w-full">
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+    @endif
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
             <div class="flex justify-between items-center mb-6">
@@ -58,6 +69,10 @@
                                             <option value="{{ $job->id }}">{{ $job->title }}</option>
                                             @endforeach
                                         </select>
+
+                                        @error('job_id')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <!-- job details -->
                                     <div id="jobDetailsModal" class="hidden mt-4">
@@ -157,11 +172,17 @@
                                             <option value="senior">Senior</option>
                                             <option value="lead">Lead</option>
                                         </select>
+                                        @error('level')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="mb-4">
                                         <label for="location" class="block text-sm text-gray-700">Location</label>
                                         <input type="text" name="location" id="location" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        @error('location')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="mb-4">
@@ -171,6 +192,9 @@
                                             <option value="remote">Remote</option>
                                             <option value="hybrid">Hybrid</option>
                                         </select>
+                                        @error('location_type')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -187,6 +211,9 @@
                                     <div class="mb-4">
                                         <label for="requirements" class="block text-sm text-gray-700">Requirements</label>
                                         <textarea name="requirements" id="requirements" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                        @error('requirements')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="mb-4">
@@ -195,6 +222,9 @@
                                             <option value="flexible">Flexible</option>
                                             <option value="immediately">Immediately</option>
                                         </select>
+                                        @error('start_date')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="mb-4">
@@ -206,11 +236,17 @@
                                             <option value="CDI">CDI</option>
                                             <option value="CDD">CDD</option>
                                         </select>
+                                        @error('contract_type')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="mb-4">
                                         <label for="about_offer" class="block text-sm text-gray-700">About This Offer</label>
                                         <textarea name="about_offer" id="about_offer" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                        @error('about_offer')
+                                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
