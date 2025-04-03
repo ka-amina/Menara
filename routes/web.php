@@ -105,6 +105,7 @@ Route::get('/candidates/{id}', [CandidateController::class,'show'])->name('candi
 Route::get('/candidates', [CandidateController::class,'index'])->name('candidates');
 Route::delete('/candidates/{id}', [CandidateController::class,'destroy'])->name('candidates.destroy');
 Route::post('/candidates', [CandidateController::class, 'store'])->name('candidates.store');
+Route::put('/candidates/{candidate}', [CandidateController::class, 'update'])->name('candidates.update');
 
 
 

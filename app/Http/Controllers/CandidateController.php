@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCandidateRequest;
+use App\Http\Requests\UpdateCandidateRequest;
 use App\Models\Candidate;
 use App\Models\Job;
 use Illuminate\Http\Request;
@@ -17,7 +19,8 @@ class CandidateController extends Controller
     public function show($id)
     {
         $candidate = Candidate::findOrFail($id);
-        return view('candidate.show', compact('candidate'));
+        $jobs=Job::all();
+        return view('candidate.show', compact('candidate','jobs'));
     }
 
     public function destroy($id)
@@ -27,17 +30,10 @@ class CandidateController extends Controller
         return redirect()->route('candidates')->with('success', 'Candidate deleted successfully.');
     }
 
-    public function store(Request $request)
+    public function store(StoreCandidateRequest $request)
     {
         // dd($request->all());
-        $data=$request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:candidates',
-            'phone_number' => 'required|string|max:20',
-            'cv' => 'required|file|mimes:pdf,doc,docx',
-            'position' => 'required|string'
-        ]);
+        $data=$request->validated();
 
         if ($request->hasFile('cv')) {
             $path = $request->file('cv')->store('cvs', 'public');
@@ -55,4 +51,23 @@ class CandidateController extends Controller
 
         return redirect()->route('candidates')->with('success', 'Candidate added successfully.');
     }
+
+    public function update(UpdateCandidateRequest $request,Candidate $candidate){
+        
+        $data=$request->validated();
+        
+        $candidate= Candidate::findOrFail($candidate->id);
+        // dd($candidate);
+        if ($request->hasFile('cv')) {
+            $path = $request->file('cv')->store('cv_files', 'public');
+            $data['cv_path'] = $path;
+        }else{
+            $data['cv_path'] = $candidate->cv_path;
+        }
+        
+        $candidate->update($data);
+        return redirect()->back()->with('success', 'Candidate updated successfully!');
+    }
+
+
 }

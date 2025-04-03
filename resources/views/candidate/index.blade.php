@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="container mx-auto px-4 sm:px-8">
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+    @endif
     <div class="py-8">
         <div class="my-2 flex justify-between sm:flex-row flex-col">
             <h2 class="text-2xl font-semibold leading-tight">Candidates Management</h2>
@@ -124,7 +135,7 @@
                 <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Select Position</option>
                     @foreach ($jobs as $job)
-                        <option value="{{ $job->title }}">{{ $job->title }}</option>
+                    <option value="{{ $job->title }}">{{ $job->title }}</option>
                     @endforeach
                 </select>
             </div>
