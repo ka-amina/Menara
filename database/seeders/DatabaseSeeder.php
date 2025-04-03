@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             HardSkillSeeder::class,
             SoftSkillSeeder::class,
             JobSeeder::class,
+            CandidateSeeder::class,
         ]);
     }
 }

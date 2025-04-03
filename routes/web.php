@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\JobController;
@@ -99,13 +100,13 @@ Route::get('/declined', function () {
     return view('candidate.declined');
 })->name('declined');
 //candidate informations
-Route::get('/candidate', function () {
-    return view('candidate.show');
-})->name('candidateinfo');
+Route::get('/candidates/{id}', [CandidateController::class,'show'])->name('candidateinfo');
 //candidate list
-Route::get('/candidates', function () {
-    return view('candidate.index');
-})->name('candidates');
+Route::get('/candidates', [CandidateController::class,'index'])->name('candidates');
+Route::delete('/candidates/{id}', [CandidateController::class,'destroy'])->name('candidates.destroy');
+Route::post('/candidates', [CandidateController::class, 'store'])->name('candidates.store');
+Route::put('/candidates/{candidate}', [CandidateController::class, 'update'])->name('candidates.update');
+
 
 
 // interviewer questions
