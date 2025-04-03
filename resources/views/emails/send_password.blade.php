@@ -72,7 +72,6 @@
             <p>Your account has been successfully created. Below is your account password:</p>
             <div class="password">{{ $password }}</div>
             <p>Please make sure to change your password after logging in for the first time.</p>
-            <p>If you have any questions or need assistance, feel free to contact our support team.</p>
         </div>
         <div class="footer">
             <p style="margin: 0;">&copy; 2025 Menara. All rights reserved.</p>

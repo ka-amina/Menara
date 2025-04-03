@@ -40,162 +40,213 @@
                         <form action="{{route('offers.store')}}" method="POST" id="addOfferForm">
                             @csrf
                             <input type="hidden" name="id" id="offer_id" value="">
-                            <div class="mb-4" id="job-id-select">
-                                <label for="job_id" class="block text-sm text-gray-700">Select Job</label>
-                                <select name="job_id" id="job_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="">select job</option>
-                                    @foreach($jobs as $job)
-                                    <option value="{{ $job->id }}">{{ $job->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <!-- job details -->
-                            <div id="jobDetailsModal" class="hidden">
-                                <div class="bg-white rounded-lg p-6 max-w-lg w-full">
-                                    <div class="flex justify-between items-start mb-4">
-                                        <h3 id="modal-job-title" class="text-xl font-semibold text-gray-800"></h3>
-                                        <button id="closeDetailsModalBtn" class="text-gray-500 hover:text-gray-700">
 
-                                        </button>
+                            <!-- Job Selection Section  -->
+                            <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden" id="job-selection">
+                                <button type="button" class="section-toggle flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100">
+                                    <span class="font-medium text-gray-800">Job Selection</span>
+                                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-4">
+                                    <div id="job-id-select">
+                                        <label for="job_id" class="block text-sm text-gray-700">Select Job</label>
+                                        <select name="job_id" id="job_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">select job</option>
+                                            @foreach($jobs as $job)
+                                            <option value="{{ $job->id }}">{{ $job->title }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <div class="mb-4">
-                                        <p id="modal-description" class="text-sm text-gray-700 mb-4"></p>
-                                    </div>
+                                    <!-- job details -->
+                                    <div id="jobDetailsModal" class="hidden mt-4">
+                                        <div class="bg-gray-50 rounded-lg p-4">
+                                            <div class="flex justify-between items-start mb-4">
+                                                <h3 id="modal-job-title" class="text-lg font-semibold text-gray-800"></h3>
+                                                <button id="closeDetailsModalBtn" class="text-gray-500 hover:text-gray-700">
+                                                </button>
+                                            </div>
+                                            <div class="mb-4">
+                                                <p id="modal-description" class="text-sm text-gray-700 mb-4"></p>
+                                            </div>
 
-                                    <div class="mb-4">
-                                        <h4 class="text-sm font-semibold text-gray-800 mb-2">Hard Skills</h4>
-                                        <div id="modal-hard-skills" class="flex flex-wrap gap-2"></div>
-                                    </div>
+                                            <div class="mb-4">
+                                                <h4 class="text-sm font-semibold text-gray-800 mb-2">Hard Skills</h4>
+                                                <div id="modal-hard-skills" class="flex flex-wrap gap-2"></div>
+                                            </div>
 
-                                    <div class="mb-4">
-                                        <h4 class="text-sm font-semibold text-gray-800 mb-2">Soft Skills</h4>
-                                        <div id="modal-soft-skills" class="flex flex-wrap gap-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <button id="new-job-btn" class=" border-dotted border-2 border-blue-500  px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full hover:text-white"> add new job</button>
-                            </div>
-
-                            <div id="new-job-form" class="hidden">
-                                <div class="mb-4">
-                                    <label for="job_title" class="block text-sm text-gray-700">Job Title</label>
-                                    <input type="text" name="title" id="job_title" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="job_description" class="block text-sm text-gray-700">Description</label>
-                                    <textarea name="job_description" id="job_description" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="category_id" class="block text-sm text-gray-700">Category</label>
-                                    <select name="category_id" id="category_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                        @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm text-gray-700">Hard Skills</label>
-                                    <div class="mt-1 grid grid-cols-2 gap-2">
-                                        @foreach($hardSkills as $hardSkill)
-                                        <div class="flex items-center">
-                                            <input type="checkbox" name="job_hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2">
-                                            <label for="hard_skill_{{ $hardSkill->id }}" class="text-sm">{{ $hardSkill->name }}</label>
+                                            <div class="mb-4">
+                                                <h4 class="text-sm font-semibold text-gray-800 mb-2">Soft Skills</h4>
+                                                <div id="modal-soft-skills" class="flex flex-wrap gap-2"></div>
+                                            </div>
                                         </div>
-                                        @endforeach
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <button id="new-job-btn" class="border-dotted border-2 border-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full hover:text-white"> add new job</button>
                                     </div>
                                 </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm text-gray-700">Soft Skills</label>
-                                    <div class="mt-1 grid grid-cols-2 gap-2">
-                                        @foreach($softSkills as $softSkill)
-                                        <div class="flex items-center">
-                                            <input type="checkbox" name="job_soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2">
-                                            <label for="soft_skill_{{ $softSkill->id }}" class="text-sm">{{ $softSkill->name }}</label>
+                            </div>
+
+                            <!-- New Job Form  -->
+                            <div id="new-job-form" class="hidden mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                                <button type="button" class="section-toggle flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100">
+                                    <span class="font-medium text-gray-800">New Job Details</span>
+                                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-4">
+                                    <div class="mb-4">
+                                        <label for="job_title" class="block text-sm text-gray-700">Job Title</label>
+                                        <input type="text" name="title" id="job_title" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="job_description" class="block text-sm text-gray-700">Description</label>
+                                        <textarea name="job_description" id="job_description" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="category_id" class="block text-sm text-gray-700">Category</label>
+                                        <select name="category_id" id="category_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            @foreach($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-sm text-gray-700">Hard Skills</label>
+                                        <div class="mt-1 grid grid-cols-2 gap-2">
+                                            @foreach($hardSkills as $hardSkill)
+                                            <div class="flex items-center">
+                                                <input type="checkbox" name="job_hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2">
+                                                <label for="hard_skill_{{ $hardSkill->id }}" class="text-sm">{{ $hardSkill->name }}</label>
+                                            </div>
+                                            @endforeach
                                         </div>
-                                        @endforeach
                                     </div>
-                                </div>
-                                <button id="cancel-new-job" class="hidden bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 w-full">cancel</button>
-                            </div>
-
-
-                            <div class="mb-4">
-                                <label for="level" class="block text-sm text-gray-700">Experience Level</label>
-                                <select name="level" id="level" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="junior">Junior</option>
-                                    <option value="mid">Mid-level</option>
-                                    <option value="senior">Senior</option>
-                                    <option value="lead">Lead</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="location" class="block text-sm text-gray-700">Location</label>
-                                <input type="text" name="location" id="location" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="location_type" class="block text-sm text-gray-700">Location Type</label>
-                                <select name="location_type" id="location_type" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="onsite">On-site</option>
-                                    <option value="remote">Remote</option>
-                                    <option value="hybrid">Hybrid</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="requirements" class="block text-sm text-gray-700">Requirements</label>
-                                <textarea name="requirements" id="requirements" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="start_date" class="block text-sm text-gray-700">Start Date</label>
-                                <select name="start_date" id="start_date" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="flexible">Flexible</option>
-                                    <option value="immediately">Immediately</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="contract_type" class="block text-sm text-gray-700">Contract Type</label>
-                                <select name="contract_type" id="contract_type" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="full-time">Full-time</option>
-                                    <option value="part-time">Part-time</option>
-                                    <option value="internship">Internship</option>
-                                    <option value="CDI">CDI</option>
-                                    <option value="CDD">CDD</option>
-                                </select>
-                            </div>
-
-
-                            <div class="mb-4">
-                                <label for="about_offer" class="block text-sm text-gray-700">About This Offer</label>
-                                <textarea name="about_offer" id="about_offer" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm text-gray-700">Hard Skills</label>
-                                <div class="mt-1 grid grid-cols-2 gap-2">
-                                    @foreach($hardSkills as $hardSkill)
-                                    <div class="flex items-center">
-                                        <input type="checkbox" name="hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2">
-                                        <label for="hard_skill_{{ $hardSkill->id }}" class="text-sm">{{ $hardSkill->name }}</label>
+                                    <div class="mb-4">
+                                        <label class="block text-sm text-gray-700">Soft Skills</label>
+                                        <div class="mt-1 grid grid-cols-2 gap-2">
+                                            @foreach($softSkills as $softSkill)
+                                            <div class="flex items-center">
+                                                <input type="checkbox" name="job_soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2">
+                                                <label for="soft_skill_{{ $softSkill->id }}" class="text-sm">{{ $softSkill->name }}</label>
+                                            </div>
+                                            @endforeach
+                                        </div>
                                     </div>
-                                    @endforeach
+                                    <button id="cancel-new-job" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 w-full">cancel</button>
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="block text-sm text-gray-700">Soft Skills</label>
-                                <div class="mt-1 grid grid-cols-2 gap-2">
-                                    @foreach($softSkills as $softSkill)
-                                    <div class="flex items-center">
-                                        <input type="checkbox" name="soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2">
-                                        <label for="soft_skill_{{ $softSkill->id }}" class="text-sm">{{ $softSkill->name }}</label>
+                            <!-- Position Details Section-->
+                            <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                                <button type="button" class="section-toggle flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100">
+                                    <span class="font-medium text-gray-800">Position Details</span>
+                                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-4">
+                                    <div class="mb-4">
+                                        <label for="level" class="block text-sm text-gray-700">Experience Level</label>
+                                        <select name="level" id="level" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="junior">Junior</option>
+                                            <option value="mid">Mid-level</option>
+                                            <option value="senior">Senior</option>
+                                            <option value="lead">Lead</option>
+                                        </select>
                                     </div>
-                                    @endforeach
+
+                                    <div class="mb-4">
+                                        <label for="location" class="block text-sm text-gray-700">Location</label>
+                                        <input type="text" name="location" id="location" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="location_type" class="block text-sm text-gray-700">Location Type</label>
+                                        <select name="location_type" id="location_type" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="onsite">On-site</option>
+                                            <option value="remote">Remote</option>
+                                            <option value="hybrid">Hybrid</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Job Requirements Section-->
+                            <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                                <button type="button" class="section-toggle flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100">
+                                    <span class="font-medium text-gray-800">Requirements & Contract</span>
+                                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-4">
+                                    <div class="mb-4">
+                                        <label for="requirements" class="block text-sm text-gray-700">Requirements</label>
+                                        <textarea name="requirements" id="requirements" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="start_date" class="block text-sm text-gray-700">Start Date</label>
+                                        <select name="start_date" id="start_date" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="flexible">Flexible</option>
+                                            <option value="immediately">Immediately</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="contract_type" class="block text-sm text-gray-700">Contract Type</label>
+                                        <select name="contract_type" id="contract_type" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="full-time">Full-time</option>
+                                            <option value="part-time">Part-time</option>
+                                            <option value="internship">Internship</option>
+                                            <option value="CDI">CDI</option>
+                                            <option value="CDD">CDD</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="about_offer" class="block text-sm text-gray-700">About This Offer</label>
+                                        <textarea name="about_offer" id="about_offer" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Skills Section -->
+                            <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                                <button type="button" class="section-toggle flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100">
+                                    <span class="font-medium text-gray-800">Required Skills</span>
+                                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-4">
+                                    <div class="mb-4">
+                                        <label class="block text-sm text-gray-700">Hard Skills</label>
+                                        <div class="mt-1 grid grid-cols-2 gap-2">
+                                            @foreach($hardSkills as $hardSkill)
+                                            <div class="flex items-center">
+                                                <input type="checkbox" name="hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2">
+                                                <label for="hard_skill_{{ $hardSkill->id }}" class="text-sm">{{ $hardSkill->name }}</label>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="block text-sm text-gray-700">Soft Skills</label>
+                                        <div class="mt-1 grid grid-cols-2 gap-2">
+                                            @foreach($softSkills as $softSkill)
+                                            <div class="flex items-center">
+                                                <input type="checkbox" name="soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2">
+                                                <label for="soft_skill_{{ $softSkill->id }}" class="text-sm">{{ $softSkill->name }}</label>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -385,7 +436,7 @@
     const openAddModalBtn = document.getElementById("openAddModalBtn");
     const closeAddModalBtn = document.getElementById("closeAddModalBtn");
     const addJobModal = document.getElementById("addJobModal");
-    const edtBtn=document.getElementById("updateOffer");
+    const edtBtn = document.getElementById("updateOffer");
     edtBtn.classList.add("hidden")
 
     openAddModalBtn.addEventListener("click", () => {
@@ -420,6 +471,7 @@
         jobSelected.classList.add('hidden');
         mewJob.classList.add('hidden');
         cancelJob.classList.remove('hidden');
+        document.getElementById('job-selection').classList.add('hidden');
 
     });
 
@@ -433,6 +485,7 @@
         document.getElementById('job_description').value = '';
         document.getElementById('category_id').value = '';
 
+
         const softSkills = document.querySelectorAll("input[name='job_soft_skills[]']");
         softSkills.forEach((element) => {
             element.checked = false;
@@ -442,6 +495,8 @@
         hardSkills.forEach((element) => {
             element.checked = false;
         })
+        document.getElementById('job-selection').classList.remove('hidden')
+
 
     })
 
@@ -593,53 +648,80 @@
     })
     const updateBtn = document.getElementById("updateOffer");
     updateBtn.addEventListener("click", async function(e) {
-    e.preventDefault();
-    
-    const form = document.getElementById("addOfferForm");
-    const formData = new FormData(form);
-    const offerId = formData.get("id");
-    
-    const formDataObj = {};
-    
+        e.preventDefault();
 
-    for (const [key, value] of formData.entries()) {
-        // Check if the key ends with [], which indicates an array
-        if (key.endsWith('[]')) {
-            const baseKey = key.slice(0, -2);
-            if (!formDataObj[baseKey]) {
-                formDataObj[baseKey] = [];
+        const form = document.getElementById("addOfferForm");
+        const formData = new FormData(form);
+        const offerId = formData.get("id");
+
+        const formDataObj = {};
+
+
+        for (const [key, value] of formData.entries()) {
+            // Check if the key ends with [], which indicates an array
+            if (key.endsWith('[]')) {
+                const baseKey = key.slice(0, -2);
+                if (!formDataObj[baseKey]) {
+                    formDataObj[baseKey] = [];
+                }
+                formDataObj[baseKey].push(value);
+            } else {
+                formDataObj[key] = value;
             }
-            formDataObj[baseKey].push(value);
-        } else {
-            formDataObj[key] = value;
+        }
+
+        try {
+            const response = await fetch(`/api/offers/${offerId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formDataObj)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            // alert("Offer updated successfully!");
+
+            document.getElementById("addJobModal").classList.add("hidden");
+            document.getElementById("addJobModal").classList.remove("flex");
+            location.reload();
+        } catch (error) {
+            console.error("Error updating offer:", error);
+            alert("Error updating offer: " + error.message);
+        }
+    });
+
+    const sections = document.querySelectorAll('.section-content');
+    if (sections.length > 0) {
+        sections[0].style.display = 'block';
+        for (let i = 1; i < sections.length; i++) {
+            sections[i].style.display = 'none';
         }
     }
-    
-    try {
-        const response = await fetch(`/api/offers/${offerId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formDataObj)
+
+    // for collapsible form
+    const toggleButtons = document.querySelectorAll('.section-toggle');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const isVisible = content.style.display === 'block';
+
+            const arrow = this.querySelector('svg');
+
+            if (isVisible) {
+                content.style.display = 'none';
+                arrow.classList.remove('rotate-180');
+            } else {
+                content.style.display = 'block';
+                arrow.classList.add('rotate-180');
+            }
         });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        // alert("Offer updated successfully!");
-        
-        document.getElementById("addJobModal").classList.add("hidden");
-        document.getElementById("addJobModal").classList.remove("flex");
-        location.reload();
-    } catch (error) {
-        console.error("Error updating offer:", error);
-        alert("Error updating offer: " + error.message);
-    }
-});
+    });
 </script>
 
 
