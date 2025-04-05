@@ -8,6 +8,8 @@ use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ZoomIntegrationController;
 use App\Http\Requests\StoreInterviewRequest;
+use App\Models\Job;
+use App\Models\Offer;
 use App\Notifications\InterviewScheduledForCandidate;
 use App\Notifications\InterviewScheduledForInterviewer;
 
@@ -21,7 +23,8 @@ class InterviewController extends Controller
         $interviews = Interview::with(['candidate', 'interviewer'])->get();
         $candidates = Candidate::all();
         $interviewers = User::where('role', 'interviewer')->get();
-        return view('interviewer.evaluations.index', compact('interviews', 'candidates', 'interviewers'));
+        $offers = Offer::with('job', 'company')->get();
+        return view('interviewer.evaluations.index', compact('interviews', 'candidates', 'interviewers', 'offers'));
     }
 
     /**
@@ -63,7 +66,12 @@ class InterviewController extends Controller
             $durationMinutes
         );
         // dd($scheduledDateTime);
-
+        $candidate = Candidate::find($request->candidate_id);
+        // dd($candidate->position);
+        // $job = Job::where('title',$candidate->position)->get();
+        // dd($job);
+        // $offer=Offer::where('job_id',$job->id)->get();
+        // dd($offer);
 
         if ($zoomMeeting['success']) {
             $interview = Interview::create([
@@ -73,7 +81,8 @@ class InterviewController extends Controller
                 'meeting_link' => $zoomMeeting['data']['join_url'],
                 'zoom_meeting_id' => $zoomMeeting['data']['id'],
                 'start_time' => $request->start_time,
-                'end_time' => $request->end_time
+                'end_time' => $request->end_time,
+                'offer_id' => $request->offer_id
             ]);
 
             $interviewDetails = [
@@ -82,11 +91,11 @@ class InterviewController extends Controller
                 'duration' => $durationMinutes,
                 'join_url' => $interview->meeting_link,
             ];
-            $candidate = Candidate::find($request->candidate_id);
+
             $candidate->notify(new InterviewScheduledForCandidate($interviewDetails));
 
             $candidateFullName = $candidate->first_name . ' ' . $candidate->last_name;
-            
+
             $interviewer = User::find($request->interviewer_id);
             $interviewer->notify(new InterviewScheduledForInterviewer($interviewDetails, $candidateFullName));
 

@@ -132,6 +132,16 @@
           required>
       </div>
 
+      <div class="mb-4">
+        <label for="offer_id" class="block text-sm text-gray-700">Offer</label>
+        <select name="offer_id" id="offer_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+          <option value="">Select Offer</option>
+          @foreach ($offers as $offer)
+          <option value="{{ $offer->id }}">{{ $offer->job->title }} - {{ $offer->company->user->name }}</option>
+          @endforeach
+        </select>
+      </div>
+
       <div class="flex justify-end space-x-2">
         <button type="button" id="closeScheduleModal" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Schedule</button>
@@ -162,6 +172,5 @@
       scheduleModal.classList.add('hidden');
     }
   });
-
 </script>
 @endsection

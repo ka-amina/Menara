@@ -16,6 +16,7 @@ class Interview extends Model
         'meeting_link',
         'start_time',
         'end_time',
+        'offer_id'
     ];
 
     protected $casts = [
@@ -30,5 +31,10 @@ class Interview extends Model
     public function interviewer()
     {
         return $this->belongsTo(User::class, 'interviewer_id');
+    }
+
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class);
     }
 }

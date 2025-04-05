@@ -26,7 +26,8 @@ class StoreInterviewRequest extends FormRequest
             'interviewer_id' => 'required|exists:users,id',
             'scheduled_at' => 'required|date|after:now',
             'start_time' => 'required',
-            'end_time' => 'required|after:start_time'
+            'end_time' => 'required|after:start_time',
+            'offer_id' => 'required|exists:offers,id'
         ];
     }
 }
