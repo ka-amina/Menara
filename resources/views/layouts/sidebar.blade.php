@@ -75,7 +75,7 @@
                 </div>
             </a>
             @endcan
-            @can('isInterviewer')
+
             <a href="{{route('evaluations')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-clipboard-check w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Evaluations</span>
@@ -90,7 +90,7 @@
                     Questions
                 </div>
             </a>
-            @endcan
+
             @can('isAdmin')
             <a href="{{route('users')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-users w-5"></i>

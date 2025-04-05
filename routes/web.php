@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HardSkillController;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SoftSkillController;
@@ -116,9 +117,9 @@ Route::get('/questions', function () {
 
 // interviewer evaluations
 
-Route::get('/evaluations', function () {
-    return view('interviewer.evaluations.index');
-})->name('evaluations');
+Route::get('/evaluations', [InterviewController::class, 'index'])->name('evaluations');
+Route::post('/evaluations', [InterviewController::class, 'store'])->name('interviews.store');
+Route::delete('/evaluations/{interview}', [InterviewController::class, 'destroy'])->name('interviews.destroy');
 
 // users
 Route::get('/users', function () {
