@@ -8,6 +8,8 @@ use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ZoomIntegrationController;
 use App\Http\Requests\StoreInterviewRequest;
+use App\Notifications\InterviewScheduledForCandidate;
+use App\Notifications\InterviewScheduledForInterviewer;
 
 class InterviewController extends Controller
 {
@@ -64,7 +66,7 @@ class InterviewController extends Controller
 
 
         if ($zoomMeeting['success']) {
-            Interview::create([
+            $interview = Interview::create([
                 'candidate_id' => $request->candidate_id,
                 'interviewer_id' => $request->interviewer_id,
                 'scheduled_at' => $scheduledDateTime,
@@ -73,6 +75,20 @@ class InterviewController extends Controller
                 'start_time' => $request->start_time,
                 'end_time' => $request->end_time
             ]);
+
+            $interviewDetails = [
+                'scheduled_at' => $interview->scheduled_at,
+                'start_time' => $interview->start_time,
+                'duration' => $durationMinutes,
+                'join_url' => $interview->meeting_link,
+            ];
+            $candidate = Candidate::find($request->candidate_id);
+            $candidate->notify(new InterviewScheduledForCandidate($interviewDetails));
+
+            $candidateFullName = $candidate->first_name . ' ' . $candidate->last_name;
+            
+            $interviewer = User::find($request->interviewer_id);
+            $interviewer->notify(new InterviewScheduledForInterviewer($interviewDetails, $candidateFullName));
 
             return redirect()->route('evaluations')
                 ->with('success', 'Interview scheduled successfully with Zoom meeting link.');
