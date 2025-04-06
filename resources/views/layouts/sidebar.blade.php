@@ -77,10 +77,10 @@
             @endcan
 
             <a href="{{route('evaluations')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
-                <i class="fas fa-clipboard-check w-5"></i>
-                <span class="ml-4 sidebar-text hidden">Evaluations</span>
+                <i class="fas fa-user-check w-5"></i>
+                <span class="ml-4 sidebar-text hidden">Interviews</span>
                 <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-                    Evaluations
+                    Interviews
                 </div>
             </a>
             <a href="{{route('questions')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">

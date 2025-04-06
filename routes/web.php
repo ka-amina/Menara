@@ -108,6 +108,8 @@ Route::delete('/candidates/{id}', [CandidateController::class,'destroy'])->name(
 Route::post('/candidates', [CandidateController::class, 'store'])->name('candidates.store');
 Route::put('/candidates/{candidate}', [CandidateController::class, 'update'])->name('candidates.update');
 
+Route::get('/candidates/{candidate}/view-resume', [CandidateController::class, 'viewResume'])->name('candidates.view-resume');
+
 
 
 // interviewer questions
@@ -117,9 +119,13 @@ Route::get('/questions', function () {
 
 // interviewer evaluations
 
-Route::get('/evaluations', [InterviewController::class, 'index'])->name('evaluations');
-Route::post('/evaluations', [InterviewController::class, 'store'])->name('interviews.store');
-Route::delete('/evaluations/{interview}', [InterviewController::class, 'destroy'])->name('interviews.destroy');
+Route::get('/interviews', [InterviewController::class, 'index'])->name('evaluations');
+Route::post('/interviews', [InterviewController::class, 'store'])->name('interviews.store');
+Route::delete('/interviews/{interview}', [InterviewController::class, 'destroy'])->name('interviews.destroy');
+Route::get('/evaluations/{interview}', function(){
+    return view('interviewer.evaluations.edit');
+})->name('evaluations.show');
+Route::get('/evaluations/{interview}',[InterviewController::class,'show'])->name('evaluations.show');
 
 // users
 Route::get('/users', function () {

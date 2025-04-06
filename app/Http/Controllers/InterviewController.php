@@ -92,19 +92,18 @@ class InterviewController extends Controller
                 'join_url' => $interview->meeting_link,
             ];
 
-            $candidate->notify(new InterviewScheduledForCandidate($interviewDetails));
+            // $candidate->notify(new InterviewScheduledForCandidate($interviewDetails));
 
             $candidateFullName = $candidate->first_name . ' ' . $candidate->last_name;
 
             $interviewer = User::find($request->interviewer_id);
-            $interviewer->notify(new InterviewScheduledForInterviewer($interviewDetails, $candidateFullName));
+            // $interviewer->notify(new InterviewScheduledForInterviewer($interviewDetails, $candidateFullName));
 
             return redirect()->route('evaluations')
-                ->with('success', 'Interview scheduled successfully with Zoom meeting link.');
+            ->with('success', 'Interview scheduled successfully with Zoom meeting link.');
         } else {
             return redirect()->route('evaluations')
-                ->with('warning', 'Interview scheduled but failed to create Zoom meeting. ' .
-                    ($zoomMeeting['error'] ?? 'Unknown error'));
+            ->with('warning', 'Interview scheduled but failed to create Zoom meeting. ' .($zoomMeeting['error'] ?? 'Unknown error'));
         }
     }
 
@@ -123,5 +122,12 @@ class InterviewController extends Controller
 
         return redirect()->route('evaluations')
             ->with('success', 'Interview deleted successfully.');
+    }
+
+    public function show(Interview $interview)
+    {
+        $interview = Interview::findOrFail($interview->id);
+        // dd($interview->candidate->first_name);
+        return view('interviewer.evaluations.show',compact('interview'));
     }
 }

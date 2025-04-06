@@ -65,8 +65,8 @@
               @endif
             </td>
             <td class="px-6 py-4 space-x-2">
-              <a href="" class="text-blue-500 hover:underline">View</a>
-              <form action="{{ route('interviews.destroy', $interview->id) }}" method="POST" class="inline">
+              <a href="{{route('evaluations.show',$interview->id)}}" class="text-blue-500 hover:underline">View</a>
+              <form action="{{route('interviews.destroy', $interview->id)}}" method="POST" class="inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="text-red-500 hover:underline">Delete</button>
