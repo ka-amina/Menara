@@ -16,7 +16,8 @@ class Interview extends Model
         'meeting_link',
         'start_time',
         'end_time',
-        'offer_id'
+        'offer_id',
+        'zoom_meeting_id'
     ];
 
     protected $casts = [

@@ -73,6 +73,7 @@ class InterviewController extends Controller
         // $offer=Offer::where('job_id',$job->id)->get();
         // dd($offer);
 
+    // dd($zoomMeeting['data']['id']);
         if ($zoomMeeting['success']) {
             $interview = Interview::create([
                 'candidate_id' => $request->candidate_id,
@@ -84,6 +85,12 @@ class InterviewController extends Controller
                 'end_time' => $request->end_time,
                 'offer_id' => $request->offer_id
             ]);
+            // dd($interview->zoom_meeting_id);
+
+            $candidateInterview=Candidate::where('id',$request->candidate_id)->first();
+
+            $candidateInterview->interview_date=$scheduledDateTime;
+            $candidateInterview->save();
 
             $interviewDetails = [
                 'scheduled_at' => $interview->scheduled_at,
@@ -91,6 +98,8 @@ class InterviewController extends Controller
                 'duration' => $durationMinutes,
                 'join_url' => $interview->meeting_link,
             ];
+
+
 
             // $candidate->notify(new InterviewScheduledForCandidate($interviewDetails));
 
@@ -100,10 +109,10 @@ class InterviewController extends Controller
             // $interviewer->notify(new InterviewScheduledForInterviewer($interviewDetails, $candidateFullName));
 
             return redirect()->route('evaluations')
-            ->with('success', 'Interview scheduled successfully with Zoom meeting link.');
+                ->with('success', 'Interview scheduled successfully with Zoom meeting link.');
         } else {
             return redirect()->route('evaluations')
-            ->with('warning', 'Interview scheduled but failed to create Zoom meeting. ' .($zoomMeeting['error'] ?? 'Unknown error'));
+                ->with('warning', 'Interview scheduled but failed to create Zoom meeting. ' . ($zoomMeeting['error'] ?? 'Unknown error'));
         }
     }
 
@@ -128,6 +137,6 @@ class InterviewController extends Controller
     {
         $interview = Interview::findOrFail($interview->id);
         // dd($interview->candidate->first_name);
-        return view('interviewer.evaluations.show',compact('interview'));
+        return view('interviewer.evaluations.show', compact('interview'));
     }
 }

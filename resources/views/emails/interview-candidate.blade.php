@@ -74,7 +74,7 @@
         </div>
         <div class="content">
             <p style="margin-top: 0;">Hello {{ $candidate->first_name }} {{ $candidate->last_name }},</p>
-            <p>Congratulations! You have been scheduled for an interview for the position {{$candidate->position}}</p>
+            <p>You have been scheduled for an interview for the position {{$candidate->position}}</p>
             <div class="details">
                 <p><strong>Date:</strong> {{ $interviewDetails['scheduled_at'] }}</p>
                 <p><strong>Time:</strong> {{ $interviewDetails['start_time'] }}</p>

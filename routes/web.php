@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HardSkillController;
@@ -142,3 +143,7 @@ Route::get('/editprofile', function () {
 
 Route::get('/offers',[OfferController::class,'index'])->name('offers.show');
 Route::post('/offers',[OfferController::class,'store'])->name('offers.store');
+
+
+// callendar
+Route::get('/calendar',[CalendarController::class,'index'])->name('calendar.index');

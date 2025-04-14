@@ -100,7 +100,7 @@
 
 <!-- Modal for Adding Candidate -->
 <div id="candidateModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
-    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full h-[600px] overflow-y-auto">
         <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Candidate</h3>
         <form action="{{ route('candidates.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
