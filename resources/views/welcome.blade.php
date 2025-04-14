@@ -6,228 +6,362 @@
     <title>Menara - Portail Entreprise de Recrutement</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234299e1' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .testimonial-card {
+            transition: transform 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .process-card {
+            transition: all 0.3s ease;
+        }
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .faq-item {
+            transition: all 0.2s ease;
+        }
+        .faq-item:hover {
+            background-color: #f9fafb;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 text-gray-800">
     <!-- Header -->
-    <header class="bg-white shadow">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="/api/placeholder/120/60" alt="Logo" class="h-10">
-                <h1 class="ml-3 text-2xl font-bold text-blue-700">Menara</h1>
+                <img src="https://via.placeholder.com/120x60" alt="Logo" class="h-10">
+                <h1 class="ml-3 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700">Menara</h1>
             </div>
-            <div>
-                <a href="{{route('login')}}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Connexion</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="font-medium text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                <a href="#how-it-works" class="font-medium text-gray-700 hover:text-blue-600 transition-colors">Comment ça marche</a>
+                <a href="#features" class="font-medium text-gray-700 hover:text-blue-600 transition-colors">Avantages</a>
+                <a href="#testimonials" class="font-medium text-gray-700 hover:text-blue-600 transition-colors">Témoignages</a>
+                <a href="#faq" class="font-medium text-gray-700 hover:text-blue-600 transition-colors">FAQ</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="{{route('login')}}" class="hidden md:inline-block font-medium text-blue-600 hover:text-blue-700">Connexion</a>
+                <a href="{{route('companyregister')}}" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all">S'inscrire</a>
             </div>
+            <button class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
         </div>
     </header>
 
+    <!-- Mobile Menu (Hidden by default) -->
+    <div class="md:hidden bg-white shadow-md hidden" id="mobile-menu">
+        <div class="container mx-auto px-4 py-3 space-y-3">
+            <a href="#" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+            <a href="#how-it-works" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Comment ça marche</a>
+            <a href="#features" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Avantages</a>
+            <a href="#testimonials" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Témoignages</a>
+            <a href="#faq" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">FAQ</a>
+            <a href="#" class="block font-medium text-blue-600 hover:text-blue-700 py-2">Connexion</a>
+        </div>
+    </div>
+
     <!-- Hero Section -->
-    <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+    <section class="py-20 bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-800 text-white hero-pattern relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
             <div class="md:w-1/2 mb-10 md:mb-0">
-                <h2 class="text-4xl font-bold mb-6">Recrutez les meilleurs talents avec Menara</h2>
-                <p class="text-xl mb-8">Publiez vos offres d'emploi, recevez des rapports détaillés sur les candidats et optimisez votre processus de recrutement.</p>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Recrutez les <span class="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200">meilleurs talents</span> avec Menara</h2>
+                <p class="text-xl mb-8 text-blue-100">Publiez vos offres d'emploi, recevez des rapports détaillés sur les candidats et optimisez votre processus de recrutement.</p>
                 <div class="flex flex-wrap">
-                    <a href="{{route('companyregister')}}" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-lg mr-4 mb-4 md:mb-0">
-                        Créer un compte entreprise
+                    <a href="{{route('companyregister')}}" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-lg mr-4 mb-4 md:mb-0 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                        <i class="fas fa-user-plus mr-2"></i>Créer un compte entreprise
                     </a>
-                    <a href="#how-it-works" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-700 text-white font-bold py-3 px-6 rounded-lg">
-                        Comment ça marche
+                    <a href="#how-it-works" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:-translate-y-1">
+                        <i class="fas fa-info-circle mr-2"></i>Comment ça marche
                     </a>
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
-            <img src="https://th.bing.com/th/id/R.ab6d5e968f97361bd87797f61278bc50?rik=Z4sgGszd3D92uw&riu=http%3a%2f%2fwww.entreprise20.fr%2fwp-content%2fuploads%2f2019%2f10%2frecrutement-des-employ%c3%a9s.jpg&ehk=r9KojIq3YdmVxDiZs83IxEWRbPBCzEOdTLvHSqtXDMs%3d&risl=&pid=ImgRaw&r=0" alt="Recrutement" class="rounded-lg shadow-xl">
+                <div class="relative">
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75"></div>
+                    <img src="https://th.bing.com/th/id/R.ab6d5e968f97361bd87797f61278bc50?rik=Z4sgGszd3D92uw&riu=http%3a%2f%2fwww.entreprise20.fr%2fwp-content%2fuploads%2f2019%2f10%2frecrutement-des-employ%c3%a9s.jpg&ehk=r9KojIq3YdmVxDiZs83IxEWRbPBCzEOdTLvHSqtXDMs%3d&risl=&pid=ImgRaw&r=0" alt="Recrutement" class="relative rounded-lg shadow-2xl transform md:rotate-3  max-w-lg object-cover" width="400px" height="200px">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wave SVG -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+            <svg class="relative block w-full h-16" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C0,0,62.83,85.94,321.39,56.44Z" fill="#ffffff"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="p-6 text-center">
+                    <p class="text-4xl font-bold text-blue-600">98%</p>
+                    <p class="text-gray-600 mt-2">Taux de satisfaction</p>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-4xl font-bold text-blue-600">500+</p>
+                    <p class="text-gray-600 mt-2">Entreprises partenaires</p>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-4xl font-bold text-blue-600">10K+</p>
+                    <p class="text-gray-600 mt-2">Recrutements réussis</p>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-4xl font-bold text-blue-600">40%</p>
+                    <p class="text-gray-600 mt-2">Temps économisé</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="py-16 bg-white">
+    <section id="how-it-works" class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Comment ça marche</h2>
+            <div class="text-center mb-16">
+                <h6 class="text-blue-600 font-semibold uppercase tracking-wider mb-2">Processus</h6>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Comment ça marche</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Notre plateforme simplifie votre processus de recrutement en quatre étapes simples.</p>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow text-center">
+                <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
-                        <div class="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
+                        <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center">
                             <i class="fas fa-user-plus"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">1. Inscrivez votre entreprise</h3>
-                    <p class="text-gray-600">Créez un compte entreprise et configurez votre profil.</p>
+                    <h3 class="text-xl font-semibold mb-3">1. Inscrivez votre entreprise</h3>
+                    <p class="text-gray-600">Créez un compte entreprise et configurez votre profil avec vos besoins spécifiques.</p>
                 </div>
                 
-                <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow text-center">
+                <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
-                        <div class="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
+                        <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center">
                             <i class="fas fa-briefcase"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">2. Publiez vos offres</h3>
-                    <p class="text-gray-600">Créez et publiez des offres d'emploi détaillées avec les compétences requises.</p>
+                    <h3 class="text-xl font-semibold mb-3">2. Publiez vos offres</h3>
+                    <p class="text-gray-600">Créez et publiez des offres d'emploi détaillées avec les compétences requises pour chaque poste.</p>
                 </div>
                 
-                <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow text-center">
+                <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
-                        <div class="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
+                        <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center">
                             <i class="fas fa-comments"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">3. Suivi des entretiens</h3>
-                    <p class="text-gray-600">Notre équipe assigne les entretiens aux recruteurs spécialisés.</p>
+                    <h3 class="text-xl font-semibold mb-3">3. Suivi des entretiens</h3>
+                    <p class="text-gray-600">Notre équipe assigne les entretiens aux recruteurs spécialisés dans votre secteur d'activité.</p>
                 </div>
                 
-                <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow text-center">
+                <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
-                        <div class="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
+                        <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">4. Recevez des rapports</h3>
-                    <p class="text-gray-600">Accédez à des rapports détaillés sur les candidats évalués.</p>
+                    <h3 class="text-xl font-semibold mb-3">4. Recevez des rapports</h3>
+                    <p class="text-gray-600">Accédez à des rapports détaillés sur les candidats évalués pour prendre des décisions éclairées.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="py-16 bg-gray-100">
+    <section id="features" class="py-16 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Avantages pour les entreprises</h2>
+            <div class="text-center mb-16">
+                <h6 class="text-blue-600 font-semibold uppercase tracking-wider mb-2">Avantages</h6>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Pourquoi choisir Menara?</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Découvrez comment notre plateforme peut transformer votre processus de recrutement.</p>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-bullseye"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Recrutement ciblé</h3>
-                    <p class="text-gray-600">Nos recruteurs spécialisés évaluent les compétences techniques et transversales spécifiques à votre secteur.</p>
+                    <h3 class="text-xl font-semibold mb-3">Recrutement ciblé</h3>
+                    <p class="text-gray-600">Nos recruteurs spécialisés évaluent les compétences techniques et transversales spécifiques à votre secteur pour trouver les candidats parfaitement adaptés à vos besoins.</p>
                 </div>
                 
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Gain de temps</h3>
-                    <p class="text-gray-600">Réduisez le temps consacré aux entretiens préliminaires et concentrez-vous sur les candidats les plus prometteurs.</p>
+                    <h3 class="text-xl font-semibold mb-3">Gain de temps</h3>
+                    <p class="text-gray-600">Réduisez de 40% le temps consacré aux entretiens préliminaires et concentrez vos ressources sur les candidats les plus prometteurs pour votre entreprise.</p>
                 </div>
                 
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-file-alt"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Rapports détaillés</h3>
-                    <p class="text-gray-600">Accédez à des évaluations complètes pour chaque candidat avec des scores précis sur les compétences clés.</p>
+                    <h3 class="text-xl font-semibold mb-3">Rapports détaillés</h3>
+                    <p class="text-gray-600">Accédez à des évaluations complètes pour chaque candidat avec des scores précis sur les compétences clés et des recommandations personnalisées.</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Expertise spécialisée</h3>
+                    <p class="text-gray-600">Notre réseau de recruteurs experts couvre tous les secteurs d'activité et possède une connaissance approfondie des compétences recherchées.</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Analyse de données</h3>
+                    <p class="text-gray-600">Profitez de tableaux de bord analytiques pour suivre vos performances de recrutement et identifier des tendances utiles.</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Support dédié</h3>
+                    <p class="text-gray-600">Bénéficiez d'un accompagnement personnalisé avec un conseiller dédié pour optimiser votre stratégie de recrutement.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    
-
     <!-- Company Showcase Section -->
-    <section class="py-16 bg-gray-100">
+    <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Ils nous font confiance</h2>
+            <div class="text-center mb-16">
+                <h6 class="text-blue-600 font-semibold uppercase tracking-wider mb-2">Références</h6>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Ils nous font confiance</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Rejoignez les entreprises leaders qui transforment leur recrutement avec Menara.</p>
+            </div>
             
             <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
                 <div class="p-4 flex justify-center">
-                    <img src="https://vectorseek.com/wp-content/uploads/2022/02/vectorseek.com-Capgemini-Logo-Vector.png" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="https://www.wetech.ma/im/180/images/300/ca-6apddb3ibfe48c919y9gq3n9kv6plk30012020121302.jpg" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://www.wetech.ma/im/180/images/300/ca-6apddb3ibfe48c919y9gq3n9kv6plk30012020121302.jpg" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="/api/placeholder/120/60" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="/api/placeholder/120/60" alt="Logo entreprise" class="h-12 opacity-70 hover:opacity-100 transition-opacity">
+                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials -->
-    <section class="py-16 bg-white">
+    <section id="testimonials" class="py-16 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Témoignages d'entreprises</h2>
+            <div class="text-center mb-16">
+                <h6 class="text-blue-600 font-semibold uppercase tracking-wider mb-2">Témoignages</h6>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Ce que nos clients disent</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Découvrez comment Menara a transformé le processus de recrutement de ces entreprises.</p>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-                    <div class="flex items-center mb-4">
-                        <img src="img" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
-                        <div>
-                            <p class="font-bold">Ahmed Benjelloun</p>
-                            <p class="text-gray-600">DRH, MarocTech</p>
+                <div class="p-8 bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-md testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <div class="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            AB
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-900">Ahmed Benjelloun</p>
+                            <p class="text-blue-600">DRH, MarocTech</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 italic">"Grâce à Menara, nous avons réduit notre temps de recrutement de 40%. Les rapports détaillés nous aident à prendre des décisions plus éclairées."</p>
+                    <p class="text-gray-700 italic mb-4">"Grâce à Menara, nous avons réduit notre temps de recrutement de 40%. Les rapports détaillés nous aident à prendre des décisions plus éclairées et à trouver des candidats qui correspondent parfaitement à notre culture d'entreprise."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                 </div>
                 
-                <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-                    <div class="flex items-center mb-4">
-                        <img src="img" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
-                        <div>
-                            <p class="font-bold">Laila Alaoui</p>
-                            <p class="text-gray-600">Responsable Recrutement, FinancePlus</p>
+                <div class="p-8 bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-md testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <div class="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            LA
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-900">Laila Alaoui</p>
+                            <p class="text-blue-600">Responsable Recrutement, FinancePlus</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 italic">"La qualité des évaluations techniques nous a permis d'identifier rapidement les candidats qui correspondent vraiment à nos besoins."</p>
+                    <p class="text-gray-700 italic mb-4">"La qualité des évaluations techniques nous a permis d'identifier rapidement les candidats qui correspondent vraiment à nos besoins. L'interface est intuitive et le support client exceptionnel."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                 </div>
                 
-                <div class="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-                    <div class="flex items-center mb-4">
-                        <img src="img" alt="Avatar" class="h-12 w-12 rounded-full mr-4">
-                        <div>
-                            <p class="font-bold">Karim Tazi</p>
-                            <p class="text-gray-600">CEO, Startup Innovation</p>
+                <div class="p-8 bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-md testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <div class="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            KT
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-900">Karim Tazi</p>
+                            <p class="text-blue-600">CEO, Startup Innovation</p>
                         </div>
                     </div>
-                    <p class="text-gray-700 italic">"En tant que startup, nous n'avions pas les ressources pour gérer efficacement notre recrutement. Menara nous a fourni l'expertise dont nous avions besoin."</p>
+                    <p class="text-gray-700 italic mb-4">"En tant que startup, nous n'avions pas les ressources pour gérer efficacement notre recrutement. Menara nous a fourni l'expertise dont nous avions besoin pour constituer une équipe performante."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Call to Action -->
-    <section class="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-4">Prêt à transformer votre processus de recrutement?</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">Créez votre compte entreprise dès aujourd'hui et commencez à publier vos offres d'emploi.</p>
-            <a href="{{route('companyregister')}}" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg inline-block">Créer un compte maintenant</a>
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full opacity-10">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white">
+                <circle cx="25" cy="25" r="20"/>
+                <circle cx="75" cy="75" r="20"/>
+            </svg>
         </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Questions fréquentes</h2>
-            
-            <div class="max-w-3xl mx-auto">
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Comment fonctionne le processus de recrutement avec Menara?</h3>
-                    <p class="text-gray-600">Après avoir créé votre compte et publié une offre d'emploi, notre équipe d'administrateurs l'examine et assigne les entretiens à nos recruteurs spécialisés. Vous recevez ensuite des rapports détaillés sur chaque candidat évalué.</p>
-                </div>
-                
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Combien coûte l'utilisation de la plateforme?</h3>
-                    <p class="text-gray-600">Nous proposons différentes formules d'abonnement adaptées à la taille de votre entreprise et à vos besoins en recrutement. Contactez-nous pour obtenir un devis personnalisé.</p>
-                </div>
-                
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Quels types de postes peuvent être évalués?</h3>
-                    <p class="text-gray-600">Notre plateforme est particulièrement adaptée aux postes techniques (développeurs, ingénieurs, data scientists, etc.) mais aussi aux postes administratifs et managériaux. Nos questionnaires d'évaluation sont personnalisables selon vos besoins.</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Comment puis-je suivre l'avancement du processus de recrutement?</h3>
-                    <p class="text-gray-600">Votre tableau de bord entreprise vous permet de suivre en temps réel le statut de vos offres d'emploi et des candidats en cours d'évaluation. Vous recevez également des notifications par email à chaque étape importante.</p>
-                </div>
-            </div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Prêt à transformer votre processus de recrutement?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Créez votre compte entreprise dès aujourd'hui</p>
+            <a href="{{route('companyregister')}}" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all">Créer un compte maintenant</a>
         </div>
     </section>
 
@@ -244,8 +378,9 @@
                     <ul class="space-y-2">
                         <li><a href="#" class="text-gray-400 hover:text-white">Accueil</a></li>
                         <li><a href="#how-it-works" class="text-gray-400 hover:text-white">Comment ça marche</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Tarifs</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">À propos</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white">Avantages</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white">Témoignages</a></li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-white">FAQ</a></li>
                     </ul>
                 </div>
                 <div>
@@ -272,15 +407,29 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuButton = document.querySelector('button.md:hidden');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
             // Smooth scrolling for anchor links
-            $('a[href^="#"]').on('click', function(event) {
-                event.preventDefault();
-                $('html, body').animate({
-                    scrollTop: $($.attr(this, 'href')).offset().top
-                }, 800);
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
         });
     </script>

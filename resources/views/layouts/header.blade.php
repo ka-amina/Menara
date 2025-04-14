@@ -16,9 +16,12 @@
 
         <!-- Calendar Icon -->
         <div class="relative">
-            <button class="relative p-2 text-gray-600 hover:text-gray-800 transition-colors">
-                <i class="fas fa-calendar-day"></i>
-            </button>
+            <a href="{{route('calendar.index')}}">
+                <button class="relative p-2 text-gray-600 hover:text-gray-800 transition-colors">
+                    <i class="fas fa-calendar-day"></i>
+                </button>
+            </a>
+
         </div>
 
         <!-- User Menu -->
@@ -42,7 +45,7 @@
             </button>
 
             <!-- Dropdown Menu -->
-            <div class="menu_nv absolute right-0 top-full bg-white border border-1 border-gray-300 hidden group-hover:block">
+            <div class="menu_nv absolute right-0 top-full bg-white border border-1 border-gray-300 hidden group-hover:block z-10">
                 <ul class="w-60 flex flex-col">
                     <!-- Profile Link -->
                     <a href="{{ route('profile') }}">
