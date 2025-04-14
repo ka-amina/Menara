@@ -3,9 +3,11 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HardSkillController;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SoftSkillController;
@@ -107,6 +109,8 @@ Route::delete('/candidates/{id}', [CandidateController::class,'destroy'])->name(
 Route::post('/candidates', [CandidateController::class, 'store'])->name('candidates.store');
 Route::put('/candidates/{candidate}', [CandidateController::class, 'update'])->name('candidates.update');
 
+Route::get('/candidates/{candidate}/view-resume', [CandidateController::class, 'viewResume'])->name('candidates.view-resume');
+
 
 
 // interviewer questions
@@ -116,9 +120,13 @@ Route::get('/questions', function () {
 
 // interviewer evaluations
 
-Route::get('/evaluations', function () {
-    return view('interviewer.evaluations.index');
-})->name('evaluations');
+Route::get('/interviews', [InterviewController::class, 'index'])->name('evaluations');
+Route::post('/interviews', [InterviewController::class, 'store'])->name('interviews.store');
+Route::delete('/interviews/{interview}', [InterviewController::class, 'destroy'])->name('interviews.destroy');
+Route::get('/evaluations/{interview}', function(){
+    return view('interviewer.evaluations.edit');
+})->name('evaluations.show');
+Route::get('/evaluations/{interview}',[InterviewController::class,'show'])->name('evaluations.show');
 
 // users
 Route::get('/users', function () {
@@ -135,3 +143,7 @@ Route::get('/editprofile', function () {
 
 Route::get('/offers',[OfferController::class,'index'])->name('offers.show');
 Route::post('/offers',[OfferController::class,'store'])->name('offers.store');
+
+
+// callendar
+Route::get('/calendar',[CalendarController::class,'index'])->name('calendar.index');

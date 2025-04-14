@@ -94,19 +94,19 @@
             @endforeach
           </select>
         </div>
-        <div class="mb-4">
+        <!-- <div class="mb-4">
           <label for="status" class="block text-sm text-gray-700">Status</label>
           <select name="status" id="status" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             <option value="pending" {{ $candidate->status == 'pending' ? 'selected' : '' }}>Pending</option>
             <option value="accepted" {{ $candidate->status == 'accepted' ? 'selected' : '' }}>Accepted</option>
             <option value="rejected" {{ $candidate->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
           </select>
-        </div>
+        </div> -->
 
-        <div class="mb-4">
+        <!-- <div class="mb-4">
           <label for="interview_date" class="block text-sm text-gray-700">Interview Date</label>
           <input type="date" name="interview_date" id="interview_date" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $candidate->interview_date }}">
-        </div>
+        </div> -->
         <div class="flex justify-end space-x-2">
           <button type="button" id="closeModalBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
           <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
