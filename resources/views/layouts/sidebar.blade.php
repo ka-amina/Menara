@@ -45,7 +45,7 @@
                 </div>
             </a>
             @endcan
-            <a href="{{ route('inclined') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
+            <!-- <a href="{{ route('inclined') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-thumbs-up w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Inclined</span>
                 <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
@@ -58,7 +58,7 @@
                 <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
                     Declined
                 </div>
-            </a>
+            </a> -->
             <a href="{{route('candidates')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-user-tie w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Candidates</span>
@@ -83,13 +83,13 @@
                     Interviews
                 </div>
             </a>
-            <a href="{{route('questions')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
+            <!-- <a href="{{route('questions')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-question-circle w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Questions</span>
                 <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
                     Questions
                 </div>
-            </a>
+            </a> -->
 
             @can('isAdmin')
             <a href="{{route('users')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">

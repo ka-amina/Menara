@@ -11,6 +11,7 @@ use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SoftSkillController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -129,15 +130,20 @@ Route::get('/evaluations/{interview}', function(){
 Route::get('/evaluations/{interview}',[InterviewController::class,'show'])->name('evaluations.show');
 
 // users
-Route::get('/users', function () {
-    return view('users.index');
-})->name('users');
-Route::get('/profile', function () {
-    return view('users.show');
-})->name('profile');
+// Route::get('/users', function () {
+//     return view('users.index');
+// })->name('users');
+Route::get('/users',[UserController::class,'index'])->name('users');
+// Route::get('/profile', function () {
+//     return view('users.show');
+// })->name('profile');
+// Route::get('/profile/{user}',[UserController::class,'show'])->name('profile');
+Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
+
 Route::get('/editprofile', function () {
     return view('users.edit');
 })->name('editprofile');
+
 
 // offer
 
