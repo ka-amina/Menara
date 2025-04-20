@@ -80,11 +80,12 @@
 <div id="userModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
     <div class="bg-white rounded-lg p-6 max-w-md w-full">
         <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New User</h3>
-        <form action="#">
+        <form action="{{route('interviewer.store')}}" method="POST">
+            @csrf
 
             <div class="mb-4">
                 <label for="fullName" class="block text-sm text-gray-700">Full Name</label>
-                <input type="text" name="fullName" id="fullName" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="name" id="fullName" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
@@ -94,7 +95,7 @@
 
             <div class="mb-4">
                 <label for="phone_number" class="block text-sm text-gray-700">Phone Number</label>
-                <input type="text" name="phone_number" id="phone_number" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="phone" id="phone_number" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="flex justify-end space-x-2">

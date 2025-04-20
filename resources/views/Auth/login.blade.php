@@ -24,11 +24,11 @@
                 placeholder="••••••••" />
         </div>
 
-        <div class="flex justify-between">
-            <label class="flex items-center">
+        <div class="flex justify-end">
+            <!-- <label class="flex items-center">
                 <input type="checkbox" class="rounded border-primary ">
                 <span>remember me</span>
-            </label>
+            </label> -->
             <a href="{{route('forgetpassword')}}" class="text-primary hover:underline">forgot Password?</a>
             <span></span>
         </div>
@@ -41,6 +41,7 @@
             </button>
         </div>
     </form>
+    
 </div>
-
+<a href="{{route('home')}}" class="flex justify-center underline text-blue-600 mt-6">Go Back</a>
 @endsection

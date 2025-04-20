@@ -7,7 +7,7 @@
         <div class="relative h-48">
             <!-- Cover background -->
             <div class="absolute inset-0 bg-opacity-30"></div>
-            
+
             <!-- Profile actions -->
             <div class="absolute top-4 right-4 flex space-x-2">
                 <button class="bg-white text-blue-700 px-4 py-2 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center shadow-md">
@@ -17,15 +17,21 @@
                     <a href="{{route('editprofile')}}">Edit Profile</a>
                 </button>
             </div>
-            
+
             <!-- Profile picture -->
             <div class="absolute -bottom-16 left-8">
+                @if (Auth::check() && Auth::user()->avatar)
                 <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-xl">
-                    <img src="/api/placeholder/192/192" alt="Profile" class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" class="w-full h-full object-cover">
                 </div>
+                @else
+                <div class="w-32 h-32 bg-purple-700  rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-xl">
+                    {{ collect(explode(' ', Auth::user()->name))->map(fn($word) => strtoupper($word[0]))->join('') }}
+                </div>
+                @endif
             </div>
         </div>
-        
+
         <!-- Profile info section -->
         <div class="bg-white pt-20 pb-8 px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-6">
@@ -39,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Detailed personal information -->
             <div class="space-y-6">
                 <!-- Contact Information Card -->
@@ -90,8 +96,8 @@
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h2 class="text-xl font-semibold mb-4 text-gray-800">Professional Bio</h2>
                     <p class="text-gray-600 leading-relaxed">
-                        Senior Recruiter with 8+ years of experience in tech talent acquisition. 
-                        Specialized in identifying and recruiting top-tier developers and IT professionals. 
+                        Senior Recruiter with 8+ years of experience in tech talent acquisition.
+                        Specialized in identifying and recruiting top-tier developers and IT professionals.
                         Passionate about building strong technical teams and creating effective hiring strategies.
                     </p>
                 </div>

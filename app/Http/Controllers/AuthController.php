@@ -25,12 +25,17 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users',
+            'phone'=>'required|string'
         ]);
 
-        return $this->userRepository->create($request->all());
+         $this->userRepository->create($request->all());
+
+        return redirect()->route('users');
+         
     }
 
     public function login(Request $request)

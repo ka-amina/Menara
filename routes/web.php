@@ -15,7 +15,7 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 //Auth
 Route::get('/register',[CompanyController::class,'companyRegister'])->name('companyregister');
@@ -153,3 +153,8 @@ Route::post('/offers',[OfferController::class,'store'])->name('offers.store');
 
 // callendar
 Route::get('/calendar',[CalendarController::class,'index'])->name('calendar.index');
+
+//add new interviewer
+
+Route::post('/interviewer',[AuthController::class,'register'])->name('interviewer.store');
+Route::delete('/user',[UserController::class,'delete'])->name('interviewer.delete');

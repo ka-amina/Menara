@@ -68,4 +68,6 @@
     </form>
 </div>
 
+<a href="{{route('home')}}" class="flex justify-center underline text-blue-600 mt-6">Go Back</a>
+
 @endsection
