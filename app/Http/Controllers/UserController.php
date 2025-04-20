@@ -19,4 +19,11 @@ class UserController extends Controller
         // dd($user->name);
         return view('users.show',compact('user'));
     }
+
+    public function destroy($id){
+        // dd($id);
+        $user=User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('users');
+    }
 }

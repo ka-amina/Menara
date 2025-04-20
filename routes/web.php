@@ -157,4 +157,4 @@ Route::get('/calendar',[CalendarController::class,'index'])->name('calendar.inde
 //add new interviewer
 
 Route::post('/interviewer',[AuthController::class,'register'])->name('interviewer.store');
-Route::delete('/user',[UserController::class,'delete'])->name('interviewer.delete');
+Route::delete('/users/{id}',[UserController::class,'destroy'])->name('interviewer.destroy');

@@ -64,7 +64,11 @@
                             
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <button class="text-indigo-600 hover:text-indigo-900"><a href="{{route('profile',$user->id)}}">View</a></button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                <form action="{{ route('interviewer.destroy', $user->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="ml-4 text-red-600 hover:text-red-900">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
