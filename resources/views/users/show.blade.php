@@ -96,9 +96,7 @@
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h2 class="text-xl font-semibold mb-4 text-gray-800">Professional Bio</h2>
                     <p class="text-gray-600 leading-relaxed">
-                        Senior Recruiter with 8+ years of experience in tech talent acquisition.
-                        Specialized in identifying and recruiting top-tier developers and IT professionals.
-                        Passionate about building strong technical teams and creating effective hiring strategies.
+                        {{$user->bio}}
                     </p>
                 </div>
             </div>

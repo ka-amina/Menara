@@ -87,6 +87,8 @@ Route::delete('/hardskills/{hardSkill}', [HardSkillController::class, 'destroy']
 
 //jobs
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
+Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+Route::delete('/jobs/{id}', [JobController::class, 'destroy'])->name('jobs.destroy');
 Route::get('/editjob', function () {
     return view('Admin.job.editjob');
 })->name('editjob');

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateJobRequest;
 use App\Models\Category;
 use App\Models\HardSkill;
 use App\Models\SoftSkill;
+use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
@@ -34,9 +35,22 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreJobRequest $request)
+    public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $job = Job::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+        ]);
+        if ($request->has('hard_skills')) {
+            $job->hardSkills()->attach($request->hard_skills);
+        }
+
+        if ($request->has('soft_skills')) {
+            $job->softSkills()->attach($request->soft_skills);
+        }
+        return redirect()->back()->with('success', 'job '.$request->title.' created successfully');
     }
 
     /**
@@ -67,8 +81,15 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Job $job)
+    public function destroy( $id)
     {
-        //
+        // dd($id);
+
+        $job=Job::findOrFail($id);
+        $job->delete();
+
+        return redirect()->back()->with('success', 'job '.$job->title.' created successfully');
+
+        
     }
 }

@@ -1,6 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('content')
+@if (session('success'))
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
+
+@if (session('error'))
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('error') }}</span>
+</div>
+@endif
 <div class="min-h-screen flex flex-col w-full">
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
@@ -36,9 +47,9 @@
             <div id="addJobModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
                 <div class="bg-white rounded-lg p-6 max-w-md w-full max-h-screen sm:max-h-[90vh] flex flex-col">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Job</h3>
-                    
+
                     <div class="overflow-y-auto flex-grow">
-                        <form action="#" method="POST" id="addJobForm">
+                        <form action="{{route('jobs.store')}}" method="POST" id="addJobForm">
                             @csrf
                             <div class="mb-4">
                                 <label for="job_title" class="block text-sm text-gray-700">Job Title</label>
@@ -117,7 +128,13 @@
                     </div>
 
                     <div class="flex justify-end space-x-2 mt-6">
+                        <form method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" id="deleteJobButton" class="bg-red-600 hover:bg-red-900  text-white text-sm px-4 py-2 rounded-md delete-job">Delete</button>
+                        </form>
                         <button id="close-details-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Close</button>
+
                     </div>
                 </div>
             </div>
@@ -205,6 +222,10 @@
                         softSkillsContainer.appendChild(skillTag);
                     });
 
+                    const deleteForm = jobDetailsModal.querySelector("form");
+                    deleteForm.action = `http://127.0.0.1:8000/jobs/${jobId}`; // Or use route('jobs.destroy', jobId) if generating it from backend
+
+
                     // Show modal
                     jobDetailsModal.classList.remove("hidden");
                     jobDetailsModal.classList.add("flex");
@@ -212,7 +233,7 @@
             });
         });
 
-        
+
 
         function fetchJobDetails(jobId) {
             return fetch(`/api/jobs/${jobId}`)
