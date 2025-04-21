@@ -90,6 +90,14 @@
                     Questions
                 </div>
             </a> -->
+            
+            <a href="{{route('offers.show')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
+                <i class="fas fa-tags w-5"></i>
+                <span class="ml-4 sidebar-text hidden">Offers</span>
+                <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                    Offers
+                </div>
+            </a>
 
             @can('isAdmin')
             <a href="{{route('users')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
@@ -100,13 +108,7 @@
                 </div>
             </a>
             @endcan
-            <a href="{{route('offers.show')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
-                <i class="fas fa-tags w-5"></i>
-                <span class="ml-4 sidebar-text hidden">Offers</span>
-                <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-                    Offers
-                </div>
-            </a>
+
             <a href="{{ route('logout') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-sign-out-alt w-5"></i> <!-- Changed to 'fa-sign-out-alt' for a logout icon -->
                 <span class="ml-4 sidebar-text hidden">logout</span>

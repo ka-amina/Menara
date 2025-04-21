@@ -14,19 +14,19 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    <a href="{{route('editprofile')}}">Edit Profile</a>
+                    <a href="{{ route('editprofile', ['id' => $user->id]) }}">Edit Profile</a>
                 </button>
             </div>
 
             <!-- Profile picture -->
             <div class="absolute -bottom-16 left-8">
-                @if (Auth::check() && Auth::user()->avatar)
+                @if ( $user->avatar)
                 <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-xl">
                     <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" class="w-full h-full object-cover">
                 </div>
                 @else
                 <div class="w-32 h-32 bg-purple-700  rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-xl">
-                    {{ collect(explode(' ', Auth::user()->name))->map(fn($word) => strtoupper($word[0]))->join('') }}
+                    {{ collect(explode(' ', $user->name))->map(fn($word) => strtoupper($word[0]))->join(' ') }}
                 </div>
                 @endif
             </div>

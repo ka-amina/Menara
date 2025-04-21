@@ -140,9 +140,8 @@ Route::get('/users',[UserController::class,'index'])->name('users');
 // Route::get('/profile/{user}',[UserController::class,'show'])->name('profile');
 Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
 
-Route::get('/editprofile', function () {
-    return view('users.edit');
-})->name('editprofile');
+Route::get('/editprofile/{id}',[UserController::class,'edit'])->name('editprofile');
+Route::put('/editprofile/{id}',[UserController::class,'update'])->name('user.update');
 
 
 // offer
