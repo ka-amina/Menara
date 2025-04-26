@@ -13,6 +13,7 @@ use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SoftSkillController;
 use App\Http\Controllers\UserController;
 
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -41,12 +42,14 @@ Route::post('/resetPassword', [AuthController::class, 'reset'])->name('reset');
 
 //dashboards
 
-Route::get('/adminDashboard', function () {
-    return view('Admin.index');
-})->name('admindashboard');
-Route::get('/interviewerdashboard', function () {
-    return view('interviewer.index');
-})->name('interviewerdashboard');
+// Route::get('/adminDashboard', function () {
+//     return view('Admin.index');
+// })->name('admindashboard');
+// Route::get('/interviewerdashboard', function () {
+//     return view('interviewer.index');
+// })->name('interviewerdashboard');
+Route::get('/dashboard', [AuthController::class,'index'])->name('dashboard')->middleware('auth');
+
 
 //categories
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');

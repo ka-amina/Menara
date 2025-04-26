@@ -30,5 +30,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isCompany',function(User $user){
             return $user->role==='company';
         });
+
+        Gate::define('canAccessCandidatesAndInterviews',function(User $user){
+            return $user->role === 'admin' || $user->role === 'interviewer';
+        });
     }
 }

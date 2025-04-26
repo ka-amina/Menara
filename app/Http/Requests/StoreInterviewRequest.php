@@ -24,7 +24,7 @@ class StoreInterviewRequest extends FormRequest
         return [
             'candidate_id' => 'required|exists:candidates,id',
             'interviewer_id' => 'required|exists:users,id',
-            'scheduled_at' => 'required|date|after:now',
+            'scheduled_at' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
             'offer_id' => 'required|exists:offers,id'

@@ -13,14 +13,24 @@
 
 
         <nav class="mt-4">
-            <a href="{{ route('admindashboard') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
+
+            @can('isInterviewer')
+            <a href="{{ route('dashboard') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-tachometer-alt w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Dashboard</span>
                 <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
                     Dashboard
                 </div>
             </a>
+            @endcan
             @can('isAdmin')
+            <a href="{{ route('dashboard') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
+                <i class="fas fa-tachometer-alt w-5"></i>
+                <span class="ml-4 sidebar-text hidden">Dashboard</span>
+                <div class="tooltip-element absolute left-full ml-2 px-2 py-1 bg-gray-900 text-sm rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                    Dashboard
+                </div>
+            </a>
             <a href="{{ route('categories') }}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-th-large w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Categories</span>
@@ -59,6 +69,7 @@
                     Declined
                 </div>
             </a> -->
+            @can('canAccessCandidatesAndInterviews')
             <a href="{{route('candidates')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-user-tie w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Candidates</span>
@@ -66,6 +77,9 @@
                     Candidates
                 </div>
             </a>
+            @endcan
+
+
             @can('isAdmin')
             <a href="{{route('jobs')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-briefcase w-5"></i>
@@ -76,6 +90,7 @@
             </a>
             @endcan
 
+            @can('canAccessCandidatesAndInterviews')
             <a href="{{route('evaluations')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-user-check w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Interviews</span>
@@ -83,6 +98,7 @@
                     Interviews
                 </div>
             </a>
+            @endcan
             <!-- <a href="{{route('questions')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-question-circle w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Questions</span>
@@ -90,7 +106,7 @@
                     Questions
                 </div>
             </a> -->
-            
+
             <a href="{{route('offers.show')}}" class="group relative flex items-center p-4 hover:bg-gray-700 transition-colors">
                 <i class="fas fa-tags w-5"></i>
                 <span class="ml-4 sidebar-text hidden">Offers</span>

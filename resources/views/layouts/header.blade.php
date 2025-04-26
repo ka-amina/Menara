@@ -15,6 +15,7 @@
         </div> -->
 
         <!-- Calendar Icon -->
+        @can('canAccessCandidatesAndInterviews')
         <div class="relative">
             <a href="{{route('calendar.index')}}">
                 <button class="relative p-2 text-gray-600 hover:text-gray-800 transition-colors">
@@ -23,7 +24,7 @@
             </a>
 
         </div>
-
+        @endcan
         <!-- User Menu -->
         <div class="relative group">
             <button class="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-800 transition-colors">
