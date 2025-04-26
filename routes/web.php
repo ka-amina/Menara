@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\JobController;
@@ -133,6 +134,7 @@ Route::get('/evaluations/{interview}', function(){
     return view('interviewer.evaluations.edit');
 })->name('evaluations.show');
 Route::get('/evaluations/{interview}',[InterviewController::class,'show'])->name('evaluations.show');
+Route::post('/evaluations',[EvaluationController::class,'store'])->name('evaluations.store');
 
 // users
 // Route::get('/users', function () {

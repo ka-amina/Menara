@@ -8,10 +8,12 @@ use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ZoomIntegrationController;
 use App\Http\Requests\StoreInterviewRequest;
+use App\Models\Evaluation;
 use App\Models\Job;
 use App\Models\Offer;
 use App\Notifications\InterviewScheduledForCandidate;
 use App\Notifications\InterviewScheduledForInterviewer;
+use Illuminate\Support\Facades\Auth;
 
 class InterviewController extends Controller
 {
@@ -73,7 +75,7 @@ class InterviewController extends Controller
         // $offer=Offer::where('job_id',$job->id)->get();
         // dd($offer);
 
-    // dd($zoomMeeting['data']['id']);
+        // dd($zoomMeeting['data']['id']);
         if ($zoomMeeting['success']) {
             $interview = Interview::create([
                 'candidate_id' => $request->candidate_id,
@@ -87,9 +89,9 @@ class InterviewController extends Controller
             ]);
             // dd($interview->zoom_meeting_id);
 
-            $candidateInterview=Candidate::where('id',$request->candidate_id)->first();
+            $candidateInterview = Candidate::where('id', $request->candidate_id)->first();
 
-            $candidateInterview->interview_date=$scheduledDateTime;
+            $candidateInterview->interview_date = $scheduledDateTime;
             $candidateInterview->save();
 
             $interviewDetails = [
@@ -136,7 +138,13 @@ class InterviewController extends Controller
     public function show(Interview $interview)
     {
         $interview = Interview::findOrFail($interview->id);
+        // $result=Evaluation::where('candidate_id',$interview->candidate_id)
+        $result = Evaluation::where('candidate_id', $interview->candidate_id)
+            ->where('offer_id', $interview->offer_id)
+            ->where('interviewer_id', Auth::user()->id)
+            ->first();
+
         // dd($interview->candidate->first_name);
-        return view('interviewer.evaluations.show', compact('interview'));
+        return view('interviewer.evaluations.show', compact('interview','result'));
     }
 }
