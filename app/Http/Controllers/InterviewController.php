@@ -145,6 +145,49 @@ class InterviewController extends Controller
             ->first();
 
         // dd($interview->candidate->first_name);
-        return view('interviewer.evaluations.show', compact('interview','result'));
+        return view('interviewer.evaluations.show', compact('interview', 'result'));
+    }
+
+    public function acceptedCandidates()
+    {
+        $acceptedCandidates = Candidate::where('status', 'accepted')
+            ->with(['interviews.interviewer', 'interviews.offer'])
+            ->get();
+        // dd($acceptedCandidates);
+
+        $stats = [
+            'total' => Candidate::count(),
+            'accepted' => Candidate::where('status', 'accepted')->count(),
+        ];
+
+        $stats['rate'] = $stats['total'] > 0
+            ? round(($stats['accepted'] / $stats['total']) * 100, 1)
+            : 0;
+
+        // $totalCandidates = Interview::count();
+        // $acceptedCount = $acceptedCandidates->count();
+        // $acceptanceRate = $totalCandidates > 0 
+        // ? round(($acceptedCount / $totalCandidates) * 100, 1) 
+        // : 0;
+        return view('candidate.inclined', compact(
+            'acceptedCandidates',
+            'stats'
+        ));
+    }
+
+    public function declinedCandidates()
+    {
+        $declinedCandidates = Candidate::where('status', 'rejected')
+            ->with(['interviews.interviewer', 'interviews.offer'])
+            ->get();
+        $stats = [
+            'total' => Candidate::count(),
+            'declined' => Candidate::where('status', 'rejected')->count(),
+        ];
+
+        $stats['rate'] = $stats['total'] > 0
+            ? round(($stats['declined'] / $stats['total']) * 100, 1)
+            : 0;
+        return view('candidate.declined', compact('declinedCandidates', 'stats'));
     }
 }

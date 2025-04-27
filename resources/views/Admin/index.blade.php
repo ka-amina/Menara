@@ -150,7 +150,7 @@
 
 
         <!-- Recent Interviews & Candidates -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid  gap-8">
             <!-- Recent Interviews -->
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex justify-between items-center mb-4">
@@ -174,17 +174,6 @@
                                     Recruiter: {{ $interview->interviewer->name ?? 'Unknown' }}
                                 </p>
                             </div>
-
-                            @php
-                            $status = now()->lt($interview->scheduled_at) ? 'Pending' : 'Completed';
-                            $statusClass = $status === 'Pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-green-100 text-green-800';
-                            @endphp
-
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $statusClass }}">
-                                {{ $status }}
-                            </span>
                         </div>
                     </div>
                     @empty
@@ -195,7 +184,7 @@
 
 
             <!-- Top Candidates -->
-            <div class="bg-white rounded-lg shadow-md p-6">
+            <!-- <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold text-gray-800">Top Candidates</h2>
                     <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">View All</a>
@@ -254,7 +243,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

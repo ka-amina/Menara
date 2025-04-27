@@ -101,13 +101,12 @@ Route::get('/editjob', function () {
 //candidates
 
 // inclined candidates
-Route::get('/inclined', function () {
-    return view('candidate.inclined');
-})->name('inclined');
+Route::get('/inclined', [InterviewController::class,'acceptedCandidates'])->name('inclined');
 // declined candidates
-Route::get('/declined', function () {
-    return view('candidate.declined');
-})->name('declined');
+Route::get('/declined', [InterviewController::class,'declinedCandidates'])->name('declined');
+// Route::get('/declined', function () {
+//     return view('candidate.declined');
+// })->name('declined');
 //candidate informations
 Route::get('/candidates/{id}', [CandidateController::class,'show'])->name('candidateinfo');
 //candidate list
@@ -135,6 +134,7 @@ Route::get('/evaluations/{interview}', function(){
 })->name('evaluations.show');
 Route::get('/evaluations/{interview}',[InterviewController::class,'show'])->name('evaluations.show');
 Route::post('/evaluations',[EvaluationController::class,'store'])->name('evaluations.store');
+Route::put('/evaluations/{evaluation}',[EvaluationController::class,'update'])->name('evaluations.update');
 
 // users
 // Route::get('/users', function () {

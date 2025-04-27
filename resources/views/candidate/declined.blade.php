@@ -11,15 +11,15 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
             <p class="text-sm text-gray-500">Total Candidats</p>
-            <p class="text-2xl font-bold text-gray-800">152</p>
+            <p class="text-2xl font-bold text-gray-800">{{ $stats['total'] }}</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+            <p class="text-sm text-gray-500">Candidats Refusés</p>
+            <p class="text-2xl font-bold text-gray-800">{{ $stats['declined'] }}</p>
         </div>
         <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
-            <p class="text-sm text-gray-500">Candidats Refusés</p>
-            <p class="text-2xl font-bold text-gray-800">65</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-yellow-500">
             <p class="text-sm text-gray-500">Taux de Refus</p>
-            <p class="text-2xl font-bold text-gray-800">42.8%</p>
+            <p class="text-2xl font-bold text-gray-800">{{ $stats['rate'] }}%</p>
         </div>
     </div>
 
@@ -57,10 +57,7 @@
                                 Poste
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Département
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Score
+                                company
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Recruteur
@@ -68,206 +65,50 @@
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Date d'entretien
                             </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Actions
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Row 1 -->
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <span class="h-10 w-10 rounded-full flex items-center justify-center bg-red-100 text-red-800">
-                                            K
-                                        </span>
+                    @forelse($declinedCandidates as $candidate)
+                            @php
+                                // Get the latest interview for this candidate
+                                $latestInterview = $candidate->interviews->sortByDesc('scheduled_at')->first();
+                                $interviewer = $latestInterview ? $latestInterview->interviewer : null;
+                            @endphp
+                            <tr>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">{{ $candidate->first_name }} {{ $candidate->last_name }}</div>
+                                            <div class="text-sm text-gray-500">{{ $candidate->email }}</div>
+                                        </div>
                                     </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Kamal Radi</div>
-                                        <div class="text-sm text-gray-500">kamal.radi@email.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Développeur Backend</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Informatique</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="text-sm text-gray-900">45/100</div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 45%"></div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Ahmed Alami</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">12/02/2025</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900">Voir</button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Supprimer</button>
-                            </td>
-                        </tr>
-
-                        <!-- Row 2 -->
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <span class="h-10 w-10 rounded-full flex items-center justify-center bg-red-100 text-red-800">
-                                            H
-                                        </span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Hamza Belkadi</div>
-                                        <div class="text-sm text-gray-500">hamza.belkadi@email.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Chef de Projet</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Marketing</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="text-sm text-gray-900">58/100</div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 58%"></div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Fatima Benali</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">18/02/2025</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900">Voir</button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Supprimer</button>
-                            </td>
-                        </tr>
-
-                        <!-- Row 3 -->
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <span class="h-10 w-10 rounded-full flex items-center justify-center bg-red-100 text-red-800">
-                                            S
-                                        </span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Sara El Mansouri</div>
-                                        <div class="text-sm text-gray-500">sara.mansouri@email.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Analyste Financier</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Finance</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="text-sm text-gray-900">62/100</div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 62%"></div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Karim Mansouri</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">20/02/2025</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900">Voir</button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Supprimer</button>
-                            </td>
-                        </tr>
-
-                        <!-- Row 4 -->
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <span class="h-10 w-10 rounded-full flex items-center justify-center bg-red-100 text-red-800">
-                                            A
-                                        </span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Amina El Fassi</div>
-                                        <div class="text-sm text-gray-500">amina.fassi@email.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Spécialiste RH</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Ressources Humaines</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="text-sm text-gray-900">50/100</div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 50%"></div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Fatima Benali</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">14/02/2025</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900">Voir</button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Supprimer</button>
-                            </td>
-                        </tr>
-
-                        <!-- Row 5 -->
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <span class="h-10 w-10 rounded-full flex items-center justify-center bg-red-100 text-red-800">
-                                            M
-                                        </span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Mehdi El Kadi</div>
-                                        <div class="text-sm text-gray-500">mehdi.kadi@email.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Ingénieur DevOps</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Informatique</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="text-sm text-gray-900">55/100</div>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 55%"></div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Ahmed Alami</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">16/02/2025</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900">Voir</button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Supprimer</button>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->position }}</p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {{ $latestInterview && $latestInterview->offer ? $latestInterview->offer->company->user->name : 'Non spécifié' }}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {{ $interviewer ? $interviewer->name : 'Non assigné' }}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {{ $latestInterview ? $latestInterview->scheduled_at->format('d/m/Y') : 'Non planifié' }}
+                                    </p>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                    Aucun candidat refusé trouvé
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

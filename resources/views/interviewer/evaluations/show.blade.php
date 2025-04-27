@@ -1,6 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('content')
+@if (session('success'))
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
+
+@if (session('error'))
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('error') }}</span>
+</div>
+@endif
 <div class="container mx-auto px-4 sm:px-8">
     <div class="py-8">
         <div>
@@ -81,10 +92,10 @@
             </div>
 
             <div class="mt-6 bg-white shadow-md rounded-lg p-6">
-                <h3 class="text-xl font-semibold text-gray-800">Évaluation du Candidat</h3>
+                <h3 id="evaluateh" class="text-xl font-semibold text-gray-800">Évaluation du Candidat</h3>
 
                 @if (!$result)
-                <!-- Form if no evaluation -->
+
                 <form method="POST" action="{{ route('evaluations.store') }}">
                     @csrf
                     <input type="hidden" name="candidate_id" value="{{ $interview->candidate->id }}">
@@ -120,36 +131,97 @@
                     </div>
                 </form>
                 @else
-                <!-- Display the existing evaluation -->
-                <div class="mt-4">
-                    <p class="text-gray-700"><strong>Criteria Met:</strong> {{ $result->criteria_met ? 'Yes' : 'No' }}</p>
+                <div id="candidate-result">
+                    <div class="mt-4">
+                        <p class="text-gray-700">
+                            <strong>Criteria Met:</strong>
+                            {{ $result->profile_validated === 1 ? 'Yes' : 'No' }}
+                        </p>
+
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="text-gray-700"><strong>Decision Justification:</strong></p>
+                        <p class="mt-2 text-gray-600">{{ $result->decision_justification }}</p>
+                    </div>
+                    <div class="flex  justify-end ">
+                        <button id="edit-btn" class=" bg-blue-500 text-white p-2 rounded-md">edit</button>
+                    </div>
                 </div>
 
-                <div class="mt-4">
-                    <p class="text-gray-700"><strong>Decision Justification:</strong></p>
-                    <p class="mt-2 text-gray-600">{{ $result->decision_justification }}</p>
+                <div id="edit-form" class="hidden">
+                    <h3 class="text-xl font-semibold text-gray-800">Edit Évaluation du Candidat</h3>
+
+                    <form method="POST" action="{{ route('evaluations.update',$result->id)}}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="candidate_id" value="{{ $interview->candidate->id }}">
+                        <input type="hidden" name="offer_id" value="{{ $interview->offer->id }}">
+
+                        <div class="mt-4">
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                Does this profile meet the required criteria for this position?
+                            </label>
+                            <div class="flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-blue-600" name="criteria_met" value="1"
+                                        @if($result && $result->profile_validated == 1) checked @endif>
+                                    <span class="ml-2">Yes</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-red-600" name="criteria_met" value="0"
+                                        @if($result && $result->profile_validated == 0) checked @endif>
+                                    <span class="ml-2">No</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                Justification for the decision:
+                            </label>
+                            <textarea name="decision_justification" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ $result->decision_justification  }}</textarea>
+                        </div>
+
+                        <div class="mt-6 flex justify-end">
+
+                            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                    <div class="flex justify-end mt-2">
+                        <button id="cancel-btn" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 ">
+                            cancel
+                        </button>
+                    </div>
                 </div>
                 @endif
             </div>
+
+
 
 
         </div>
     </div>
 
     <script>
-        const addQuestionBtn = document.getElementById('add-question-btn');
-        const addQuestionModal = document.getElementById('add-question-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-
-
-        addQuestionBtn.addEventListener('click', function() {
-            addQuestionModal.classList.remove('hidden');
-            addQuestionModal.classList.add('flex');
+        const evaluateh = document.getElementById("evaluateh");
+        const editbtn = document.getElementById("edit-btn");
+        const editForm = document.getElementById("edit-form");
+        const candidateResult = document.getElementById("candidate-result");
+        const cancelbtn = document.getElementById("cancel-btn");
+        editbtn.addEventListener('click', function() {
+            editForm.classList.remove('hidden');
+            candidateResult.classList.add('hidden');
+            evaluateh.classList.add("hidden")
 
         });
+        cancelbtn.addEventListener('click', function() {
+            editForm.classList.add('hidden');
+            candidateResult.classList.remove('hidden');
+            evaluateh.classList.remove("hidden")
 
-        closeModalBtn.addEventListener('click', function() {
-            addQuestionModal.classList.add('hidden');
         });
     </script>
     @endsection

@@ -20,4 +20,9 @@ class Candidate extends Model
         'score',
         'status',
     ];
+
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class);
+    }
 }
