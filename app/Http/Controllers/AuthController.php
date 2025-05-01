@@ -141,12 +141,12 @@ class AuthController extends Controller
         }
 
 
-        $user->notify(
-            new PasswordResetNotification(
-                $user,
-                $resetPasswordToken,
-            )
-        );
+        // $user->notify(
+        //     new PasswordResetNotification(
+        //         $user,
+        //         $resetPasswordToken,
+        //     )
+        // );
 
 
         // return response()->json([

@@ -95,6 +95,44 @@
                 </table>
             </div>
         </div>
+        @if ($candidates->hasPages())
+            <div class="mt-10 flex justify-center">
+                <div class="flex items-center space-x-2">
+                    {{-- Previous Page --}}
+                    @if ($candidates->onFirstPage())
+                    <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    @else
+                    <a href="{{ $candidates->previousPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    @endif
+
+                    {{-- Page Links --}}
+                    @foreach ($candidates->getUrlRange(1, $candidates->lastPage()) as $page => $url)
+                    @if ($page == $candidates->currentPage())
+                    <span class="px-4 py-2 rounded-md border border-primary bg-primary text-white">{{ $page }}</span>
+                    @elseif ($page <= $candidates->currentPage() + 2 && $page >= $candidates->currentPage() - 2)
+                        <a href="{{ $url }}" class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">{{ $page }}</a>
+                        @elseif ($page == $candidates->currentPage() + 3 || $page == $candidates->currentPage() - 3)
+                        <span class="px-4 py-2 text-gray-500">...</span>
+                        @endif
+                        @endforeach
+
+                        {{-- Next Page --}}
+                        @if ($candidates->hasMorePages())
+                        <a href="{{ $candidates->nextPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        @else
+                        <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        @endif
+                </div>
+            </div>
+            @endif
     </div>
 </div>
 

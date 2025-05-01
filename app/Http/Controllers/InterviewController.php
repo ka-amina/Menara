@@ -22,7 +22,7 @@ class InterviewController extends Controller
      */
     public function index()
     {
-        $interviews = Interview::with(['candidate', 'interviewer'])->get();
+        $interviews = Interview::with(['candidate', 'interviewer'])->paginate(5);
         $candidates = Candidate::all();
         $interviewers = User::where('role', 'interviewer')->get();
         $offers = Offer::with('job', 'company')->get();
@@ -152,7 +152,7 @@ class InterviewController extends Controller
     {
         $acceptedCandidates = Candidate::where('status', 'accepted')
             ->with(['interviews.interviewer', 'interviews.offer'])
-            ->get();
+            ->paginate(6);
         // dd($acceptedCandidates);
 
         $stats = [
@@ -179,7 +179,7 @@ class InterviewController extends Controller
     {
         $declinedCandidates = Candidate::where('status', 'rejected')
             ->with(['interviews.interviewer', 'interviews.offer'])
-            ->get();
+            ->paginate(6);
         $stats = [
             'total' => Candidate::count(),
             'declined' => Candidate::where('status', 'rejected')->count(),

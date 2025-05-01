@@ -34,11 +34,11 @@ class UserRepository implements UserInterface
             $tokenResult = $user->createToken('personal acces token');
             $token = $tokenResult->plainTextToken;
 
-            $user->notify(
-                new SendPasswordNotification(
-                    $randomPassword,$user->name
-                )
-            );
+            // $user->notify(
+            //     new SendPasswordNotification(
+            //         $randomPassword,$user->name
+            //     )
+            // );
 
             return response()->json([
                 'message' => 'Successfully created user!',

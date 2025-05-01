@@ -25,8 +25,10 @@
                     <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" class="w-full h-full object-cover">
                 </div>
                 @else
-                <div class="w-32 h-32 bg-purple-700  rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-xl">
-                    {{ collect(explode(' ', $user->name))->map(fn($word) => strtoupper($word[0]))->join(' ') }}
+                <div class="w-32 h-32 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-xl">
+                    <span class="text-white text-xl font-bold">
+                        {{ collect(explode(' ', $user->name))->map(fn($word) => strtoupper($word[0]))->join('') }}
+                    </span>
                 </div>
                 @endif
             </div>
@@ -93,12 +95,14 @@
                 </div>
 
                 <!-- Bio Section -->
+                @if($user->bio)
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h2 class="text-xl font-semibold mb-4 text-gray-800">Professional Bio</h2>
                     <p class="text-gray-600 leading-relaxed">
                         {{$user->bio}}
                     </p>
                 </div>
+                @endif
             </div>
         </div>
     </div>

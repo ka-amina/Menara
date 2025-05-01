@@ -12,7 +12,7 @@ class CandidateController extends Controller
 {
     public function index()
     {
-        $candidates = Candidate::all();
+        $candidates = Candidate::paginate(6);
         $jobs = Job::all();
         return view('candidate.index', compact('candidates', 'jobs'));
     }

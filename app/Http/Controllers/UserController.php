@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $interviewers = User::where('role', 'interviewer')->get();
+        $interviewers = User::where('role', 'interviewer')->paginate(5);
         // dd($interviewers->email);
         // $companies=User::where('role','company')->get();
         return view('users.index', compact('interviewers'));

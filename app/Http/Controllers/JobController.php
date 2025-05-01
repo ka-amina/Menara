@@ -17,7 +17,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::with(['category', 'hardSkills', 'softSkills'])->get();
+        $jobs = Job::with(['category', 'hardSkills', 'softSkills'])->paginate(6);
         $categories = Category::all();
         $hardSkills = HardSkill::all();
         $softSkills = SoftSkill::all();
