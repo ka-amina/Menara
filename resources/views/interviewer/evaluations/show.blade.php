@@ -107,21 +107,27 @@
                         </label>
                         <div class="flex items-center space-x-4">
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio text-blue-600" name="criteria_met" value="1" required>
+                                <input type="radio" class="form-radio text-blue-600" name="criteria_met" value="1" >
                                 <span class="ml-2">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio text-red-600" name="criteria_met" value="0" required>
+                                <input type="radio" class="form-radio text-red-600" name="criteria_met" value="0" >
                                 <span class="ml-2">No</span>
                             </label>
                         </div>
+                        @error('criteria_met')
+                        <div class="text-red-500 mt-2">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mt-6">
                         <label class="block text-gray-700 font-semibold mb-2">
                             Justification for the decision:
                         </label>
-                        <textarea name="decision_justification" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                        <textarea name="decision_justification" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('decision_justification') border-red-500 @enderror" ></textarea>
+                        @error('decision_justification')
+                        <div class="text-red-500 mt-2">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mt-6 flex justify-end">
@@ -180,7 +186,7 @@
                             <label class="block text-gray-700 font-semibold mb-2">
                                 Justification for the decision:
                             </label>
-                            <textarea name="decision_justification" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ $result->decision_justification  }}</textarea>
+                            <textarea name="decision_justification" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ $result->decision_justification  }}</textarea>
                         </div>
 
                         <div class="mt-6 flex justify-end">

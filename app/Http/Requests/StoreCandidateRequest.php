@@ -30,4 +30,28 @@ class StoreCandidateRequest extends FormRequest
             'position' => 'required|string'
         ];
     }
+    public function messages()
+{
+    return [
+        'first_name.required' => 'First name is required.',
+        'first_name.max' => 'First name cannot exceed 255 characters.',
+        
+        'last_name.required' => 'Last name is required.',
+        'last_name.max' => 'Last name cannot exceed 255 characters.',
+        
+        'email.required' => 'Email address is required.',
+        'email.email' => 'Please enter a valid email address.',
+        'email.max' => 'Email cannot exceed 255 characters.',
+        'email.unique' => 'This email address is already registered.',
+        
+        'phone_number.required' => 'Phone number is required.',
+        'phone_number.max' => 'Phone number cannot exceed 20 characters.',
+        
+        'cv.required' => 'Please upload a CV.',
+        'cv.file' => 'CV must be a file.',
+        'cv.mimes' => 'CV must be a PDF, DOC, or DOCX file.',
+        
+        'position.required' => 'Please select a position.',
+    ];
+}
 }

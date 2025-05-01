@@ -12,7 +12,7 @@ use App\Models\Job;
 use App\Models\SoftSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Gate;
 
 class OfferController extends Controller
 {
@@ -27,7 +27,13 @@ class OfferController extends Controller
         $companies = Company::where('user_id', Auth::user()->id)->with('user');
         // dd($companies);
         $categories = Category::all();
-        $offers = Offer::all();
+
+        if (Gate::allows('isAdmin')) {
+            $offers = Offer::paginate(6);
+        } else {
+            $companyIds = $companies->pluck('id');
+            $offers = Offer::whereIn('company_id', $companyIds)->paginate(6);
+        }
 
         return view('company.offers', compact('jobs', 'categories', 'hardSkills', 'softSkills', 'companies', 'offers'));
     }
@@ -80,7 +86,7 @@ class OfferController extends Controller
         if ($request->has('soft_skills')) {
             $offer->softSkills()->attach($request->soft_skills);
         }
-        return redirect()->route('offers.show');
+        return redirect()->back()->with('success', 'Offer created successfully');
     }
 
     /**

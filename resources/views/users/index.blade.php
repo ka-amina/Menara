@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="container mx-auto px-4 sm:px-8">
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+    @endif
     <div class="py-8">
         <div class="my-2 flex justify-between sm:flex-row flex-col">
             <h2 class="text-2xl font-semibold leading-tight">Interviewers</h2>
@@ -50,7 +61,7 @@
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 
                                 <img src="{{ asset('storage/' . $user->avatar) }}" alt="User Avatar" class="w-10 h-10 rounded-full">
-                               
+
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p class="text-gray-900 whitespace-no-wrap">{{$user->name}}</p>
@@ -61,7 +72,7 @@
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p class="text-gray-900 whitespace-no-wrap">{{$user->phone ?? 'N/A'}}</p>
                             </td>
-                            
+
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <button class="text-indigo-600 hover:text-indigo-900"><a href="{{route('profile',$user->id)}}">View</a></button>
                                 <form action="{{ route('interviewer.destroy', $user->id) }}" method="POST" class="inline">
@@ -83,23 +94,32 @@
 <!-- Modal for Adding User -->
 <div id="userModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
     <div class="bg-white rounded-lg p-6 max-w-md w-full">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New User</h3>
-        <form action="{{route('interviewer.store')}}" method="POST">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Interviewer</h3>
+        <form action="{{ route('interviewer.store') }}" method="POST">
             @csrf
 
             <div class="mb-4">
                 <label for="fullName" class="block text-sm text-gray-700">Full Name</label>
-                <input type="text" name="name" id="fullName" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="name" id="fullName" value="{{ old('name') }}" class="mt-1 block w-full border p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('name') border-red-500 @enderror">
+                @error('name')
+                <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="email" class="block text-sm text-gray-700">Email</label>
-                <input type="email" name="email" id="email" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="email" name="email" id="email" value="{{ old('email') }}" class="mt-1 block w-full border p-2  rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('email') border-red-500 @enderror">
+                @error('email')
+                <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="phone_number" class="block text-sm text-gray-700">Phone Number</label>
-                <input type="text" name="phone" id="phone_number" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="phone" id="phone_number" value="{{ old('phone') }}" class="mt-1 block w-full border p-2  rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('phone') border-red-500 @enderror">
+                @error('phone')
+                <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="flex justify-end space-x-2">
@@ -132,5 +152,11 @@
 
         }
     });
+
+    const hasErrors = JSON.parse("@json($errors->any())");
+    if (hasErrors) {
+        userModal.classList.remove('hidden');
+        userModal.classList.add('flex');
+    }
 </script>
 @endsection

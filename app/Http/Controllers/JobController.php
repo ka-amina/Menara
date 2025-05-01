@@ -35,7 +35,7 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreJobRequest $request)
     {
         // dd($request->all());
         $job = Job::create([
@@ -88,7 +88,7 @@ class JobController extends Controller
         $job=Job::findOrFail($id);
         $job->delete();
 
-        return redirect()->back()->with('success', 'job '.$job->title.' created successfully');
+        return redirect()->back()->with('success', 'job '.$job->title.' deleted successfully');
 
         
     }

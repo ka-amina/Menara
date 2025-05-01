@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\StoreInterviewerRequest;
 use App\Interfaces\UserInterface;
 use App\Models\Candidate;
 use App\Models\Interview;
@@ -56,33 +58,28 @@ class AuthController extends Controller
     }
 
 
-    public function register(Request $request)
+    public function register(StoreInterviewerRequest  $request)
     {
         // dd($request->all());
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|unique:users',
-            'phone' => 'required|string'
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'email' => 'required|string|unique:users',
+        //     'phone' => 'required|string'
+        // ]);
 
         $this->userRepository->create($request->all());
 
-        return redirect()->route('users');
+        return redirect()->back()->with('success', 'Interviewer created successfully.');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'invalid credentials'
-            ], 401);
+            return back()->withErrors([
+                'general_error' => 'Invalid credentials'
+            ])->withInput($request->only('email'));
         }
         Auth::login($user);
         $data['token'] = $user->createToken($request->name . 'Auth-Token')->plainTextToken;
@@ -98,7 +95,7 @@ class AuthController extends Controller
         // }
         // return response()->json($response, 200);
         if (Gate::allows('isCompany')) {
-            return redirect()->route('offers.show'); // make sure this route exists
+            return redirect()->route('offers.show');
         } else {
             return redirect()->route('dashboard');
         }

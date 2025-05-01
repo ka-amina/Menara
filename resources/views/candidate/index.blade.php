@@ -107,37 +107,57 @@
 
             <div class="mb-4">
                 <label for="first_name" class="block text-sm text-gray-700">First Name</label>
-                <input type="text" name="first_name" id="first_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="first_name" id="first_name" value="{{ old('first_name') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('first_name') ? 'border-red-500' : '' }} ">
+                @error('first_name')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="last_name" class="block text-sm text-gray-700">Last Name</label>
-                <input type="text" name="last_name" id="last_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="last_name" id="last_name" value="{{ old('last_name') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('last_name') ? 'border-red-500' : '' }}">
+                @error('last_name')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="email" class="block text-sm text-gray-700">Email</label>
-                <input type="email" name="email" id="email" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="email" name="email" id="email" value="{{ old('email') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('email') ? 'border-red-500' : '' }}">
+                @error('email')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="phone_number" class="block text-sm text-gray-700">Phone Number</label>
-                <input type="text" name="phone_number" id="phone_number" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('phone_number') ? 'border-red-500' : '' }}">
+                @error('phone_number')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="cv" class="block text-sm text-gray-700">Upload CV</label>
-                <input type="file" name="cv" id="cv" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="file" name="cv" id="cv" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('cv') ? 'border-red-500' : '' }}">
+                @error('cv')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="position" class="block text-sm text-gray-700">Position</label>
-                <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('position') ? 'border-red-500' : '' }}">
                     <option value="">Select Position</option>
                     @foreach ($jobs as $job)
-                    <option value="{{ $job->title }}">{{ $job->title }}</option>
+                        <option value="{{ $job->title }}" {{ old('position') == $job->title ? 'selected' : '' }}>
+                            {{ $job->title }}
+                        </option>
                     @endforeach
                 </select>
+                @error('position')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="flex justify-end space-x-2">
@@ -165,6 +185,12 @@
         candidateModal.classList.add('hidden');
         // candidateModal.classList.remove('');
     });
+
+    const hasErrors = JSON.parse("@json($errors->any())");
+    if (hasErrors) {
+        candidateModal.classList.remove('hidden');
+        candidateModal.classList.add('flex');
+    }
 
     // Close modal when clicking outside of it
     window.addEventListener('click', (event) => {

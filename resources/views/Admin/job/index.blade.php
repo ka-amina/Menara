@@ -53,26 +53,36 @@
                             @csrf
                             <div class="mb-4">
                                 <label for="job_title" class="block text-sm text-gray-700">Job Title</label>
-                                <input type="text" name="title" id="job_title" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <input type="text" name="title" id="job_title" value="{{ old('title') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('title') ? 'border-red-500' : '' }}">
+                                @if ($errors->has('title'))
+                                <div class="text-red-500 mt-2">{{ $errors->first('title') }}</div>
+                                @endif
                             </div>
                             <div class="mb-4">
                                 <label for="description" class="block text-sm text-gray-700">Description</label>
-                                <textarea name="description" id="description" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                <textarea name="description" id="description" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('description') ? 'border-red-500' : '' }}"></textarea>
+                                @if ($errors->has('description'))
+                                <div class="text-red-500 mt-2">{{ $errors->first('description') }}</div>
+                                @endif
                             </div>
                             <div class="mb-4">
-                                <label for="category_id" class="block text-sm text-gray-700">Category</label>
-                                <select name="category_id" id="category_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="category_id" class="block text-sm text-gray-700 ">Category</label>
+                                <select name="category_id" id="category_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('description') ? 'border-red-500' : '' }}">
+                                    <option value="">select category</option>
                                     @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
+                                @if ($errors->has('category_id'))
+                                <div class="text-red-500 mt-2">{{ $errors->first('category_id') }}</div>
+                                @endif
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm text-gray-700">Hard Skills</label>
                                 <div class="mt-1 grid grid-cols-2 gap-2">
                                     @foreach($hardSkills as $hardSkill)
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2">
+                                        <input type="checkbox" name="hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2" {{ in_array($hardSkill->id, old('hard_skills', [])) ? 'checked' : '' }}>
                                         <label for="hard_skill_{{ $hardSkill->id }}" class="text-sm">{{ $hardSkill->name }}</label>
                                     </div>
                                     @endforeach
@@ -83,7 +93,7 @@
                                 <div class="mt-1 grid grid-cols-2 gap-2">
                                     @foreach($softSkills as $softSkill)
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2">
+                                        <input type="checkbox" name="soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2" {{ in_array($softSkill->id, old('soft_skills', [])) ? 'checked' : '' }}>
                                         <label for="soft_skill_{{ $softSkill->id }}" class="text-sm">{{ $softSkill->name }}</label>
                                     </div>
                                     @endforeach
@@ -128,7 +138,7 @@
                     </div>
 
                     <div class="flex justify-end space-x-2 mt-6">
-                        <form method="POST" class="inline">
+                        <form id="deleteJobForm" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" id="deleteJobButton" class="bg-red-600 hover:bg-red-900  text-white text-sm px-4 py-2 rounded-md delete-job">Delete</button>
@@ -159,6 +169,12 @@
             addJobModal.classList.add("hidden");
             addJobModal.classList.remove("flex");
         });
+
+        const hasErrors = JSON.parse("@json($errors->any())");
+        if (hasErrors) {
+            addJobModal.classList.remove('hidden');
+            addJobModal.classList.add('flex');
+        }
 
         addJobModal.addEventListener("click", (e) => {
             if (e.target === addJobModal) {
@@ -223,8 +239,7 @@
                     });
 
                     const deleteForm = jobDetailsModal.querySelector("form");
-                    deleteForm.action = `http://127.0.0.1:8000/jobs/${jobId}`; // Or use route('jobs.destroy', jobId) if generating it from backend
-
+                    deleteForm.action = `http://localhost:8000/jobs/${jobId}`;
 
                     // Show modal
                     jobDetailsModal.classList.remove("hidden");

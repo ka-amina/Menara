@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="max-w-2xl w-full mx-auto rounded-xl shadow-[0_2px_10px_-2px_rgba(195,169,50,0.5)] p-8 relative mt-12">
     <form action="{{route('register')}}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -10,11 +9,14 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
+
             <div>
                 <div class="flex flex-col p-2">
                     <label for="company-name">Company Name <span class="text-red-500">*</span></label>
-                    <input class="p-3 border-b border-primary w-full" type="text" placeholder="Company Name" name="name">
+                    <input class="p-3 border-b border-primary w-full" type="text" placeholder="Company Name" name="name" value="{{ old('name') }}">
+                    @error('name')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col p-2">
@@ -22,35 +24,53 @@
                     <select class="p-3 border-b border-primary w-full appearance-none" name="industry">
                         <option value="">Select an Industry</option>
                         @foreach ($categories as $category)
-                        <option value="{{$category->id}}">{{$category->name}}</option>
+                            <option value="{{ $category->id }}" {{ old('industry') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
+                    @error('industry')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="flex flex-col p-2">
                     <label for="company-logo">Company Logo</label>
                     <input class="p-3 border-b border-primary w-full" type="file" name="logo" accept="image/*">
+                    @error('logo')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col p-2">
                     <label for="address">Address <span class="text-red-500">*</span></label>
-                    <input class="p-3 border-b border-primary w-full" type="text" placeholder="Company Address" name="address">
+                    <input class="p-3 border-b border-primary w-full" type="text" placeholder="Company Address" name="address" value="{{ old('address') }}">
+                    @error('address')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
             <div>
                 <div class="flex flex-col p-2">
                     <label for="email">Email <span class="text-red-500">*</span></label>
-                    <input class="p-3 border-b border-primary w-full" type="email" placeholder="name@company.com" name="email">
+                    <input class="p-3 border-b border-primary w-full" type="email" placeholder="name@company.com" name="email" value="{{ old('email') }}">
+                    @error('email')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col p-2">
                     <label for="phone">Phone <span class="text-red-500">*</span></label>
-                    <input class="p-3 border-b border-primary w-full" type="tel" placeholder="+123 456 789" name="phone">
+                    <input class="p-3 border-b border-primary w-full" type="tel" placeholder="+123 456 789" name="phone" value="{{ old('phone') }}">
+                    @error('phone')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col p-2">
                     <label for="description">Description</label>
-                    <textarea class="p-3 border-b border-primary w-full" placeholder="Describe your company" name="description" rows="3"></textarea>
+                    <textarea class="p-3 border-b border-primary w-full" placeholder="Describe your company" name="description" rows="3">{{ old('description') }}</textarea>
+                    @error('description')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -58,6 +78,9 @@
         <div class="flex flex-col p-2 mt-6">
             <label for="password">Password <span class="text-red-500">*</span></label>
             <input class="p-3 border-b border-primary w-full" type="password" placeholder="Create a Password" name="password">
+            @error('password')
+            <div class="text-red-500 mt-2">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="flex justify-center">
