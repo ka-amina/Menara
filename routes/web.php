@@ -129,9 +129,9 @@ Route::get('/questions', function () {
 Route::get('/interviews', [InterviewController::class, 'index'])->name('evaluations');
 Route::post('/interviews', [InterviewController::class, 'store'])->name('interviews.store');
 Route::delete('/interviews/{interview}', [InterviewController::class, 'destroy'])->name('interviews.destroy');
-Route::get('/evaluations/{interview}', function(){
-    return view('interviewer.evaluations.edit');
-})->name('evaluations.show');
+// Route::get('/evaluations/{interview}', function(){
+//     return view('interviewer.evaluations.edit');
+// })->name('evaluations.show');
 Route::get('/evaluations/{interview}',[InterviewController::class,'show'])->name('evaluations.show');
 Route::post('/evaluations',[EvaluationController::class,'store'])->name('evaluations.store');
 Route::put('/evaluations/{evaluation}',[EvaluationController::class,'update'])->name('evaluations.update');

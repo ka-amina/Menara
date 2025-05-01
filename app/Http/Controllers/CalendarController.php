@@ -20,6 +20,7 @@ class CalendarController extends Controller
             $end_time = Carbon::createFromFormat('H:i', $interview->end_time)->setDateFrom($date)->toISOString();
     
             $events[] = [
+                'id' => $interview->id, 
                 'title' => $interview->interviewer->name,
                 'start' => $start_time,
                 'end' => $end_time

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\OfferController;
 
@@ -18,3 +19,6 @@ Route::post('reset',[AuthController::class,'reset']);
 Route::get('jobs/{id}', [JobController::class, 'show']);
 Route::get('offers/{id}', [OfferController::class, 'show']);
 Route::put('/offers/{id}',[OfferController::class,'update']);
+
+
+Route::get('/interviews/{id}', [InterviewController::class, 'interviewInfo']);

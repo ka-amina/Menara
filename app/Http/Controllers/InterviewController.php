@@ -190,4 +190,19 @@ class InterviewController extends Controller
             : 0;
         return view('candidate.declined', compact('declinedCandidates', 'stats'));
     }
+
+    // display interview information on calendar (api)
+    public function interviewInfo($id)
+    {
+        try {
+            $interview = Interview::with(['interviewer', 'candidate'])->findOrFail($id);
+            
+            return response()->json($interview);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Interview not found'
+            ], 404);
+        }
+    }
 }
