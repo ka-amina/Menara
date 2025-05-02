@@ -22,9 +22,25 @@
                     Add New offer
                 </button>
             </div>
+            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="offerSearchInput" placeholder="Search by job title, category, position..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <!-- <input type="text" id="companySearchInput" placeholder="Filter by company name..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"> -->
+                @can('canAccessCandidatesAndInterviews')
+                <select name="company_id" id="companySearchInput" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">select category</option>
+                    @foreach($companiesInputs as $company)
+                    <option value="{{ $company->user->name }}">{{ $company->user->name }}</option>
+                    @endforeach
+                </select>
+                @endcan
+            </div>
+
 
             <!-- offer Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 offersCards">
                 @foreach($offers as $offer)
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card" data-job-id="{{ $offer->id }}">
                     <div class="p-5">
@@ -838,6 +854,54 @@
         addJobModal.classList.remove('hidden');
         addJobModal.classList.add('flex');
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const offerInput = document.getElementById("offerSearchInput");
+        const companyInput = document.getElementById("companySearchInput");
+        const offerGrid = document.querySelector(".offersCards");
+
+        let debounceTimer;
+
+        [offerInput, companyInput].forEach(input => {
+            input.addEventListener("input", () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    const offerVal = offerInput.value.trim();
+                    const companyVal = companyInput.value.trim();
+                    fetchOffers(offerVal, companyVal);
+                }, 300);
+            });
+        });
+
+        async function fetchOffers(search = "", company = "") {
+            try {
+                const url = `/api/offers?search=${encodeURIComponent(search)}&company=${encodeURIComponent(company)}`;
+                const response = await fetch(url);
+                const offers = await response.json();
+
+                offerGrid.innerHTML = "";
+
+                offers.forEach(offer => {
+                    const card = document.createElement("div");
+                    card.className = "bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card";
+                    card.innerHTML = `
+                    <div class="p-5">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${offer.job.title}</h3>
+                        <div class="text-sm text-gray-600 mb-3">
+                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${offer.status}</span>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-4">${offer.job.description}</p>
+                        <p class="text-sm text-gray-700 line-clamp-2 mb-4">${offer.requirements}</p>
+                    </div>
+                `;
+                    offerGrid.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error("Offer search failed:", err);
+            }
+        }
+    });
 </script>
 
 

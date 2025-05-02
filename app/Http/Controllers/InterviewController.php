@@ -14,6 +14,7 @@ use App\Models\Offer;
 use App\Notifications\InterviewScheduledForCandidate;
 use App\Notifications\InterviewScheduledForInterviewer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class InterviewController extends Controller
 {
@@ -150,55 +151,109 @@ class InterviewController extends Controller
 
     public function acceptedCandidates()
     {
-        $acceptedCandidates = Candidate::where('status', 'accepted')
-            ->with(['interviews.interviewer', 'interviews.offer'])
-            ->paginate(6);
-        // dd($acceptedCandidates);
+        if (Gate::allows('canAccessCandidatesAndInterviews')) {
+            $acceptedCandidates = Candidate::where('status', 'accepted')
+                ->with(['interviews.interviewer', 'interviews.offer'])
+                ->orderBy('created_at', 'desc')
+                ->paginate(6);
+            // dd($acceptedCandidates);
+            $totalCandidates = Candidate::count();
+            $acceptedCount = Candidate::where('status', 'accepted')->count();
+        } elseif (Gate::allows('isCompany')) {
+
+            $companyId = Auth::user()->company->id;
+
+            $acceptedCandidates = Candidate::where('status', 'accepted')
+                ->whereHas('interviews.offer', function ($query) use ($companyId) {
+                    $query->where('company_id', $companyId);
+                })
+                ->with(['interviews' => function ($query) use ($companyId) {
+                    $query->whereHas('offer', function ($q) use ($companyId) {
+                        $q->where('company_id', $companyId);
+                    })->with(['interviewer', 'offer']);
+                }])
+                ->orderBy('created_at', 'desc')
+                ->paginate(6);
+
+            $totalCandidates = Candidate::whereHas('interviews.offer', function ($query) use ($companyId) {
+                $query->where('company_id', $companyId);
+            })->count();
+
+            $acceptedCount = Candidate::where('status', 'accepted')
+                ->whereHas('interviews.offer', function ($query) use ($companyId) {
+                    $query->where('company_id', $companyId);
+                })->count();
+        } else {
+            abort(403, 'Unauthorized');
+        }
 
         $stats = [
-            'total' => Candidate::count(),
-            'accepted' => Candidate::where('status', 'accepted')->count(),
+            'total' => $totalCandidates,
+            'accepted' => $acceptedCount,
+            'rate' => $totalCandidates > 0
+                ? round(($acceptedCount / $totalCandidates) * 100, 1)
+                : 0,
         ];
 
-        $stats['rate'] = $stats['total'] > 0
-            ? round(($stats['accepted'] / $stats['total']) * 100, 1)
-            : 0;
-
-        // $totalCandidates = Interview::count();
-        // $acceptedCount = $acceptedCandidates->count();
-        // $acceptanceRate = $totalCandidates > 0 
-        // ? round(($acceptedCount / $totalCandidates) * 100, 1) 
-        // : 0;
-        return view('candidate.inclined', compact(
-            'acceptedCandidates',
-            'stats'
-        ));
+        return view('candidate.inclined', compact('acceptedCandidates', 'stats'));
     }
 
     public function declinedCandidates()
     {
-        $declinedCandidates = Candidate::where('status', 'rejected')
-            ->with(['interviews.interviewer', 'interviews.offer'])
-            ->paginate(6);
+        if (Gate::allows('canAccessCandidatesAndInterviews')) {
+            $declinedCandidates = Candidate::where('status', 'rejected')
+                ->with(['interviews.interviewer', 'interviews.offer'])
+                ->orderBy('created_at', 'desc')
+                ->paginate(6);
+
+            $totalCandidates = Candidate::count();
+            $declinedCount = Candidate::where('status', 'rejected')->count();
+        } elseif (Gate::allows('isCompany')) {
+            $companyId = Auth::user()->company->id;
+
+            $declinedCandidates = Candidate::where('status', 'rejected')
+                ->whereHas('interviews.offer', function ($query) use ($companyId) {
+                    $query->where('company_id', $companyId);
+                })
+                ->with(['interviews' => function ($query) use ($companyId) {
+                    $query->whereHas('offer', function ($q) use ($companyId) {
+                        $q->where('company_id', $companyId);
+                    })->with(['interviewer', 'offer']);
+                }])
+                ->orderBy('created_at', 'desc')
+                ->paginate(6);
+
+            $totalCandidates = Candidate::whereHas('interviews.offer', function ($query) use ($companyId) {
+                $query->where('company_id', $companyId);
+            })->count();
+
+            $declinedCount = Candidate::where('status', 'rejected')
+                ->whereHas('interviews.offer', function ($query) use ($companyId) {
+                    $query->where('company_id', $companyId);
+                })->count();
+        } else {
+            abort(403, 'Unauthorized');
+        }
+
         $stats = [
-            'total' => Candidate::count(),
-            'declined' => Candidate::where('status', 'rejected')->count(),
+            'total' => $totalCandidates,
+            'declined' => $declinedCount,
+            'rate' => $totalCandidates > 0
+                ? round(($declinedCount / $totalCandidates) * 100, 1)
+                : 0,
         ];
 
-        $stats['rate'] = $stats['total'] > 0
-            ? round(($stats['declined'] / $stats['total']) * 100, 1)
-            : 0;
         return view('candidate.declined', compact('declinedCandidates', 'stats'));
     }
+
 
     // display interview information on calendar (api)
     public function interviewInfo($id)
     {
         try {
             $interview = Interview::with(['interviewer', 'candidate'])->findOrFail($id);
-            
+
             return response()->json($interview);
-            
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Interview not found'

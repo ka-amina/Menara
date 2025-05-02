@@ -22,3 +22,6 @@ Route::put('/offers/{id}',[OfferController::class,'update']);
 
 
 Route::get('/interviews/{id}', [InterviewController::class, 'interviewInfo']);
+
+Route::get('/jobs', [JobController::class, 'search']);
+Route::get('/offers', [OfferController::class, 'search']);

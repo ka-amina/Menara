@@ -50,7 +50,7 @@ class JobController extends Controller
         if ($request->has('soft_skills')) {
             $job->softSkills()->attach($request->soft_skills);
         }
-        return redirect()->back()->with('success', 'job '.$request->title.' created successfully');
+        return redirect()->back()->with('success', 'job ' . $request->title . ' created successfully');
     }
 
     /**
@@ -81,15 +81,24 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $id)
+    public function destroy($id)
     {
         // dd($id);
 
-        $job=Job::findOrFail($id);
+        $job = Job::findOrFail($id);
         $job->delete();
 
-        return redirect()->back()->with('success', 'job '.$job->title.' deleted successfully');
+        return redirect()->back()->with('success', 'job ' . $job->title . ' deleted successfully');
+    }
 
-        
+    public function search(Request $request)
+    {
+        $query = Job::with(['category', 'hardSkills', 'softSkills']);
+
+        if ($search = $request->query('search')) {
+            $query->where('title', 'LIKE', "%$search%");
+        }
+
+        return response()->json($query->get());
     }
 }

@@ -27,6 +27,8 @@ class OfferController extends Controller
         $companies = Company::where('user_id', Auth::user()->id)->with('user');
         // dd($companies);
         $categories = Category::all();
+        $companiesInputs=Company::all();
+        
 
         if (Gate::allows('isAdmin')) {
             $offers = Offer::paginate(6);
@@ -35,7 +37,7 @@ class OfferController extends Controller
             $offers = Offer::whereIn('company_id', $companyIds)->paginate(6);
         }
 
-        return view('company.offers', compact('jobs', 'categories', 'hardSkills', 'softSkills', 'companies', 'offers'));
+        return view('company.offers', compact('jobs', 'categories', 'hardSkills', 'softSkills', 'companies', 'offers','companiesInputs'));
     }
 
     /**
@@ -110,43 +112,43 @@ class OfferController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    $offer = Offer::findOrFail($id);
-    
-    $validatedData = $request->validate([
-        'job_id' => 'required',
-        'level' => 'required',
-        'location' => 'required',
-        'location_type' => 'required',
-        'requirements' => 'required',
-        'start_date' => 'required',
-        'contract_type' => 'required',
-        'about_offer' => 'required',
-        'hard_skills' => 'array|nullable',
-        'soft_skills' => 'array|nullable',
-    ]);
-    
-    $offer->update([
-        'job_id' => $validatedData['job_id'],
-        'level' => $validatedData['level'],
-        'location' => $validatedData['location'],
-        'location_type' => $validatedData['location_type'],
-        'requirements' => $validatedData['requirements'],
-        'start_date' => $validatedData['start_date'],
-        'contract_type' => $validatedData['contract_type'],
-        'about_offer' => $validatedData['about_offer'],
-    ]);
-    
-    if (isset($validatedData['hard_skills'])) {
-        $offer->hardSkills()->sync($validatedData['hard_skills']);
+    {
+        $offer = Offer::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'job_id' => 'required',
+            'level' => 'required',
+            'location' => 'required',
+            'location_type' => 'required',
+            'requirements' => 'required',
+            'start_date' => 'required',
+            'contract_type' => 'required',
+            'about_offer' => 'required',
+            'hard_skills' => 'array|nullable',
+            'soft_skills' => 'array|nullable',
+        ]);
+
+        $offer->update([
+            'job_id' => $validatedData['job_id'],
+            'level' => $validatedData['level'],
+            'location' => $validatedData['location'],
+            'location_type' => $validatedData['location_type'],
+            'requirements' => $validatedData['requirements'],
+            'start_date' => $validatedData['start_date'],
+            'contract_type' => $validatedData['contract_type'],
+            'about_offer' => $validatedData['about_offer'],
+        ]);
+
+        if (isset($validatedData['hard_skills'])) {
+            $offer->hardSkills()->sync($validatedData['hard_skills']);
+        }
+
+        if (isset($validatedData['soft_skills'])) {
+            $offer->softSkills()->sync($validatedData['soft_skills']);
+        }
+
+        return response()->json(['message' => 'Offer updated successfully!']);
     }
-    
-    if (isset($validatedData['soft_skills'])) {
-        $offer->softSkills()->sync($validatedData['soft_skills']);
-    }
-    
-    return response()->json(['message' => 'Offer updated successfully!']);
-}
 
     /**
      * Remove the specified resource from storage.
@@ -154,5 +156,32 @@ class OfferController extends Controller
     public function destroy(Offer $offer)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->query('search');
+        $company = $request->query('company');
+
+        $query = Offer::with(['job.category', 'company']);
+
+        if ($search) {
+            $query->whereHas('job', function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($c) use ($search) {
+                        $c->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($company) {
+            $query->whereHas('company', function ($q1) use ($company) {
+                $q1->whereHas('user', function ($q2) use ($company) {
+                    $q2->where('name', 'like', "%{$company}%");
+                });
+            });
+        }
+
+        return response()->json($query->get());
     }
 }
