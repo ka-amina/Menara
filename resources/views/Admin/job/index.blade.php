@@ -1,12 +1,28 @@
 @extends('layouts.dashboard')
 
 @section('content')
+@if (session('success'))
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
+
+@if (session('error'))
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('error') }}</span>
+</div>
+@endif
 <div class="min-h-screen flex flex-col w-full">
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
             <!-- Page Title and Add Button -->
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-semibold leading-tight">Jobs</h2>
+                <div class="mb-4">
+                    <input type="text" id="searchInput" placeholder="Search jobs..."
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
                 <button id="openAddModalBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     Add New Job
                 </button>
@@ -32,36 +48,85 @@
                 @endforeach
             </div>
 
+            @if ($jobs->hasPages())
+            <div class="mt-10 flex justify-center">
+                <div class="flex items-center space-x-2">
+                    {{-- Previous Page --}}
+                    @if ($jobs->onFirstPage())
+                    <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    @else
+                    <a href="{{ $jobs->previousPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    @endif
+
+                    {{-- Page Links --}}
+                    @foreach ($jobs->getUrlRange(1, $jobs->lastPage()) as $page => $url)
+                    @if ($page == $jobs->currentPage())
+                    <span class="px-4 py-2 rounded-md border border-primary bg-primary text-white">{{ $page }}</span>
+                    @elseif ($page <= $jobs->currentPage() + 2 && $page >= $jobs->currentPage() - 2)
+                        <a href="{{ $url }}" class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">{{ $page }}</a>
+                        @elseif ($page == $jobs->currentPage() + 3 || $page == $jobs->currentPage() - 3)
+                        <span class="px-4 py-2 text-gray-500">...</span>
+                        @endif
+                        @endforeach
+
+                        {{-- Next Page --}}
+                        @if ($jobs->hasMorePages())
+                        <a href="{{ $jobs->nextPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        @else
+                        <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        @endif
+                </div>
+            </div>
+            @endif
+
             <!-- add job modal -->
             <div id="addJobModal" class="fixed inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 hidden">
                 <div class="bg-white rounded-lg p-6 max-w-md w-full max-h-screen sm:max-h-[90vh] flex flex-col">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Add New Job</h3>
-                    
+
                     <div class="overflow-y-auto flex-grow">
-                        <form action="#" method="POST" id="addJobForm">
+                        <form action="{{route('jobs.store')}}" method="POST" id="addJobForm">
                             @csrf
                             <div class="mb-4">
                                 <label for="job_title" class="block text-sm text-gray-700">Job Title</label>
-                                <input type="text" name="title" id="job_title" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <input type="text" name="title" id="job_title" value="{{ old('title') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('title') ? 'border-red-500' : '' }}">
+                                @if ($errors->has('title'))
+                                <div class="text-red-500 mt-2">{{ $errors->first('title') }}</div>
+                                @endif
                             </div>
                             <div class="mb-4">
                                 <label for="description" class="block text-sm text-gray-700">Description</label>
-                                <textarea name="description" id="description" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                <textarea name="description" id="description" rows="3" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('description') ? 'border-red-500' : '' }}"></textarea>
+                                @if ($errors->has('description'))
+                                <div class="text-red-500 mt-2">{{ $errors->first('description') }}</div>
+                                @endif
                             </div>
                             <div class="mb-4">
-                                <label for="category_id" class="block text-sm text-gray-700">Category</label>
-                                <select name="category_id" id="category_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <label for="category_id" class="block text-sm text-gray-700 ">Category</label>
+                                <select name="category_id" id="category_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('description') ? 'border-red-500' : '' }}">
+                                    <option value="">select category</option>
+                                    @foreach($jobs as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
+                                @if ($errors->has('category_id'))
+                                <div class="text-red-500 mt-2">{{ $errors->first('category_id') }}</div>
+                                @endif
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm text-gray-700">Hard Skills</label>
                                 <div class="mt-1 grid grid-cols-2 gap-2">
                                     @foreach($hardSkills as $hardSkill)
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2">
+                                        <input type="checkbox" name="hard_skills[]" value="{{ $hardSkill->id }}" id="hard_skill_{{ $hardSkill->id }}" class="mr-2" {{ in_array($hardSkill->id, old('hard_skills', [])) ? 'checked' : '' }}>
                                         <label for="hard_skill_{{ $hardSkill->id }}" class="text-sm">{{ $hardSkill->name }}</label>
                                     </div>
                                     @endforeach
@@ -72,7 +137,7 @@
                                 <div class="mt-1 grid grid-cols-2 gap-2">
                                     @foreach($softSkills as $softSkill)
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2">
+                                        <input type="checkbox" name="soft_skills[]" value="{{ $softSkill->id }}" id="soft_skill_{{ $softSkill->id }}" class="mr-2" {{ in_array($softSkill->id, old('soft_skills', [])) ? 'checked' : '' }}>
                                         <label for="soft_skill_{{ $softSkill->id }}" class="text-sm">{{ $softSkill->name }}</label>
                                     </div>
                                     @endforeach
@@ -117,7 +182,13 @@
                     </div>
 
                     <div class="flex justify-end space-x-2 mt-6">
+                        <form id="deleteJobForm" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" id="deleteJobButton" class="bg-red-600 hover:bg-red-900  text-white text-sm px-4 py-2 rounded-md delete-job">Delete</button>
+                        </form>
                         <button id="close-details-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Close</button>
+
                     </div>
                 </div>
             </div>
@@ -142,6 +213,12 @@
             addJobModal.classList.add("hidden");
             addJobModal.classList.remove("flex");
         });
+
+        const hasErrors = JSON.parse("@json($errors->any())");
+        if (hasErrors) {
+            addJobModal.classList.remove('hidden');
+            addJobModal.classList.add('flex');
+        }
 
         addJobModal.addEventListener("click", (e) => {
             if (e.target === addJobModal) {
@@ -205,6 +282,9 @@
                         softSkillsContainer.appendChild(skillTag);
                     });
 
+                    const deleteForm = jobDetailsModal.querySelector("form");
+                    deleteForm.action = `http://localhost:8000/jobs/${jobId}`;
+
                     // Show modal
                     jobDetailsModal.classList.remove("hidden");
                     jobDetailsModal.classList.add("flex");
@@ -212,7 +292,7 @@
             });
         });
 
-        
+
 
         function fetchJobDetails(jobId) {
             return fetch(`/api/jobs/${jobId}`)
@@ -221,6 +301,54 @@
                     console.error('Error fetching job details:', error);
                     alert('An error occurred while loading job details');
                 });
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById("searchInput");
+        const jobGrid = document.querySelector(".grid");
+
+        let debounceTimer;
+        searchInput.addEventListener("input", () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const keyword = searchInput.value.trim();
+                fetchJobs(keyword);
+            }, 300);
+        });
+
+        async function fetchJobs(keyword = "") {
+            try {
+                const response = await fetch(`/api/jobs?search=${encodeURIComponent(keyword)}`);
+                const jobs = await response.json();
+
+                jobGrid.innerHTML = "";
+
+                jobs.forEach(job => {
+                    const card = document.createElement("div");
+                    card.className = "bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer job-card";
+                    card.setAttribute("data-job-id", job.id);
+
+                    card.innerHTML = `
+                    <div class="p-5">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${job.title}</h3>
+                        <div class="text-sm text-gray-600 mb-3">
+                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${job.category.name}</span>
+                        </div>
+                        <p class="text-sm text-gray-700 line-clamp-2 mb-4">${job.description}</p>
+                        <div class="flex justify-between items-center">
+                            <div class="text-xs text-gray-500">
+                                ${job.hard_skills.length} hard skills • ${job.soft_skills.length} soft skills
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                    jobGrid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+            }
         }
     });
 </script>

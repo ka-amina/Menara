@@ -7,14 +7,15 @@
     <!-- Right side - User menu and notifications -->
     <div class="flex items-center space-x-4">
         <!-- Notifications -->
-        <div class="relative">
+        <!-- <div class="relative">
             <button class="relative p-2 text-gray-600 hover:text-gray-800 transition-colors">
                 <i class="fas fa-bell"></i>
                 <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
             </button>
-        </div>
+        </div> -->
 
         <!-- Calendar Icon -->
+        @can('canAccessCandidatesAndInterviews')
         <div class="relative">
             <a href="{{route('calendar.index')}}">
                 <button class="relative p-2 text-gray-600 hover:text-gray-800 transition-colors">
@@ -23,7 +24,7 @@
             </a>
 
         </div>
-
+        @endcan
         <!-- User Menu -->
         <div class="relative group">
             <button class="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-800 transition-colors">
@@ -48,7 +49,7 @@
             <div class="menu_nv absolute right-0 top-full bg-white border border-1 border-gray-300 hidden group-hover:block z-10">
                 <ul class="w-60 flex flex-col">
                     <!-- Profile Link -->
-                    <a href="{{ route('profile') }}">
+                    <a href="{{ route('profile',Auth::user()->id) }}">
                         <li class="flex flex-col w-full py-3 px-4 hover:bg-gray-100">
                             <span>{{ Auth::user()->name }}</span>
                             <span>{{ Auth::user()->email }}</span>
@@ -56,11 +57,11 @@
                     </a>
                     <div class="w-full h-[1.7px] bg-gray-200"></div>
                     <!-- Settings Link -->
-                    <a href="#">
+                    <!-- <a href="#">
                         <li class="w-full py-3 px-4 hover:bg-gray-100">
                             <span>Settings</span>
                         </li>
-                    </a>
+                    </a> -->
 
                     <!-- Logout Link -->
                     <a href="{{ route('logout') }}">

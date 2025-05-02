@@ -1,6 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('content')
+@if (session('success'))
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
+
+@if (session('error'))
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <span class="block sm:inline">{{ session('error') }}</span>
+</div>
+@endif
 <div class="container mx-auto px-4 sm:px-8">
     <div class="py-8">
         <div>
@@ -49,156 +60,174 @@
 
                 </div>
                 <div class="mt-5">
-      <h4 class="font-medium text-gray-800">Required Skills</h4>
-      
-      <div class="mt-2">
-        <p class="text-sm font-medium text-gray-600">Technical Skills:</p>
-        <div class="mt-1 flex flex-wrap gap-2">
-          @foreach($interview->offer->hardSkills as $skill)
-            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{{ $skill->name }}</span>
-          @endforeach
-          @foreach($interview->offer->job->hardSkills as $skill)
-            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{{ $skill->name }}</span>
-          @endforeach
-        </div>
-      </div>
-      
+                    <h4 class="font-medium text-gray-800">Required Skills</h4>
 
-      <div class="mt-3">
-        <p class="text-sm font-medium text-gray-600">Soft Skills:</p>
-        <div class="mt-1 flex flex-wrap gap-2">
-          @foreach($interview->offer->softSkills as $skill)
-            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">{{ $skill->name }}</span>
-          @endforeach
-          @foreach($interview->offer->job->softSkills as $skill)
-            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">{{ $skill->name }}</span>
-          @endforeach
-        </div>
-      </div>
+                    <div class="mt-2">
+                        <p class="text-sm font-medium text-gray-600">Technical Skills:</p>
+                        <div class="mt-1 flex flex-wrap gap-2">
+                            @foreach($interview->offer->hardSkills as $skill)
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{{ $skill->name }}</span>
+                            @endforeach
+                            @foreach($interview->offer->job->hardSkills as $skill)
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{{ $skill->name }}</span>
+                            @endforeach
+                        </div>
+                    </div>
 
 
+                    <div class="mt-3">
+                        <p class="text-sm font-medium text-gray-600">Soft Skills:</p>
+                        <div class="mt-1 flex flex-wrap gap-2">
+                            @foreach($interview->offer->softSkills as $skill)
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">{{ $skill->name }}</span>
+                            @endforeach
+                            @foreach($interview->offer->job->softSkills as $skill)
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">{{ $skill->name }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
-        </div>
 
-        <div class="mt-6 bg-white shadow-md rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-gray-800">Evaluation Questions</h3>
-            <div class="mt-4 overflow-x-auto">
-                <table class="min-w-full leading-normal">
-                    <thead>
-                        <tr>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Question
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Category
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Difficulty
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Response
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Row 1 -->
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Explain the concept of RESTful APIs.</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Technical</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <span class="relative inline-block px-3 py-1 font-semibold text-blue-900 leading-tight">
-                                    <span aria-hidden class="absolute inset-0 bg-blue-200 opacity-50 rounded-full"></span>
-                                    <span class="relative">Medium</span>
-                                </span>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p>response from database</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900"><a href="#">Edit</a></button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Delete</button>
-                            </td>
-                        </tr>
-                        <!-- Row 2 -->
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">What is your approach to handling conflicts in a team?</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">Administrative</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                    <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                    <span class="relative">Easy</span>
-                                </span>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p>response from database</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <button class="text-indigo-600 hover:text-indigo-900"><a href="#">Edit</a></button>
-                                <button class="ml-4 text-red-600 hover:text-red-900">Delete</button>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                    </tbody>
-                </table>
+            <div class="mt-6 bg-white shadow-md rounded-lg p-6">
+                <h3 id="evaluateh" class="text-xl font-semibold text-gray-800">Évaluation du Candidat</h3>
 
-            </div>
-            <div class="mt-6 flex justify-end">
+                @if (!$result)
 
-                <button id="add-question-btn" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Add Question
-                </button>
+                <form method="POST" action="{{ route('evaluations.store') }}">
+                    @csrf
+                    <input type="hidden" name="candidate_id" value="{{ $interview->candidate->id }}">
+                    <input type="hidden" name="offer_id" value="{{ $interview->offer->id }}">
+
+                    <div class="mt-4">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            Does this profile meet the required criteria for this position?
+                        </label>
+                        <div class="flex items-center space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio text-blue-600" name="criteria_met" value="1" >
+                                <span class="ml-2">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio text-red-600" name="criteria_met" value="0" >
+                                <span class="ml-2">No</span>
+                            </label>
+                        </div>
+                        @error('criteria_met')
+                        <div class="text-red-500 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mt-6">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            Justification for the decision:
+                        </label>
+                        <textarea name="decision_justification" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('decision_justification') border-red-500 @enderror" ></textarea>
+                        @error('decision_justification')
+                        <div class="text-red-500 mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+                @else
+                <div id="candidate-result">
+                    <div class="mt-4">
+                        <p class="text-gray-700">
+                            <strong>Criteria Met:</strong>
+                            {{ $result->profile_validated === 1 ? 'Yes' : 'No' }}
+                        </p>
+
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="text-gray-700"><strong>Decision Justification:</strong></p>
+                        <p class="mt-2 text-gray-600">{{ $result->decision_justification }}</p>
+                    </div>
+                    <div class="flex  justify-end ">
+                        <button id="edit-btn" class=" bg-blue-500 text-white p-2 rounded-md">edit</button>
+                    </div>
+                </div>
+
+                <div id="edit-form" class="hidden">
+                    <h3 class="text-xl font-semibold text-gray-800">Edit Évaluation du Candidat</h3>
+
+                    <form method="POST" action="{{ route('evaluations.update',$result->id)}}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="candidate_id" value="{{ $interview->candidate->id }}">
+                        <input type="hidden" name="offer_id" value="{{ $interview->offer->id }}">
+
+                        <div class="mt-4">
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                Does this profile meet the required criteria for this position?
+                            </label>
+                            <div class="flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-blue-600" name="criteria_met" value="1"
+                                        @if($result && $result->profile_validated == 1) checked @endif>
+                                    <span class="ml-2">Yes</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-red-600" name="criteria_met" value="0"
+                                        @if($result && $result->profile_validated == 0) checked @endif>
+                                    <span class="ml-2">No</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <label class="block text-gray-700 font-semibold mb-2">
+                                Justification for the decision:
+                            </label>
+                            <textarea name="decision_justification" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" >{{ $result->decision_justification  }}</textarea>
+                        </div>
+
+                        <div class="mt-6 flex justify-end">
+
+                            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                    <div class="flex justify-end mt-2">
+                        <button id="cancel-btn" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 ">
+                            cancel
+                        </button>
+                    </div>
+                </div>
+                @endif
             </div>
-            <div class="mt-6 flex justify-end">
-                <button class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Submit Evaluation
-                </button>
-            </div>
+
+
+
+
         </div>
     </div>
 
-    <!-- Modal for Adding Question -->
-    <div id="add-question-modal" class="fixed inset-0  items-center justify-center bg-black bg-opacity-50 hidden">
-        <div class="bg-white p-8 rounded-lg w-96">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Select a Question</h3>
-            <div>
-                <select class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="restful_api">Explain the concept of RESTful APIs</option>
-                    <option value="conflict_handling">What is your approach to handling conflicts in a team?</option>
-                </select>
-            </div>
-            <div class="mt-4 flex justify-end space-x-2">
-                <button id="close-modal-btn" type="button" id="closeModalBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <script>
+        const evaluateh = document.getElementById("evaluateh");
+        const editbtn = document.getElementById("edit-btn");
+        const editForm = document.getElementById("edit-form");
+        const candidateResult = document.getElementById("candidate-result");
+        const cancelbtn = document.getElementById("cancel-btn");
+        editbtn.addEventListener('click', function() {
+            editForm.classList.remove('hidden');
+            candidateResult.classList.add('hidden');
+            evaluateh.classList.add("hidden")
 
-<script>
-    const addQuestionBtn = document.getElementById('add-question-btn');
-    const addQuestionModal = document.getElementById('add-question-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
+        });
+        cancelbtn.addEventListener('click', function() {
+            editForm.classList.add('hidden');
+            candidateResult.classList.remove('hidden');
+            evaluateh.classList.remove("hidden")
 
-
-    addQuestionBtn.addEventListener('click', function() {
-        addQuestionModal.classList.remove('hidden');
-        addQuestionModal.classList.add('flex');
-
-    });
-
-    closeModalBtn.addEventListener('click', function() {
-        addQuestionModal.classList.add('hidden');
-    });
-</script>
-@endsection
+        });
+    </script>
+    @endsection

@@ -6,15 +6,18 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\HardSkillController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SoftSkillController;
+use App\Http\Controllers\UserController;
+
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 //Auth
 Route::get('/register',[CompanyController::class,'companyRegister'])->name('companyregister');
@@ -40,12 +43,14 @@ Route::post('/resetPassword', [AuthController::class, 'reset'])->name('reset');
 
 //dashboards
 
-Route::get('/adminDashboard', function () {
-    return view('Admin.index');
-})->name('admindashboard');
-Route::get('/interviewerdashboard', function () {
-    return view('interviewer.index');
-})->name('interviewerdashboard');
+// Route::get('/adminDashboard', function () {
+//     return view('Admin.index');
+// })->name('admindashboard');
+// Route::get('/interviewerdashboard', function () {
+//     return view('interviewer.index');
+// })->name('interviewerdashboard');
+Route::get('/dashboard', [AuthController::class,'index'])->name('dashboard')->middleware('auth');
+
 
 //categories
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
@@ -86,6 +91,8 @@ Route::delete('/hardskills/{hardSkill}', [HardSkillController::class, 'destroy']
 
 //jobs
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
+Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+Route::delete('/jobs/{id}', [JobController::class, 'destroy'])->name('jobs.destroy');
 Route::get('/editjob', function () {
     return view('Admin.job.editjob');
 })->name('editjob');
@@ -94,13 +101,12 @@ Route::get('/editjob', function () {
 //candidates
 
 // inclined candidates
-Route::get('/inclined', function () {
-    return view('candidate.inclined');
-})->name('inclined');
+Route::get('/inclined', [InterviewController::class,'acceptedCandidates'])->name('inclined');
 // declined candidates
-Route::get('/declined', function () {
-    return view('candidate.declined');
-})->name('declined');
+Route::get('/declined', [InterviewController::class,'declinedCandidates'])->name('declined');
+// Route::get('/declined', function () {
+//     return view('candidate.declined');
+// })->name('declined');
 //candidate informations
 Route::get('/candidates/{id}', [CandidateController::class,'show'])->name('candidateinfo');
 //candidate list
@@ -123,21 +129,27 @@ Route::get('/questions', function () {
 Route::get('/interviews', [InterviewController::class, 'index'])->name('evaluations');
 Route::post('/interviews', [InterviewController::class, 'store'])->name('interviews.store');
 Route::delete('/interviews/{interview}', [InterviewController::class, 'destroy'])->name('interviews.destroy');
-Route::get('/evaluations/{interview}', function(){
-    return view('interviewer.evaluations.edit');
-})->name('evaluations.show');
+// Route::get('/evaluations/{interview}', function(){
+//     return view('interviewer.evaluations.edit');
+// })->name('evaluations.show');
 Route::get('/evaluations/{interview}',[InterviewController::class,'show'])->name('evaluations.show');
+Route::post('/evaluations',[EvaluationController::class,'store'])->name('evaluations.store');
+Route::put('/evaluations/{evaluation}',[EvaluationController::class,'update'])->name('evaluations.update');
 
 // users
-Route::get('/users', function () {
-    return view('users.index');
-})->name('users');
-Route::get('/profile', function () {
-    return view('users.show');
-})->name('profile');
-Route::get('/editprofile', function () {
-    return view('users.edit');
-})->name('editprofile');
+// Route::get('/users', function () {
+//     return view('users.index');
+// })->name('users');
+Route::get('/users',[UserController::class,'index'])->name('users');
+// Route::get('/profile', function () {
+//     return view('users.show');
+// })->name('profile');
+// Route::get('/profile/{user}',[UserController::class,'show'])->name('profile');
+Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
+
+Route::get('/editprofile/{id}',[UserController::class,'edit'])->name('editprofile');
+Route::put('/editprofile/{id}',[UserController::class,'update'])->name('user.update');
+
 
 // offer
 
@@ -147,3 +159,8 @@ Route::post('/offers',[OfferController::class,'store'])->name('offers.store');
 
 // callendar
 Route::get('/calendar',[CalendarController::class,'index'])->name('calendar.index');
+
+//add new interviewer
+
+Route::post('/interviewer',[AuthController::class,'register'])->name('interviewer.store');
+Route::delete('/users/{id}',[UserController::class,'destroy'])->name('interviewer.destroy');

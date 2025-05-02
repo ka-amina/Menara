@@ -22,9 +22,25 @@
                     Add New offer
                 </button>
             </div>
+            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="offerSearchInput" placeholder="Search by job title, category, position..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <!-- <input type="text" id="companySearchInput" placeholder="Filter by company name..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"> -->
+                @can('canAccessCandidatesAndInterviews')
+                <select name="company_id" id="companySearchInput" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">select category</option>
+                    @foreach($companiesInputs as $company)
+                    <option value="{{ $company->user->name }}">{{ $company->user->name }}</option>
+                    @endforeach
+                </select>
+                @endcan
+            </div>
+
 
             <!-- offer Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 offersCards">
                 @foreach($offers as $offer)
                 <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card" data-job-id="{{ $offer->id }}">
                     <div class="p-5">
@@ -167,6 +183,7 @@
                                     <div class="mb-4">
                                         <label for="level" class="block text-sm text-gray-700">Experience Level</label>
                                         <select name="level" id="level" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">select level</option>
                                             <option value="junior">Junior</option>
                                             <option value="mid">Mid-level</option>
                                             <option value="senior">Senior</option>
@@ -179,7 +196,40 @@
 
                                     <div class="mb-4">
                                         <label for="location" class="block text-sm text-gray-700">Location</label>
-                                        <input type="text" name="location" id="location" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <select name="location" id="location" class="mt-1 block w-full border p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('location') border-red-500 @enderror">
+                                            <option value="">Select Location</option>
+                                            <option value="Casablanca">Casablanca</option>
+                                            <option value="Rabat">Rabat</option>
+                                            <option value="Tangier">Tangier</option>
+                                            <option value="Marrakesh">Marrakesh</option>
+                                            <option value="Fes">Fes</option>
+                                            <option value="Agadir">Agadir</option>
+                                            <option value="Salé">Salé</option>
+                                            <option value="Chefchaouen">Chefchaouen</option>
+                                            <option value="Oujda">Oujda</option>
+                                            <option value="Kenitra">Kenitra</option>
+                                            <option value="Tétouan">Tétouan</option>
+                                            <option value="Safi">Safi</option>
+                                            <option value="Settat">Settat</option>
+                                            <option value="Mohammedia">Mohammedia</option>
+                                            <option value="Khouribga">Khouribga</option>
+                                            <option value="Beni Mellal">Beni Mellal</option>
+                                            <option value="Nador">Nador</option>
+                                            <option value="Taza">Taza</option>
+                                            <option value="Zagora">Zagora</option>
+                                            <option value="Essaouira">Essaouira</option>
+                                            <option value="Tiznit">Tiznit</option>
+                                            <option value="Ifrane">Ifrane</option>
+                                            <option value="Midelt">Midelt</option>
+                                            <option value="Sidi Kacem">Sidi Kacem</option>
+                                            <option value="Taounate">Taounate</option>
+                                            <option value="Figuig">Figuig</option>
+                                            <option value="Benguerir">Benguerir</option>
+                                            <option value="Tahala">Tahala</option>
+                                            <option value="Moulay Yacoub">Moulay Yacoub</option>
+                                            <option value="Bouarfa">Bouarfa</option>
+                                            <option value="Khemisset">Khemisset</option>
+                                        </select>
                                         @error('location')
                                         <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                                         @enderror
@@ -188,6 +238,7 @@
                                     <div class="mb-4">
                                         <label for="location_type" class="block text-sm text-gray-700">Location Type</label>
                                         <select name="location_type" id="location_type" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">select location type</option>
                                             <option value="onsite">On-site</option>
                                             <option value="remote">Remote</option>
                                             <option value="hybrid">Hybrid</option>
@@ -219,6 +270,7 @@
                                     <div class="mb-4">
                                         <label for="start_date" class="block text-sm text-gray-700">Start Date</label>
                                         <select name="start_date" id="start_date" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">select start date</option>
                                             <option value="flexible">Flexible</option>
                                             <option value="immediately">Immediately</option>
                                         </select>
@@ -230,6 +282,7 @@
                                     <div class="mb-4">
                                         <label for="contract_type" class="block text-sm text-gray-700">Contract Type</label>
                                         <select name="contract_type" id="contract_type" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">select contract type</option>
                                             <option value="full-time">Full-time</option>
                                             <option value="part-time">Part-time</option>
                                             <option value="internship">Internship</option>
@@ -395,7 +448,44 @@
                 </div>
             </div>
 
+            @if ($offers->hasPages())
+            <div class="mt-10 flex justify-center">
+                <div class="flex items-center space-x-2">
+                    {{-- Previous Page --}}
+                    @if ($offers->onFirstPage())
+                    <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    @else
+                    <a href="{{ $offers->previousPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    @endif
 
+                    {{-- Page Links --}}
+                    @foreach ($offers->getUrlRange(1, $offers->lastPage()) as $page => $url)
+                    @if ($page == $offers->currentPage())
+                    <span class="px-4 py-2 rounded-md border border-primary bg-primary text-white">{{ $page }}</span>
+                    @elseif ($page <= $offers->currentPage() + 2 && $page >= $offers->currentPage() - 2)
+                        <a href="{{ $url }}" class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">{{ $page }}</a>
+                        @elseif ($page == $offers->currentPage() + 3 || $page == $offers->currentPage() - 3)
+                        <span class="px-4 py-2 text-gray-500">...</span>
+                        @endif
+                        @endforeach
+
+                        {{-- Next Page --}}
+                        @if ($offers->hasMorePages())
+                        <a href="{{ $offers->nextPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        @else
+                        <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        @endif
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -757,6 +847,60 @@
                 arrow.classList.add('rotate-180');
             }
         });
+    });
+
+    const hasErrors = JSON.parse("@json($errors->any())");
+    if (hasErrors) {
+        addJobModal.classList.remove('hidden');
+        addJobModal.classList.add('flex');
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const offerInput = document.getElementById("offerSearchInput");
+        const companyInput = document.getElementById("companySearchInput");
+        const offerGrid = document.querySelector(".offersCards");
+
+        let debounceTimer;
+
+        [offerInput, companyInput].forEach(input => {
+            input.addEventListener("input", () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    const offerVal = offerInput.value.trim();
+                    const companyVal = companyInput.value.trim();
+                    fetchOffers(offerVal, companyVal);
+                }, 300);
+            });
+        });
+
+        async function fetchOffers(search = "", company = "") {
+            try {
+                const url = `/api/offers?search=${encodeURIComponent(search)}&company=${encodeURIComponent(company)}`;
+                const response = await fetch(url);
+                const offers = await response.json();
+
+                offerGrid.innerHTML = "";
+
+                offers.forEach(offer => {
+                    const card = document.createElement("div");
+                    card.className = "bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card";
+                    card.innerHTML = `
+                    <div class="p-5">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${offer.job.title}</h3>
+                        <div class="text-sm text-gray-600 mb-3">
+                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${offer.status}</span>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-4">${offer.job.description}</p>
+                        <p class="text-sm text-gray-700 line-clamp-2 mb-4">${offer.requirements}</p>
+                    </div>
+                `;
+                    offerGrid.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error("Offer search failed:", err);
+            }
+        }
     });
 </script>
 

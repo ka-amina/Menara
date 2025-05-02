@@ -23,7 +23,7 @@ class SoftSkillController extends Controller
     public function index()
     {
         try {
-            $softSkills = SoftSkill::all();
+            $softSkills = SoftSkill::paginate(10);
             // dd($softSkill);
             return view('Admin.softSkills.index', compact('softSkills'));
         } catch (Exception $e) {

@@ -17,14 +17,14 @@
         <div class="my-2 flex justify-between sm:flex-row flex-col">
             <h2 class="text-2xl font-semibold leading-tight">Candidates Management</h2>
 
-            <div class="block relative">
+            <!-- <div class="block relative">
                 <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                     <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
                         <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"></path>
                     </svg>
                 </span>
                 <input placeholder="Search" class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
-            </div>
+            </div> -->
 
 
             <button id="openModalBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -95,6 +95,44 @@
                 </table>
             </div>
         </div>
+        @if ($candidates->hasPages())
+            <div class="mt-10 flex justify-center">
+                <div class="flex items-center space-x-2">
+                    {{-- Previous Page --}}
+                    @if ($candidates->onFirstPage())
+                    <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    @else
+                    <a href="{{ $candidates->previousPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    @endif
+
+                    {{-- Page Links --}}
+                    @foreach ($candidates->getUrlRange(1, $candidates->lastPage()) as $page => $url)
+                    @if ($page == $candidates->currentPage())
+                    <span class="px-4 py-2 rounded-md border border-primary bg-primary text-white">{{ $page }}</span>
+                    @elseif ($page <= $candidates->currentPage() + 2 && $page >= $candidates->currentPage() - 2)
+                        <a href="{{ $url }}" class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">{{ $page }}</a>
+                        @elseif ($page == $candidates->currentPage() + 3 || $page == $candidates->currentPage() - 3)
+                        <span class="px-4 py-2 text-gray-500">...</span>
+                        @endif
+                        @endforeach
+
+                        {{-- Next Page --}}
+                        @if ($candidates->hasMorePages())
+                        <a href="{{ $candidates->nextPageUrl() }}" class="px-3 py-2 rounded-md border border-gray-300 text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-colors duration-300">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        @else
+                        <span class="px-3 py-2 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        @endif
+                </div>
+            </div>
+            @endif
     </div>
 </div>
 
@@ -107,37 +145,57 @@
 
             <div class="mb-4">
                 <label for="first_name" class="block text-sm text-gray-700">First Name</label>
-                <input type="text" name="first_name" id="first_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="first_name" id="first_name" value="{{ old('first_name') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('first_name') ? 'border-red-500' : '' }} ">
+                @error('first_name')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="last_name" class="block text-sm text-gray-700">Last Name</label>
-                <input type="text" name="last_name" id="last_name" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="last_name" id="last_name" value="{{ old('last_name') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('last_name') ? 'border-red-500' : '' }}">
+                @error('last_name')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="email" class="block text-sm text-gray-700">Email</label>
-                <input type="email" name="email" id="email" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="email" name="email" id="email" value="{{ old('email') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('email') ? 'border-red-500' : '' }}">
+                @error('email')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="phone_number" class="block text-sm text-gray-700">Phone Number</label>
-                <input type="text" name="phone_number" id="phone_number" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('phone_number') ? 'border-red-500' : '' }}">
+                @error('phone_number')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="cv" class="block text-sm text-gray-700">Upload CV</label>
-                <input type="file" name="cv" id="cv" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="file" name="cv" id="cv" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('cv') ? 'border-red-500' : '' }}">
+                @error('cv')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label for="position" class="block text-sm text-gray-700">Position</label>
-                <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('position') ? 'border-red-500' : '' }}">
                     <option value="">Select Position</option>
                     @foreach ($jobs as $job)
-                    <option value="{{ $job->title }}">{{ $job->title }}</option>
+                        <option value="{{ $job->title }}" {{ old('position') == $job->title ? 'selected' : '' }}>
+                            {{ $job->title }}
+                        </option>
                     @endforeach
                 </select>
+                @error('position')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="flex justify-end space-x-2">
@@ -165,6 +223,12 @@
         candidateModal.classList.add('hidden');
         // candidateModal.classList.remove('');
     });
+
+    const hasErrors = JSON.parse("@json($errors->any())");
+    if (hasErrors) {
+        candidateModal.classList.remove('hidden');
+        candidateModal.classList.add('flex');
+    }
 
     // Close modal when clicking outside of it
     window.addEventListener('click', (event) => {

@@ -3,49 +3,83 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\StoreInterviewerRequest;
 use App\Interfaces\UserInterface;
+use App\Models\Candidate;
+use App\Models\Interview;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\PasswordResetNotification;
-use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Gate;
 
 class AuthController extends Controller
 {
     protected $userRepository;
     public function __construct(UserInterface $userRepository)
     {
-        $this->userRepository=$userRepository;
+        $this->userRepository = $userRepository;
+    }
+
+    public function index()
+    {
+        $candidatesCount = Candidate::count();
+        $interviewsCount = Interview::count();
+        $interviewersCount = User::where('role', 'interviewer')->count();
+        $companiesCount = User::where('role', 'interviewer')->count();
+        $recentInterviews = Interview::with(['candidate', 'interviewer'])->orderByDesc('scheduled_at')->limit(5)->get();
+
+        $today = now()->startOfDay();
+        $weekStart = now()->startOfWeek();
+        $weekEnd = now()->endOfWeek();
+        $todaysInterviewsCount = Interview::whereDate('scheduled_at', $today)->where('interviewer_id', Auth::user()->id)->count();
+
+        $pendingInterviews = Interview::whereDate('scheduled_at', $today)
+            ->where('interviewer_id', Auth::id())
+            ->whereHas('candidate', function ($query) {
+                $query->where('status', 'pending');
+            })
+            ->count();
+        // dd($pendingInterviews);
+
+        $candidatesThisWeek = Candidate::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        if (Gate::allows('isAdmin')) {
+            return view('Admin.index', compact('candidatesCount', 'interviewersCount', 'companiesCount', 'interviewsCount', 'recentInterviews'));
+        }
+
+        if (Gate::allows('isInterviewer')) {
+            return view('interviewer.index', compact('candidatesCount', 'interviewsCount', 'todaysInterviewsCount', 'pendingInterviews', 'candidatesThisWeek'));
+        }
     }
 
 
-    public function register(Request $request)
+    public function register(StoreInterviewerRequest  $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|unique:users',
-        ]);
+        // dd($request->all());
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'email' => 'required|string|unique:users',
+        //     'phone' => 'required|string'
+        // ]);
 
-        return $this->userRepository->create($request->all());
+        $this->userRepository->create($request->all());
+
+        return redirect()->back()->with('success', 'Interviewer created successfully.');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'invalid credentials'
-            ], 401);
+            return back()->withErrors([
+                'general_error' => 'Invalid credentials'
+            ])->withInput($request->only('email'));
         }
         Auth::login($user);
         $data['token'] = $user->createToken($request->name . 'Auth-Token')->plainTextToken;
@@ -57,10 +91,14 @@ class AuthController extends Controller
         ];
         // dd(Auth::user()->role);
         // if ($request->expectsJson()) {
-            // return response()->json($response, 200);
+        // return response()->json($response, 200);
         // }
         // return response()->json($response, 200);
-        return redirect()->route('admindashboard');
+        if (Gate::allows('isCompany')) {
+            return redirect()->route('offers.show');
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function logout(Request $request)
@@ -103,13 +141,13 @@ class AuthController extends Controller
         }
 
 
-        $user->notify(
-            new PasswordResetNotification(
-                $user,
-                $resetPasswordToken,
-            )
-        );
-        
+        // $user->notify(
+        //     new PasswordResetNotification(
+        //         $user,
+        //         $resetPasswordToken,
+        //     )
+        // );
+
 
         // return response()->json([
         //     'status' => 'success',
@@ -117,25 +155,23 @@ class AuthController extends Controller
         //     // 'token'=>$resetPasswordToken,
         // ], 200);
         return redirect()->route('reset');
-
-        
     }
 
-    public function reset (ResetPasswordRequest $request)
+    public function reset(ResetPasswordRequest $request)
     {
         $attributes = $request->validated();
-        $user=User::where('email',$attributes['email'])->first();
+        $user = User::where('email', $attributes['email'])->first();
 
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'status' => 'faild',
                 'message' => 'no record found',
             ], 404);
         }
 
-        $resetRequest= PasswordReset::where('email', $user->email)->first();
+        $resetRequest = PasswordReset::where('email', $user->email)->first();
 
-        if(!$resetRequest || $resetRequest->token != $request->token){
+        if (!$resetRequest || $resetRequest->token != $request->token) {
             return response()->json([
                 'status' => 'faild',
                 'message' => 'token mismatch',
@@ -151,14 +187,13 @@ class AuthController extends Controller
 
         $resetRequest->delete();
 
-        $token=$user->createToken('Auth-Token')->plainTextToken;
+        $token = $user->createToken('Auth-Token')->plainTextToken;
 
-        
+
         // return response()->json([
         //     'message' => 'password Reset success',
         //     'accessToken' => $token,
         // ], 201);
         return redirect()->route('interviewerdashboard');
-        
     }
 }

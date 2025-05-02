@@ -22,7 +22,7 @@ class HardSkillController extends Controller
     public function index()
     {
         try {
-            $hardSkills = HardSkill::all();
+            $hardSkills = HardSkill::paginate(10);
             // dd($hardSkills);
             return view('Admin.hardSkills.index', compact('hardSkills'));
         } catch (Exception $e) {

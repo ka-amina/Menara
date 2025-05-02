@@ -20,22 +20,25 @@ class UserRepository implements UserInterface
 
     public function create($data){
         $randomPassword=Str::random(8);
+        // dd($randomPassword);
         $user=User::create([
             'name'=>$data['name'],
             'email'=>$data['email'],
+            'phone'=>$data['phone'],
             'password' => bcrypt($randomPassword),
             'role'=>'interviewer'
 
         ]);
+        
         if ($user->save()) {
             $tokenResult = $user->createToken('personal acces token');
             $token = $tokenResult->plainTextToken;
 
-            $user->notify(
-                new SendPasswordNotification(
-                    $randomPassword,$user->name
-                )
-            );
+            // $user->notify(
+            //     new SendPasswordNotification(
+            //         $randomPassword,$user->name
+            //     )
+            // );
 
             return response()->json([
                 'message' => 'Successfully created user!',

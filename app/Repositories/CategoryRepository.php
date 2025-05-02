@@ -19,7 +19,7 @@ class CategoryRepository implements CategoryInterface
     public function getAll()
     {
         try {
-            return Category::all();
+            return Category::paginate(10);
         } catch (Exception $e) {
             return response()->json(['error' => 'failed to fetch categories:' . $e->getMessage()], 500);
         }

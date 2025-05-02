@@ -75,22 +75,15 @@ class CompanyController extends Controller
         return view('company.register', compact('categories'));
     }
 
-    public function register(Request $request)
+    public function register(StoreCompanyRequest $request)
     {
         DB::beginTransaction();
         try {
-            $request->validate([
-                'name' => 'required|string',
-                'email' => 'required|string|unique:users',
-                'password' => 'required|string',
-                'phone' => 'required|string',
-                'industry' => 'required|string',
-                'address' => 'required|string',
-                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-                'description' => 'nullable|string'
-            ]);
+            $avatarPath = null;
 
-            $avatarPath = $request->file('logo')->store('company_logos', 'public');
+            if ($request->hasFile('logo')) {
+                $avatarPath = $request->file('logo')->store('company_logos', 'public');
+            }
 
             $user = User::create([
                 'name' => $request->name,
@@ -119,19 +112,18 @@ class CompanyController extends Controller
 
             // dd($company);
             DB::table('companies')->insert([
-                'user_id' => $user->id,
-                'category_id'=>$request->industry,
-                'description'=>$request->description,
-                'address'=>$request->address
+            'user_id' => $user->id,
+            'category_id' => $request->industry,
+            'description' => $request->description,
+            'address' => $request->address
+        ]);
 
-            ]);
             DB::commit();
 
-            return redirect()->route('login');
-        } catch (Exception $e) {
-            DB::rollBack();
-            session()->flash('error', 'Failed to create career record. Please try again'. $e);
-            dd($e);
+            return redirect()->route('login')->with('success', 'Your company account has been created successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();    
+            return redirect()->back()->with('error', 'Failed to create your company account. Please try again.')->withInput();
         }
     }
 }
