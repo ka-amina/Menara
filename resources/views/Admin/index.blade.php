@@ -1,4 +1,6 @@
 @extends('layouts.dashboard')
+@section('title', 'Menara - Dashboard')
+
 <div class="min-h-screen flex flex-col w-full">
     @section('content')
     @if (session('success'))

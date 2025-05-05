@@ -1,4 +1,6 @@
 @extends('layouts.dashboard')
+@section('title', 'Menara - Categories')
+
 
 @section('content')
 <div class="min-h-screen flex flex-col w-full">

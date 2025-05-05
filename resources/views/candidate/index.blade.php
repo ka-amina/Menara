@@ -1,5 +1,7 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Menara - Candidates')
+
 @section('content')
 <div class="container mx-auto px-4 sm:px-8">
     @if (session('success'))

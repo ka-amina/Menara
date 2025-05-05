@@ -1,5 +1,6 @@
-{{-- resources/views/calendar/index.blade.php --}}
 @extends('layouts.dashboard')
+
+@section('title', 'Menara - Calendar')
 
 @section('content')
 <div class="container mx-auto px-4 sm:px-8">

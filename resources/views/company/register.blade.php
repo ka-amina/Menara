@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
+@section('title', 'Menara - Register')
+
 @section('content')
 <div class="max-w-2xl w-full mx-auto rounded-xl shadow-[0_2px_10px_-2px_rgba(195,169,50,0.5)] p-8 relative mt-12">
     <form action="{{route('register')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="flex justify-center my-5">
-            <img src="#" alt="Logo" class="w-20 h-20">
+        <div class="flex justify-center my-3">
+        <img id="profile-image-preview" src="{{ asset('logo_transparent.png') }}" alt="Profile" class=" h-24 object-cover ">
+
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

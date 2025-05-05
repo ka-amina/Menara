@@ -1,5 +1,8 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Menara - Candidate')
+
+
 @section('content')
 <div class="container mx-auto px-4 sm:px-8 py-8 flex justify-center">
   <div class="w-full">

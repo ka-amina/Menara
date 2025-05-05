@@ -22,7 +22,7 @@ class StoreOfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_id' => 'required',
+            'job_id' => 'nullable',
             // 'company_id' => 'required|exists:companies,id',
             'level' => 'required|in:junior,mid,senior,lead',
             'location' => 'nullable|string|max:255',
@@ -38,7 +38,6 @@ class StoreOfferRequest extends FormRequest
     public function messages(): array
 {
     return [
-        'job_id.required' => 'A job must be selected',
         'level.required' => 'The experience level is required',
         'level.in' => 'The experience level must be junior, mid, senior or lead',
         'location_type.required' => 'The location type is required',

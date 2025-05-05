@@ -1,4 +1,6 @@
 @extends('layouts.dashboard')
+@section('title', 'Menara - Edit Soft Skill')
+
 <div class="min-h-screen flex flex-col w-full">
     @section('content')
     <div id="categoryModal" class="fixed flex inset-0 justify-center items-center bg-gray-500 bg-opacity-50 z-50 ">
