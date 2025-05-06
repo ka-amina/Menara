@@ -4,7 +4,19 @@
 
 
 @section('content')
+@if (session('success'))
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+  <span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
+
+@if (session('error'))
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+  <span class="block sm:inline">{{ session('error') }}</span>
+</div>
+@endif
 <div class="container mx-auto px-4 sm:px-8 py-8 flex justify-center">
+
   <div class="w-full">
     <h2 class="text-2xl font-semibold text-center mb-6">Candidate Details</h2>
 
@@ -18,8 +30,8 @@
         </div>
         <p><strong>Name:</strong> {{ $candidate->first_name }} {{ $candidate->last_name }}</p>
         <p><strong>Email:</strong> {{ $candidate->email }}</p>
-        <p><strong>Position Applied:</strong> {{ $candidate->position ?? 'N/A' }}</p>
-        <p><strong>Score:</strong> {{ $candidate->score ?? 'N/A' }}/100</p>
+        <p><strong>Position Applied:</strong> {{ $candidate->offer->job->title ?? 'N/A' }}</p>
+        <!-- <p><strong>Score:</strong> {{ $candidate->score ?? 'N/A' }}/100</p> -->
         <p><strong>Status:</strong>
           @if ($candidate->status === 'accepted')
           <span class="text-green-600 font-semibold">Accepted</span>
@@ -105,13 +117,13 @@
 
         <div class="mb-4">
           <label for="position" class="block text-sm text-gray-700">Position</label>
-          <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('position') ? 'border-red-500' : '' }}">
+          <select name="offer_id" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('offer_id') ? 'border-red-500' : '' }}">
             <option value="">Select Position</option>
-            @foreach ($jobs as $job)
-            <option value="{{ $job->title }}" {{ $job->title == $candidate->position ? 'selected' : '' }}>{{ $job->title }}</option>
+            @foreach ($jobs as $offer)
+            <option value="{{ $offer->id }}" {{ $offer->id == $candidate->offer_id ? 'selected' : '' }}>{{ $offer->job->title }} - {{$offer->company->user->name}}</option>
             @endforeach
           </select>
-          @error('position')
+          @error('offer_id')
           <div class="text-red-500 mt-2">{{ $message }}</div>
           @enderror
         </div>

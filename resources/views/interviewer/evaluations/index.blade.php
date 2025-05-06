@@ -134,7 +134,7 @@
         <select name="candidate_id" id="candidate_id" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('candidate_id') ? 'border-red-500' : '' }}" >
           <option value="">Select Candidate</option>
           @foreach ($candidates as $candidate)
-          <option value="{{ $candidate->id }}" {{ old('candidate_id') == $candidate->id ? 'selected' : '' }}>{{ $candidate->first_name }} {{ $candidate->last_name }}</option>
+          <option value="{{ $candidate->id }}" {{ old('candidate_id') == $candidate->id ? 'selected' : '' }}>{{ $candidate->first_name }} {{ $candidate->last_name }} - {{$candidate->offer->job->title}} of {{$candidate->offer->company->user->name}}</option>
           @endforeach
         </select>
         @error('candidate_id')
