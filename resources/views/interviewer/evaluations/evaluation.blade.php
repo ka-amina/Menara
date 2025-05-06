@@ -1,5 +1,6 @@
-<!-- File: evaluation.blade.php -->
 @extends('layouts.dashboard')
+
+@section('title', 'Menara - Evaluations')
 
 @section('content')
 <div class="container mx-auto px-4 sm:px-8">

@@ -1,4 +1,5 @@
 @extends('layouts.dashboard')
+@section('title', 'Menara - jobs')
 
 @section('content')
 @if (session('success'))

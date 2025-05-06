@@ -1,5 +1,7 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Menara - Soft Skills')
+
 @section('content')
 <div class="min-h-screen flex flex-col w-full">
     @if (session('success'))

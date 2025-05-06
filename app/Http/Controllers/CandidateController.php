@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCandidateRequest;
 use App\Http\Requests\UpdateCandidateRequest;
 use App\Models\Candidate;
 use App\Models\Job;
+use App\Models\Offer;
 use Illuminate\Http\Request;
 
 class CandidateController extends Controller
@@ -13,13 +14,13 @@ class CandidateController extends Controller
     public function index()
     {
         $candidates = Candidate::paginate(6);
-        $jobs = Job::all();
+        $jobs = Offer::all();
         return view('candidate.index', compact('candidates', 'jobs'));
     }
     public function show($id)
     {
         $candidate = Candidate::findOrFail($id);
-        $jobs = Job::all();
+        $jobs = Offer::all();
         return view('candidate.show', compact('candidate', 'jobs'));
     }
 
@@ -45,7 +46,7 @@ class CandidateController extends Controller
             'email' => $data['email'],
             'phone_number' => $data['phone_number'],
             'cv_path' => $path,
-            'position' => $data['position'],
+            'offer_id' => $data['offer_id'],
         ]);
 
 

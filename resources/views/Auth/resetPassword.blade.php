@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
+@section('title', 'Menara - Reset Password')
+
 @section('content')
 
 <div
     class="max-w-md w-full mx-auto rounded-xl shadow-[0_2px_10px_-2px_rgba(195,169,50,0.5)] p-8 relative mt-12">
     <form action="{{route('reset')}}" method="POST">
         @csrf
-        <div class="flex justify-center my-5">logo</div>
+        <div class="flex justify-center my-5">
+        <img id="profile-image-preview" src="{{ asset('logo_transparent.png') }}" alt="Profile" class=" h-24 object-cover ">
+        </div>
         <div class="flex justify-center my-5">
             <h2 class="text-2xl font-bold text-primary">Reset Password</h2>
         </div>

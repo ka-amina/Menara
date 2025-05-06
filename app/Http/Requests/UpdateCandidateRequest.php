@@ -27,7 +27,7 @@ class UpdateCandidateRequest extends FormRequest
             'email' => 'nullable|email|max:255,',
             'phone_number' => 'required|string|max:20',
             'cv' => 'nullable|file|mimes:pdf,doc,docx',
-            'position' => 'required|string',
+            'offer_id' => 'required|exists:offers,id',
             'status' => 'nullable|string',
             'interview_date' => 'nullable|date',
         ];
@@ -50,7 +50,8 @@ class UpdateCandidateRequest extends FormRequest
 
             'cv.mimes' => 'CV must be a PDF, DOC, or DOCX file.',
 
-            'position.required' => 'Please select a position.',
+            'offer_id.required' => 'Please select a job offer.',
+            'offer_id.exists' => 'The selected job offer does not exist.',
 
             'status.in' => 'Please select a valid status.',
 

@@ -16,7 +16,7 @@ class Candidate extends Model
         'email',
         'phone_number',
         'cv_path',
-        'position',
+        'offer_id',
         'score',
         'status',
     ];
@@ -24,5 +24,9 @@ class Candidate extends Model
     public function interviews()
     {
         return $this->hasMany(Interview::class);
+    }
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class);
     }
 }

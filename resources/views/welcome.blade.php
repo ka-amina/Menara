@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,43 +11,54 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+
         .hero-pattern {
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234299e1' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
+
         .testimonial-card {
             transition: transform 0.3s ease;
         }
+
         .testimonial-card:hover {
             transform: translateY(-5px);
         }
+
         .feature-card {
             transition: all 0.3s ease;
         }
+
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+
         .process-card {
             transition: all 0.3s ease;
         }
+
         .process-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .faq-item {
             transition: all 0.2s ease;
         }
+
         .faq-item:hover {
             background-color: #f9fafb;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800">
     <!-- Header -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="https://via.placeholder.com/120x60" alt="Logo" class="h-10">
+                <img id="profile-image-preview" src="{{ asset('logo_transparent.png') }}" alt="Profile" class=" h-16 object-cover ">
+
                 <h1 class="ml-3 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700">Menara</h1>
             </div>
             <nav class="hidden md:flex space-x-8">
@@ -84,7 +96,7 @@
         <div class="container mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
             <div class="md:w-1/2 mb-10 md:mb-0">
                 <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Recrutez les <span class="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200">meilleurs talents</span> avec Menara</h2>
-                <p class="text-xl mb-8 text-blue-100">Publiez vos offres d'emploi, recevez des rapports détaillés sur les candidats et optimisez votre processus de recrutement.</p>
+                <p class="text-xl mb-8 text-blue-500">Publiez vos offres d'emploi, recevez des rapports détaillés sur les candidats et optimisez votre processus de recrutement.</p>
                 <div class="flex flex-wrap">
                     <a href="{{route('companyregister')}}" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-lg mr-4 mb-4 md:mb-0 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
                         <i class="fas fa-user-plus mr-2"></i>Créer un compte entreprise
@@ -101,7 +113,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Wave SVG -->
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
             <svg class="relative block w-full h-16" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -142,7 +154,7 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Comment ça marche</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">Notre plateforme simplifie votre processus de recrutement en quatre étapes simples.</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
@@ -153,7 +165,7 @@
                     <h3 class="text-xl font-semibold mb-3">1. Inscrivez votre entreprise</h3>
                     <p class="text-gray-600">Créez un compte entreprise et configurez votre profil avec vos besoins spécifiques.</p>
                 </div>
-                
+
                 <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
                         <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center">
@@ -163,7 +175,7 @@
                     <h3 class="text-xl font-semibold mb-3">2. Publiez vos offres</h3>
                     <p class="text-gray-600">Créez et publiez des offres d'emploi détaillées avec les compétences requises pour chaque poste.</p>
                 </div>
-                
+
                 <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
                         <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center">
@@ -173,7 +185,7 @@
                     <h3 class="text-xl font-semibold mb-3">3. Suivi des entretiens</h3>
                     <p class="text-gray-600">Notre équipe assigne les entretiens aux recruteurs spécialisés dans votre secteur d'activité.</p>
                 </div>
-                
+
                 <div class="p-6 bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-shadow text-center process-card">
                     <div class="text-blue-600 text-4xl mb-4 flex justify-center">
                         <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center">
@@ -195,7 +207,7 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Pourquoi choisir Menara?</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">Découvrez comment notre plateforme peut transformer votre processus de recrutement.</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
@@ -204,7 +216,7 @@
                     <h3 class="text-xl font-semibold mb-3">Recrutement ciblé</h3>
                     <p class="text-gray-600">Nos recruteurs spécialisés évaluent les compétences techniques et transversales spécifiques à votre secteur pour trouver les candidats parfaitement adaptés à vos besoins.</p>
                 </div>
-                
+
                 <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-clock"></i>
@@ -212,7 +224,7 @@
                     <h3 class="text-xl font-semibold mb-3">Gain de temps</h3>
                     <p class="text-gray-600">Réduisez de 40% le temps consacré aux entretiens préliminaires et concentrez vos ressources sur les candidats les plus prometteurs pour votre entreprise.</p>
                 </div>
-                
+
                 <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-file-alt"></i>
@@ -220,7 +232,7 @@
                     <h3 class="text-xl font-semibold mb-3">Rapports détaillés</h3>
                     <p class="text-gray-600">Accédez à des évaluations complètes pour chaque candidat avec des scores précis sur les compétences clés et des recommandations personnalisées.</p>
                 </div>
-                
+
                 <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-users"></i>
@@ -228,7 +240,7 @@
                     <h3 class="text-xl font-semibold mb-3">Expertise spécialisée</h3>
                     <p class="text-gray-600">Notre réseau de recruteurs experts couvre tous les secteurs d'activité et possède une connaissance approfondie des compétences recherchées.</p>
                 </div>
-                
+
                 <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-database"></i>
@@ -236,7 +248,7 @@
                     <h3 class="text-xl font-semibold mb-3">Analyse de données</h3>
                     <p class="text-gray-600">Profitez de tableaux de bord analytiques pour suivre vos performances de recrutement et identifier des tendances utiles.</p>
                 </div>
-                
+
                 <div class="bg-gradient-to-br from-white to-blue-50 p-8 rounded-xl shadow-md feature-card">
                     <div class="text-blue-600 text-4xl mb-4">
                         <i class="fas fa-handshake"></i>
@@ -256,7 +268,7 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Ils nous font confiance</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">Rejoignez les entreprises leaders qui transforment leur recrutement avec Menara.</p>
             </div>
-            
+
             <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
                 <div class="p-4 flex justify-center">
                     <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
@@ -285,7 +297,7 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Ce que nos clients disent</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">Découvrez comment Menara a transformé le processus de recrutement de ces entreprises.</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="p-8 bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-md testimonial-card">
                     <div class="flex items-center mb-6">
@@ -306,7 +318,7 @@
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
-                
+
                 <div class="p-8 bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-md testimonial-card">
                     <div class="flex items-center mb-6">
                         <div class="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
@@ -326,7 +338,7 @@
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
-                
+
                 <div class="p-8 bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-md testimonial-card">
                     <div class="flex items-center mb-6">
                         <div class="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
@@ -354,8 +366,8 @@
     <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white relative overflow-hidden">
         <div class="absolute top-0 right-0 w-1/3 h-full opacity-10">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white">
-                <circle cx="25" cy="25" r="20"/>
-                <circle cx="75" cy="75" r="20"/>
+                <circle cx="25" cy="25" r="20" />
+                <circle cx="75" cy="75" r="20" />
             </svg>
         </div>
         <div class="container mx-auto px-4 text-center relative z-10">
@@ -412,16 +424,16 @@
             // Mobile menu toggle
             const menuButton = document.querySelector('button.md:hidden');
             const mobileMenu = document.getElementById('mobile-menu');
-            
+
             if (menuButton && mobileMenu) {
                 menuButton.addEventListener('click', function() {
                     mobileMenu.classList.toggle('hidden');
                 });
             }
-            
+
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+                anchor.addEventListener('click', function(e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
@@ -434,4 +446,5 @@
         });
     </script>
 </body>
+
 </html>

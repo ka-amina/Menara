@@ -1,5 +1,7 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Menara - Candidates')
+
 @section('content')
 <div class="container mx-auto px-4 sm:px-8">
     @if (session('success'))
@@ -62,7 +64,7 @@
                                 <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->first_name }} {{ $candidate->last_name }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->position ?? 'N/A' }}</p>
+                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->offer->job->title ?? 'N/A' }} - {{ $candidate->offer->company->user->name ?? 'N/A' }} </p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <span class="relative inline-block px-3 py-1 font-semibold leading-tight">
@@ -185,15 +187,15 @@
 
             <div class="mb-4">
                 <label for="position" class="block text-sm text-gray-700">Position</label>
-                <select name="position" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('position') ? 'border-red-500' : '' }}">
+                <select name="offer_id" id="position" class="mt-1 block w-full border p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('offer_id') ? 'border-red-500' : '' }}">
                     <option value="">Select Position</option>
-                    @foreach ($jobs as $job)
-                        <option value="{{ $job->title }}" {{ old('position') == $job->title ? 'selected' : '' }}>
-                            {{ $job->title }}
+                    @foreach ($jobs as $offer)
+                        <option value="{{ $offer->id }}" {{ old('offer_id') == $offer->id ? 'selected' : '' }}>
+                            {{ $offer->job->title }} - {{$offer->company->user->name}}
                         </option>
                     @endforeach
                 </select>
-                @error('position')
+                @error('offer_id')
                     <div class="text-red-500 mt-2">{{ $message }}</div>
                 @enderror
             </div>

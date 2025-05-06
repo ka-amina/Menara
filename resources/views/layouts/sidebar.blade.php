@@ -3,11 +3,10 @@
     <div id="sidebar" class="bg-[#2c3e50] text-white w-16 transition-all duration-300">
 
         <div class="p-4 flex items-center">
-            <div class="flex items-center group relative">
-                <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                    <span class="text-xl font-bold">L</span>
-                </div>
-                <span class="ml-3 font-semibold text-xl sidebar-text hidden">Logo</span>
+            <div class="flex items-center group relative ">
+            <img id="profile-image-preview" src="{{ asset('logo.png') }}" alt="Profile" class="w-[40px] h-[40px] object-cover ">
+
+                <span class="ml-3 font-semibold text-xl sidebar-text hidden">Menara</span>
             </div>
         </div>
 
