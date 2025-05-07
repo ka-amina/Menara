@@ -201,6 +201,7 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Add Job Modal Logic
         const openAddModalBtn = document.getElementById("openAddModalBtn");
         const closeAddModalBtn = document.getElementById("closeAddModalBtn");
         const addJobModal = document.getElementById("addJobModal");
@@ -228,13 +229,12 @@
             }
         });
 
-        // Job Details 
+        // Job Details Modal Logic
         const jobDetailsModal = document.getElementById("jobDetailsModal");
         const closeDetailsModalBtn = document.getElementById("closeDetailsModalBtn");
         const closeDetailsBtn = document.getElementById("close-details-btn");
-        const jobCards = document.querySelectorAll(".job-card");
 
-        // Close details 
+        // Close details modal buttons
         closeDetailsModalBtn.addEventListener("click", () => {
             jobDetailsModal.classList.add("hidden");
             jobDetailsModal.classList.remove("flex");
@@ -252,59 +252,10 @@
             }
         });
 
-        // Job card click to show details
-        jobCards.forEach(card => {
-            card.addEventListener("click", (e) => {
+        // Attach click event listeners to initial job cards
+        attachJobCardEventListeners();
 
-                const jobId = card.dataset.jobId;
-
-                fetchJobDetails(jobId).then(data => {
-                    document.getElementById("modal-job-title").textContent = data.title;
-                    document.getElementById("modal-category").textContent = data.category.name;
-                    document.getElementById("modal-description").textContent = data.description;
-
-                    // Hard skills
-                    const hardSkillsContainer = document.getElementById("modal-hard-skills");
-                    hardSkillsContainer.innerHTML = '';
-                    data.hard_skills.forEach(skill => {
-                        const skillTag = document.createElement("span");
-                        skillTag.className = "inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs";
-                        skillTag.textContent = skill.name;
-                        hardSkillsContainer.appendChild(skillTag);
-                    });
-
-                    // Soft skills
-                    const softSkillsContainer = document.getElementById("modal-soft-skills");
-                    softSkillsContainer.innerHTML = '';
-                    data.soft_skills.forEach(skill => {
-                        const skillTag = document.createElement("span");
-                        skillTag.className = "inline-block bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs";
-                        skillTag.textContent = skill.name;
-                        softSkillsContainer.appendChild(skillTag);
-                    });
-
-                    const deleteForm = jobDetailsModal.querySelector("form");
-                    deleteForm.action = `http://localhost:8000/jobs/${jobId}`;
-
-                    // Show modal
-                    jobDetailsModal.classList.remove("hidden");
-                    jobDetailsModal.classList.add("flex");
-                });
-            });
-        });
-
-
-
-        function fetchJobDetails(jobId) {
-            return fetch(`/api/jobs/${jobId}`)
-                .then(response => response.json())
-                .catch(error => {
-                    console.error('Error fetching job details:', error);
-                    alert('An error occurred while loading job details');
-                });
-        }
-    });
-    document.addEventListener('DOMContentLoaded', function() {
+        // Search functionality
         const searchInput = document.getElementById("searchInput");
         const jobGrid = document.querySelector(".grid");
 
@@ -330,26 +281,82 @@
                     card.setAttribute("data-job-id", job.id);
 
                     card.innerHTML = `
-                    <div class="p-5">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${job.title}</h3>
-                        <div class="text-sm text-gray-600 mb-3">
-                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${job.category.name}</span>
-                        </div>
-                        <p class="text-sm text-gray-700 line-clamp-2 mb-4">${job.description}</p>
-                        <div class="flex justify-between items-center">
-                            <div class="text-xs text-gray-500">
-                                ${job.hard_skills.length} hard skills • ${job.soft_skills.length} soft skills
-                            </div>
+                <div class="p-5">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">${job.title}</h3>
+                    <div class="text-sm text-gray-600 mb-3">
+                        <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${job.category.name}</span>
+                    </div>
+                    <p class="text-sm text-gray-700 line-clamp-2 mb-4">${job.description}</p>
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs text-gray-500">
+                            ${job.hard_skills.length} hard skills • ${job.soft_skills.length} soft skills
                         </div>
                     </div>
+                </div>
                 `;
 
                     jobGrid.appendChild(card);
                 });
 
+                // Re-attach event listeners to the new job cards
+                attachJobCardEventListeners();
+
             } catch (error) {
                 console.error("Error fetching jobs:", error);
             }
+        }
+
+        // Function to attach event listeners to job cards
+        function attachJobCardEventListeners() {
+            const jobCards = document.querySelectorAll(".job-card");
+
+            jobCards.forEach(card => {
+                card.addEventListener("click", (e) => {
+                    const jobId = card.dataset.jobId;
+
+                    fetchJobDetails(jobId).then(data => {
+                        document.getElementById("modal-job-title").textContent = data.title;
+                        document.getElementById("modal-category").textContent = data.category.name;
+                        document.getElementById("modal-description").textContent = data.description;
+
+                        // Hard skills
+                        const hardSkillsContainer = document.getElementById("modal-hard-skills");
+                        hardSkillsContainer.innerHTML = '';
+                        data.hard_skills.forEach(skill => {
+                            const skillTag = document.createElement("span");
+                            skillTag.className = "inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs";
+                            skillTag.textContent = skill.name;
+                            hardSkillsContainer.appendChild(skillTag);
+                        });
+
+                        // Soft skills
+                        const softSkillsContainer = document.getElementById("modal-soft-skills");
+                        softSkillsContainer.innerHTML = '';
+                        data.soft_skills.forEach(skill => {
+                            const skillTag = document.createElement("span");
+                            skillTag.className = "inline-block bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs";
+                            skillTag.textContent = skill.name;
+                            softSkillsContainer.appendChild(skillTag);
+                        });
+
+                        const deleteForm = jobDetailsModal.querySelector("form");
+                        deleteForm.action = `http://localhost:8000/jobs/${jobId}`;
+
+                        // Show modal
+                        jobDetailsModal.classList.remove("hidden");
+                        jobDetailsModal.classList.add("flex");
+                    });
+                });
+            });
+        }
+
+        function fetchJobDetails(jobId) {
+            return fetch(`/api/jobs/${jobId}`)
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error fetching job details:', error);
+                    alert('An error occurred while loading job details');
+                });
         }
     });
 </script>

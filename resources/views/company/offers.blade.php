@@ -20,9 +20,11 @@
         <div class="py-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-semibold leading-tight">Offers</h2>
+                @can('isCompany')
                 <button id="openAddModalBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     Add New offer
                 </button>
+                @endcan
             </div>
             <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" id="offerSearchInput" placeholder="Search by job title, category, position..."
@@ -441,9 +443,11 @@
                     </div>
 
                     <div class="flex justify-end space-x-2 mt-4">
+                        @can('isCompany')
                         <button id="editOffer" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                             Edit
                         </button>
+                        @endcan
                         <button id="close-details-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Close</button>
 
                     </div>
@@ -495,335 +499,252 @@
 
 @section('scripts')
 <script>
-    const jobSelect = document.getElementById("job_id");
-    const jobDetailsModal = document.getElementById("jobDetailsModal");
-    const closeDetailsModalBtn = document.getElementById("closeDetailsModalBtn");
-
-    jobSelect.addEventListener("change", function() {
-        const jobId = jobSelect.value;
-        // console.log(jobSelect.value);
-        if (jobId) {
-            fetchJobDetails(jobId);
-        }
-    });
-
-    async function fetchJobDetails(jobId) {
-        try {
-            console.log("Fetching job details for ID:", jobId);
-            const response = await fetch(`/api/jobs/${jobId}`);
-            console.log("Raw response:", response);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const jobDetails = await response.json();
-            console.log("Job details received:", jobDetails);
-
-            document.getElementById("modal-job-title").innerText = jobDetails.title || '';
-            document.getElementById("modal-description").innerText = jobDetails.description || '';
-
-            const hardSkillsContainer = document.getElementById("modal-hard-skills");
-            hardSkillsContainer.innerHTML = '';
-
-            if (jobDetails.hard_skills && Array.isArray(jobDetails.hard_skills)) {
-                jobDetails.hard_skills.forEach(skill => {
-                    const skillElement = document.createElement('span');
-                    skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
-                    skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
-                    hardSkillsContainer.appendChild(skillElement);
-                });
-            }
-
-            const softSkillsContainer = document.getElementById("modal-soft-skills");
-            softSkillsContainer.innerHTML = '';
-
-            if (jobDetails.soft_skills && Array.isArray(jobDetails.soft_skills)) {
-                jobDetails.soft_skills.forEach(skill => {
-                    const skillElement = document.createElement('span');
-                    skillElement.classList.add('bg-green-100', 'text-green-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
-                    skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
-                    softSkillsContainer.appendChild(skillElement);
-                });
-            }
-
-            const jobDetailsModal = document.getElementById("jobDetailsModal");
-            jobDetailsModal.classList.remove('hidden');
-        } catch (error) {
-            console.error("Error fetching job details:", error);
-            alert("There was an error loading the job details.");
-        }
-    }
-
-
-    closeDetailsModalBtn.addEventListener("click", function() {
-        jobDetailsModal.classList.add('hidden');
-    });
-
-
+    document.addEventListener("DOMContentLoaded", () => {
     const openAddModalBtn = document.getElementById("openAddModalBtn");
     const closeAddModalBtn = document.getElementById("closeAddModalBtn");
     const addJobModal = document.getElementById("addJobModal");
+    const offerDetailsModal = document.getElementById("offerDetailsModal");
+    const closeDetailsBtn = document.getElementById("close-details-btn");
+    const closeDetailsModalBtn1 = document.getElementById("closeDetailsModalBtn1");
     const edtBtn = document.getElementById("updateOffer");
-    edtBtn.classList.add("hidden")
-
-    openAddModalBtn.addEventListener("click", () => {
-        addJobModal.classList.remove("hidden");
-        addJobModal.classList.add("flex");
-    });
-
-    closeAddModalBtn.addEventListener("click", () => {
-        addJobModal.classList.add("hidden");
-        addJobModal.classList.remove("flex");
-    });
-
-    addJobModal.addEventListener("click", (e) => {
-        if (e.target === addJobModal) {
-            addJobModal.classList.add("hidden");
-            addJobModal.classList.remove("flex");
-        }
-    });
-
-
+    
+   
+    const jobSelect = document.getElementById("job_id");
+    const jobDetailsModal = document.getElementById("jobDetailsModal");
+    const closeDetailsModalBtn = document.getElementById("closeDetailsModalBtn");
     const mewJob = document.getElementById("new-job-btn");
     const newJobForm = document.getElementById("new-job-form");
     const jobSelected = document.getElementById("job-id-select");
     const cancelJob = document.getElementById("cancel-new-job");
-    const jobIdSelect = document.getElementById("job_id");
-
-    mewJob.addEventListener("click", (e) => {
-        e.preventDefault();
-        jobIdSelect.value = '';
-        newJobForm.classList.remove('hidden');
-        jobDetailsModal.classList.add('hidden');
-        jobSelected.classList.add('hidden');
-        mewJob.classList.add('hidden');
-        cancelJob.classList.remove('hidden');
-        document.getElementById('job-selection').classList.add('hidden');
-
-    });
-
-    cancelJob.addEventListener("click", (e) => {
-        e.preventDefault();
-        newJobForm.classList.add('hidden');
-        jobSelected.classList.remove('hidden');
-        mewJob.classList.remove('hidden');
-        cancelJob.classList.add('hidden');
-        document.getElementById('job_title').value = '';
-        document.getElementById('job_description').value = '';
-        document.getElementById('category_id').value = '';
-
-
-        const softSkills = document.querySelectorAll("input[name='job_soft_skills[]']");
-        softSkills.forEach((element) => {
-            element.checked = false;
-        })
-
-        const hardSkills = document.querySelectorAll("input[name='job_hard_skills[]']");
-        hardSkills.forEach((element) => {
-            element.checked = false;
-        })
-        document.getElementById('job-selection').classList.remove('hidden')
-
-
-    })
-
-
-    const offerCard = document.querySelectorAll('.offer-card');
-    const offerDetailsModal = document.getElementById("offerDetailsModal");
-    const closeDetailsBtn = document.getElementById("close-details-btn");
-    const closeDetailsModalBtn1 = document.getElementById("closeDetailsModalBtn1");
-
-    closeDetailsModalBtn1.addEventListener("click", () => {
-        offerDetailsModal.classList.add("hidden");
-        offerDetailsModal.classList.remove("flex");
-    });
-
-    closeDetailsBtn.addEventListener("click", () => {
-        offerDetailsModal.classList.add("hidden");
-        offerDetailsModal.classList.remove("flex");
-    });
-
-    offerDetailsModal.addEventListener("click", (e) => {
-        if (e.target === offerDetailsModal) {
-            offerDetailsModal.classList.add("hidden");
-            offerDetailsModal.classList.remove("flex");
-        }
-    });
-
-    offerCard.forEach(card => {
-        card.addEventListener("click", (e) => {
+    
+    // Search inputs
+    const offerInput = document.getElementById("offerSearchInput");
+    const companyInput = document.getElementById("companySearchInput");
+    const offerGrid = document.querySelector(".offersCards");
+    
+    edtBtn.classList.add("hidden");
+    
+    // Event delegation for offer cards - this is the key fix
+    document.body.addEventListener("click", (e) => {
+        // Find the closest parent with offer-card class
+        const card = e.target.closest('.offer-card');
+        if (card) {
             const offerId = card.dataset.jobId;
             console.log("Clicked on offer with ID:", offerId);
             fetchOfferDetails(offerId);
-        });
-    });
-
-    async function fetchOfferDetails(offerId) {
-        try {
-            const response = await fetch(`/api/offers/${offerId}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log("Offer details received:", data);
-            document.getElementById("offerDetailsModal").dataset.offerId = offerId;
-
-            document.getElementById("modal-offer-title").innerText = data.job.title;
-            document.getElementById("modal-category").innerText = data.job.category.name;
-            document.getElementById("modal-offer-description").innerText = data.job.description;
-            document.getElementById("modal-offer-level").innerText = data.level;
-            document.getElementById("modal-offer-location").innerText = `${data.location} (${data.location_type})`;
-            document.getElementById("modal-offer-requirements").innerText = data.requirements;
-            document.getElementById("modal-offer-start-date").innerText = data.start_date;
-            document.getElementById("modal-offer-contract-type").innerText = data.contract_type;
-            document.getElementById("modal-offer-status").innerText = data.status;
-            document.getElementById("modal-offer-about").innerText = data.about_offer;
-            document.getElementById("modal-company-name").innerText = data.company.user.name;
-            document.getElementById("modal-company-email").innerText = data.company.user.email;
-            document.getElementById("modal-company-description").innerText = data.company.description;
-            document.getElementById("modal-company-address").innerText = data.company.address;
-            document.getElementById("modal-company-logo").src = `/storage/${data.company.user.avatar}`;
-            document.getElementById("modal-company-logo").classList.remove("hidden");
-            document.getElementById("company-info-section").classList.remove("hidden");
-
-            const hardSkillsContainer = document.getElementById("modal-offer-hard-skills");
-            hardSkillsContainer.innerHTML = '';
-            if (data.hard_skills.length) {
-                data.hard_skills.forEach(skill => {
-                    const skillElement = document.createElement('span');
-                    skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs', 'mb-2', 'mr-2');
-                    skillElement.innerText = skill.name;
-                    hardSkillsContainer.appendChild(skillElement);
-                });
-            }
-
-            const softSkillsContainer = document.getElementById("modal-offer-soft-skills");
-            softSkillsContainer.innerHTML = '';
-            if (data.soft_skills?.length) {
-                data.soft_skills.forEach(skill => {
-                    const skillElement = document.createElement('span');
-                    skillElement.classList.add('bg-green-100', 'text-green-800', 'px-2', 'py-1', 'rounded-full', 'text-xs', 'mb-2', 'mr-2');
-                    skillElement.innerText = skill.name;
-                    softSkillsContainer.appendChild(skillElement);
-                });
-            }
-            const offerDetailsModal = document.getElementById("offerDetailsModal");
-            offerDetailsModal.classList.remove("hidden");
-            offerDetailsModal.classList.add("flex");
-        } catch (error) {
-            console.error("Error fetching offer details:", error);
-            alert("There was an error loading the offer details.");
         }
-    }
-
-
-    // to update an offer
-
-    const editBtn = document.getElementById('editOffer');
-    const updateForm = document.getElementById("addOfferForm");
-    editBtn.addEventListener("click", async function(e) {
-        e.preventDefault();
-        const offerId = document.getElementById("offerDetailsModal").dataset.offerId;
-        try {
-            const response = await fetch(`api/offers/${offerId}`)
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            const offer_id = document.getElementById("offer_id");
-            const job_id = document.getElementById("job_id");
-            const level = document.getElementById("level");
-            const location = document.getElementById("location");
-            const location_type = document.getElementById("location_type");
-            const requirements = document.getElementById("requirements");
-            const start_date = document.getElementById("start_date");
-            const contract_type = document.getElementById("contract_type");
-            const about_offer = document.getElementById("about_offer");
-
-            offer_id.value = offerId;
-            job_id.value = data.job.id;
-            fetchJobDetails(data.job.id);
-            // console.log()
-            level.value = data.level;
-            location.value = data.location;
-            location_type.value = data.location_type;
-            requirements.value = data.requirements;
-            start_date.value = data.start_date;
-            contract_type.value = data.contract_type;
-            about_offer.value = data.about_offer;
-
-            const hardSkills = document.querySelectorAll("input[name='hard_skills[]']");
-            hardSkills.forEach(skill => {
-                skill.checked = data.hard_skills.some(hs => hs.id === parseInt(skill.value));
-            });
-
-            const softSkills = document.querySelectorAll("input[name='soft_skills[]']");
-            softSkills.forEach(skill => {
-                skill.checked = data.soft_skills.some(ss => ss.id === parseInt(skill.value));
-            });
+    });
+    
+    // Modal controls
+    if(openAddModalBtn) {
+        openAddModalBtn.addEventListener("click", () => {
             addJobModal.classList.remove("hidden");
             addJobModal.classList.add("flex");
-            offerDetailsModal.classList.add("hidden");
-            const newJobBtn = document.getElementById("new-job-btn");
-            newJobBtn.classList.add("hidden");
-            const addOfferBtn = document.getElementById("add-offer");
-            addOfferBtn.classList.add("hidden");
-            edtBtn.classList.remove("hidden")
-        } catch (error) {
-            console.log("there is an error", error)
-        }
-    })
-    const updateBtn = document.getElementById("updateOffer");
-    updateBtn.addEventListener("click", async function(e) {
-        e.preventDefault();
-
-        const form = document.getElementById("addOfferForm");
-        const formData = new FormData(form);
-        const offerId = formData.get("id");
-
-        const formDataObj = {};
-
-
-        for (const [key, value] of formData.entries()) {
-            // Check if the key ends with [], which indicates an array
-            if (key.endsWith('[]')) {
-                const baseKey = key.slice(0, -2);
-                if (!formDataObj[baseKey]) {
-                    formDataObj[baseKey] = [];
-                }
-                formDataObj[baseKey].push(value);
-            } else {
-                formDataObj[key] = value;
+        });
+    }
+    
+    if(closeAddModalBtn) {
+        closeAddModalBtn.addEventListener("click", () => {
+            addJobModal.classList.add("hidden");
+            addJobModal.classList.remove("flex");
+        });
+    }
+    
+    if(addJobModal) {
+        addJobModal.addEventListener("click", (e) => {
+            if (e.target === addJobModal) {
+                addJobModal.classList.add("hidden");
+                addJobModal.classList.remove("flex");
             }
-        }
-
-        try {
-            const response = await fetch(`/api/offers/${offerId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formDataObj)
+        });
+    }
+    
+    // Job selection controls
+    if(jobSelect) {
+        jobSelect.addEventListener("change", function() {
+            const jobId = jobSelect.value;
+            if (jobId) {
+                fetchJobDetails(jobId);
+            }
+        });
+    }
+    
+    if(closeDetailsModalBtn) {
+        closeDetailsModalBtn.addEventListener("click", function() {
+            jobDetailsModal.classList.add('hidden');
+        });
+    }
+    
+    // New job form controls
+    if(mewJob) {
+        mewJob.addEventListener("click", (e) => {
+            e.preventDefault();
+            jobIdSelect.value = '';
+            newJobForm.classList.remove('hidden');
+            jobDetailsModal.classList.add('hidden');
+            jobSelected.classList.add('hidden');
+            mewJob.classList.add('hidden');
+            cancelJob.classList.remove('hidden');
+            document.getElementById('job-selection').classList.add('hidden');
+        });
+    }
+    
+    if(cancelJob) {
+        cancelJob.addEventListener("click", (e) => {
+            e.preventDefault();
+            newJobForm.classList.add('hidden');
+            jobSelected.classList.remove('hidden');
+            mewJob.classList.remove('hidden');
+            cancelJob.classList.add('hidden');
+            document.getElementById('job_title').value = '';
+            document.getElementById('job_description').value = '';
+            document.getElementById('category_id').value = '';
+    
+            const softSkills = document.querySelectorAll("input[name='job_soft_skills[]']");
+            softSkills.forEach((element) => {
+                element.checked = false;
             });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+    
+            const hardSkills = document.querySelectorAll("input[name='job_hard_skills[]']");
+            hardSkills.forEach((element) => {
+                element.checked = false;
+            });
+            document.getElementById('job-selection').classList.remove('hidden');
+        });
+    }
+    
+    // Offer details modal controls
+    if(closeDetailsModalBtn1) {
+        closeDetailsModalBtn1.addEventListener("click", () => {
+            offerDetailsModal.classList.add("hidden");
+            offerDetailsModal.classList.remove("flex");
+        });
+    }
+    
+    if(closeDetailsBtn) {
+        closeDetailsBtn.addEventListener("click", () => {
+            offerDetailsModal.classList.add("hidden");
+            offerDetailsModal.classList.remove("flex");
+        });
+    }
+    
+    if(offerDetailsModal) {
+        offerDetailsModal.addEventListener("click", (e) => {
+            if (e.target === offerDetailsModal) {
+                offerDetailsModal.classList.add("hidden");
+                offerDetailsModal.classList.remove("flex");
+            }
+        });
+    }
+    
+    // Edit offer functionality
+    const editBtn = document.getElementById('editOffer');
+    if(editBtn) {
+        editBtn.addEventListener("click", async function(e) {
+            e.preventDefault();
+            const offerId = document.getElementById("offerDetailsModal").dataset.offerId;
+            try {
+                const response = await fetch(`api/offers/${offerId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                const offer_id = document.getElementById("offer_id");
+                const job_id = document.getElementById("job_id");
+                const level = document.getElementById("level");
+                const location = document.getElementById("location");
+                const location_type = document.getElementById("location_type");
+                const requirements = document.getElementById("requirements");
+                const start_date = document.getElementById("start_date");
+                const contract_type = document.getElementById("contract_type");
+                const about_offer = document.getElementById("about_offer");
+    
+                offer_id.value = offerId;
+                job_id.value = data.job.id;
+                fetchJobDetails(data.job.id);
+                level.value = data.level;
+                location.value = data.location;
+                location_type.value = data.location_type;
+                requirements.value = data.requirements;
+                start_date.value = data.start_date;
+                contract_type.value = data.contract_type;
+                about_offer.value = data.about_offer;
+    
+                const hardSkills = document.querySelectorAll("input[name='hard_skills[]']");
+                hardSkills.forEach(skill => {
+                    skill.checked = data.hard_skills.some(hs => hs.id === parseInt(skill.value));
+                });
+    
+                const softSkills = document.querySelectorAll("input[name='soft_skills[]']");
+                softSkills.forEach(skill => {
+                    skill.checked = data.soft_skills.some(ss => ss.id === parseInt(skill.value));
+                });
+                addJobModal.classList.remove("hidden");
+                addJobModal.classList.add("flex");
+                offerDetailsModal.classList.add("hidden");
+                const newJobBtn = document.getElementById("new-job-btn");
+                newJobBtn.classList.add("hidden");
+                const addOfferBtn = document.getElementById("add-offer");
+                addOfferBtn.classList.add("hidden");
+                edtBtn.classList.remove("hidden");
+            } catch (error) {
+                console.log("there is an error", error);
+            }
+        });
+    }
+    
+    // Update offer
+    const updateBtn = document.getElementById("updateOffer");
+    if(updateBtn) {
+        updateBtn.addEventListener("click", async function(e) {
+            e.preventDefault();
+    
+            const form = document.getElementById("addOfferForm");
+            const formData = new FormData(form);
+            const offerId = formData.get("id");
+    
+            const formDataObj = {};
+    
+            for (const [key, value] of formData.entries()) {
+                // Check if the key ends with [], which indicates an array
+                if (key.endsWith('[]')) {
+                    const baseKey = key.slice(0, -2);
+                    if (!formDataObj[baseKey]) {
+                        formDataObj[baseKey] = [];
+                    }
+                    formDataObj[baseKey].push(value);
+                } else {
+                    formDataObj[key] = value;
+                }
             }
 
-            const result = await response.json();
-            // alert("Offer updated successfully!");
-
-            document.getElementById("addJobModal").classList.add("hidden");
-            document.getElementById("addJobModal").classList.remove("flex");
-            location.reload();
-        } catch (error) {
-            console.error("Error updating offer:", error);
-            alert("Error updating offer: " + error.message);
-        }
-    });
-
+            try {
+                const response = await fetch(`/api/offers/${offerId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formDataObj)
+                });
+    
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+                }
+    
+                const result = await response.json();
+    
+                document.getElementById("addJobModal").classList.add("hidden");
+                document.getElementById("addJobModal").classList.remove("flex");
+                location.reload();
+            } catch (error) {
+                console.error("Error updating offer:", error);
+                alert("Error updating offer: " + error.message);
+            }
+        });
+    }
+    
+    // Collapsible sections
     const sections = document.querySelectorAll('.section-content');
     if (sections.length > 0) {
         sections[0].style.display = 'block';
@@ -831,16 +752,13 @@
             sections[i].style.display = 'none';
         }
     }
-
-    // for collapsible form
+    
     const toggleButtons = document.querySelectorAll('.section-toggle');
     toggleButtons.forEach(button => {
         button.addEventListener('click', function() {
             const content = this.nextElementSibling;
             const isVisible = content.style.display === 'block';
-
             const arrow = this.querySelector('svg');
-
             if (isVisible) {
                 content.style.display = 'none';
                 arrow.classList.remove('rotate-180');
@@ -856,54 +774,169 @@
         addJobModal.classList.remove('hidden');
         addJobModal.classList.add('flex');
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const offerInput = document.getElementById("offerSearchInput");
-        const companyInput = document.getElementById("companySearchInput");
-        const offerGrid = document.querySelector(".offersCards");
-
-        let debounceTimer;
-
+    
+    // Search functionality with debounce
+    let debounceTimer;
+    
+    if(offerInput && companyInput) {
         [offerInput, companyInput].forEach(input => {
             input.addEventListener("input", () => {
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(() => {
                     const offerVal = offerInput.value.trim();
-                    const companyVal = companyInput.value.trim();
+                    const companyVal = companyInput ? companyInput.value.trim() : '';
                     fetchOffers(offerVal, companyVal);
                 }, 300);
             });
         });
+    }
+});
 
-        async function fetchOffers(search = "", company = "") {
-            try {
-                const url = `/api/offers?search=${encodeURIComponent(search)}&company=${encodeURIComponent(company)}`;
-                const response = await fetch(url);
-                const offers = await response.json();
+async function fetchJobDetails(jobId) {
+    try {
+        console.log("Fetching job details for ID:", jobId);
+        const response = await fetch(`/api/jobs/${jobId}`);
+        console.log("Raw response:", response);
 
-                offerGrid.innerHTML = "";
-
-                offers.forEach(offer => {
-                    const card = document.createElement("div");
-                    card.className = "bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card";
-                    card.innerHTML = `
-                    <div class="p-5">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${offer.job.title}</h3>
-                        <div class="text-sm text-gray-600 mb-3">
-                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${offer.status}</span>
-                        </div>
-                        <p class="text-sm text-gray-700 mb-4">${offer.job.description}</p>
-                        <p class="text-sm text-gray-700 line-clamp-2 mb-4">${offer.requirements}</p>
-                    </div>
-                `;
-                    offerGrid.appendChild(card);
-                });
-
-            } catch (err) {
-                console.error("Offer search failed:", err);
-            }
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    });
+
+        const jobDetails = await response.json();
+        console.log("Job details received:", jobDetails);
+
+        document.getElementById("modal-job-title").innerText = jobDetails.title || '';
+        document.getElementById("modal-description").innerText = jobDetails.description || '';
+
+        const hardSkillsContainer = document.getElementById("modal-hard-skills");
+        hardSkillsContainer.innerHTML = '';
+
+        if (jobDetails.hard_skills && Array.isArray(jobDetails.hard_skills)) {
+            jobDetails.hard_skills.forEach(skill => {
+                const skillElement = document.createElement('span');
+                skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
+                skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
+                hardSkillsContainer.appendChild(skillElement);
+            });
+        }
+
+        const softSkillsContainer = document.getElementById("modal-soft-skills");
+        softSkillsContainer.innerHTML = '';
+
+        if (jobDetails.soft_skills && Array.isArray(jobDetails.soft_skills)) {
+            jobDetails.soft_skills.forEach(skill => {
+                const skillElement = document.createElement('span');
+                skillElement.classList.add('bg-green-100', 'text-green-800', 'px-2', 'py-1', 'rounded-full', 'text-xs');
+                skillElement.innerText = typeof skill === 'object' ? skill.name : skill;
+                softSkillsContainer.appendChild(skillElement);
+            });
+        }
+
+        const jobDetailsModal = document.getElementById("jobDetailsModal");
+        jobDetailsModal.classList.remove('hidden');
+    } catch (error) {
+        console.error("Error fetching job details:", error);
+        alert("There was an error loading the job details.");
+    }
+}
+
+async function fetchOfferDetails(offerId) {
+    try {
+        const response = await fetch(`/api/offers/${offerId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Offer details received:", data);
+        document.getElementById("offerDetailsModal").dataset.offerId = offerId;
+
+        document.getElementById("modal-offer-title").innerText = data.job.title;
+        document.getElementById("modal-category").innerText = data.job.category.name;
+        document.getElementById("modal-offer-description").innerText = data.job.description;
+        document.getElementById("modal-offer-level").innerText = data.level;
+        document.getElementById("modal-offer-location").innerText = `${data.location} (${data.location_type})`;
+        document.getElementById("modal-offer-requirements").innerText = data.requirements;
+        document.getElementById("modal-offer-start-date").innerText = data.start_date;
+        document.getElementById("modal-offer-contract-type").innerText = data.contract_type;
+        document.getElementById("modal-offer-status").innerText = data.status;
+        document.getElementById("modal-offer-about").innerText = data.about_offer;
+        document.getElementById("modal-company-name").innerText = data.company.user.name;
+        document.getElementById("modal-company-email").innerText = data.company.user.email;
+        document.getElementById("modal-company-description").innerText = data.company.description;
+        document.getElementById("modal-company-address").innerText = data.company.address;
+        
+        const companyLogo = document.getElementById("modal-company-logo");
+        if (companyLogo) {
+            companyLogo.src = `/storage/${data.company.user.avatar}`;
+            companyLogo.classList.remove("hidden");
+        }
+        
+        const companyInfoSection = document.getElementById("company-info-section");
+        if (companyInfoSection) {
+            companyInfoSection.classList.remove("hidden");
+        }
+
+        const hardSkillsContainer = document.getElementById("modal-offer-hard-skills");
+        hardSkillsContainer.innerHTML = '';
+        if (data.hard_skills && data.hard_skills.length) {
+            data.hard_skills.forEach(skill => {
+                const skillElement = document.createElement('span');
+                skillElement.classList.add('bg-blue-100', 'text-blue-800', 'px-2', 'py-1', 'rounded-full', 'text-xs', 'mb-2', 'mr-2');
+                skillElement.innerText = skill.name;
+                hardSkillsContainer.appendChild(skillElement);
+            });
+        }
+
+        const softSkillsContainer = document.getElementById("modal-offer-soft-skills");
+        softSkillsContainer.innerHTML = '';
+        if (data.soft_skills && data.soft_skills.length) {
+            data.soft_skills.forEach(skill => {
+                const skillElement = document.createElement('span');
+                skillElement.classList.add('bg-green-100', 'text-green-800', 'px-2', 'py-1', 'rounded-full', 'text-xs', 'mb-2', 'mr-2');
+                skillElement.innerText = skill.name;
+                softSkillsContainer.appendChild(skillElement);
+            });
+        }
+        
+        const offerDetailsModal = document.getElementById("offerDetailsModal");
+        offerDetailsModal.classList.remove("hidden");
+        offerDetailsModal.classList.add("flex");
+    } catch (error) {
+        console.error("Error fetching offer details:", error);
+        alert("There was an error loading the offer details.");
+    }
+}
+
+async function fetchOffers(search = "", company = "") {
+    try {
+        const url = `/api/offers?search=${encodeURIComponent(search)}&company=${encodeURIComponent(company)}`;
+        const response = await fetch(url);
+        const offers = await response.json();
+
+        const offerGrid = document.querySelector(".offersCards");
+        offerGrid.innerHTML = "";
+
+        offers.forEach(offer => {
+            const card = document.createElement("div");
+            card.className = "bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer offer-card";
+            card.dataset.jobId = offer.id; 
+            card.innerHTML = `
+                <div class="p-5">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">${offer.job.title}</h3>
+                    <div class="text-sm text-gray-600 mb-3">
+                        <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${offer.status}</span>
+                    </div>
+                    <p class="text-sm text-gray-700 mb-4">${offer.job.description}</p>
+                    <p class="text-sm text-gray-700 line-clamp-2 mb-4">${offer.requirements}</p>
+                </div>
+            `;
+            offerGrid.appendChild(card);
+        });
+
+    } catch (err) {
+        console.error("Offer search failed:", err);
+    }
+}
 </script>
 
 
