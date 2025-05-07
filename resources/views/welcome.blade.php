@@ -271,19 +271,19 @@
 
             <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
                 <div class="p-4 flex justify-center">
-                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    <img src="https://q8i4i8g7.delivery.rocketcdn.me/wp-content/uploads/2020/10/99gen_towers.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    <img src="https://media.istockphoto.com/id/1412438498/vector/modern-square-tech-logo-design.jpg?s=612x612&w=0&k=20&c=ajxrQbCRK-HCeVE9kPMKqGCNnzoRS6UAJfstNKXWwTU=" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="https://www.wetech.ma/im/180/images/300/ca-6apddb3ibfe48c919y9gq3n9kv6plk30012020121302.jpg" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    <img src="https://q8i4i8g7.delivery.rocketcdn.me/wp-content/uploads/2020/10/99gen_circle.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    <img src="https://pbs.twimg.com/media/EeADav3UwAATZPd.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
                 <div class="p-4 flex justify-center">
-                    <img src="https://cdn.phenompeople.com/CareerConnectResources/prod/LEFAGLOBAL/images/DXCLogoHoriz_PurpleBlackRGB-1662486454896.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/356c66bd-fc11-4003-b39c-4785fd48c745/d90u1co-b0a0bae6-d30e-4d72-af0e-9ac7ebbd7c35.png" alt="Logo entreprise" class="h-12 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
                 </div>
             </div>
         </div>

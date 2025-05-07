@@ -16,10 +16,12 @@
   <div class="w-full">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-semibold">Scheduled Interviews</h2>
+      @can('isAdmin')
       <button id="scheduleInterviewBtn"
         class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
         Schedule New Interview
       </button>
+      @endcan
     </div>
 
     <div class="bg-white rounded-lg shadow-md overflow-x-auto">
@@ -66,11 +68,13 @@
             </td>
             <td class="px-6 py-4 space-x-2">
               <a href="{{route('evaluations.show',$interview->id)}}" class="text-blue-500 hover:underline">View</a>
+              @can('isAdmin')
               <form action="{{route('interviews.destroy', $interview->id)}}" method="POST" class="inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="text-red-500 hover:underline">Delete</button>
               </form>
+              @endcan
             </td>
           </tr>
           @empty

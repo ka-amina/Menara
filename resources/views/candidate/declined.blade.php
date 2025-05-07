@@ -67,49 +67,68 @@
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Date d'entretien
                             </th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse($declinedCandidates as $candidate)
-                            @php
-                                // Get the latest interview for this candidate
-                                $latestInterview = $candidate->interviews->sortByDesc('scheduled_at')->first();
-                                $interviewer = $latestInterview ? $latestInterview->interviewer : null;
-                            @endphp
-                            <tr>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <div class="flex items-center">
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">{{ $candidate->first_name }} {{ $candidate->last_name }}</div>
-                                            <div class="text-sm text-gray-500">{{ $candidate->email }}</div>
-                                        </div>
+                        @forelse($declinedCandidates as $candidate)
+                        @php
+                        // Get the latest interview for this candidate
+                        $latestInterview = $candidate->interviews->sortByDesc('scheduled_at')->first();
+                        $interviewer = $latestInterview ? $latestInterview->interviewer : null;
+                        @endphp
+                        <tr>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <div class="flex items-center">
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">{{ $candidate->first_name }} {{ $candidate->last_name }}</div>
+                                        <div class="text-sm text-gray-500">{{ $candidate->email }}</div>
                                     </div>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->position }}</p>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        {{ $latestInterview && $latestInterview->offer ? $latestInterview->offer->company->user->name : 'Non spécifié' }}
-                                    </p>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        {{ $interviewer ? $interviewer->name : 'Non assigné' }}
-                                    </p>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">
-                                        {{ $latestInterview ? $latestInterview->scheduled_at->format('d/m/Y') : 'Non planifié' }}
-                                    </p>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->offer->job->title }}</p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    {{ $latestInterview && $latestInterview->offer ? $latestInterview->offer->company->user->name : 'Non spécifié' }}
+                                </p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    {{ $interviewer ? $interviewer->name : 'Non assigné' }}
+                                </p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    {{ $latestInterview ? $latestInterview->scheduled_at->format('d/m/Y') : 'Non planifié' }}
+                                </p>
+                            </td>
+
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                @php
+                                $interview = $candidate->interviews
+                                ->where('offer_id', $candidate->offer_id)
+                                ->sortByDesc('scheduled_at')
+                                ->first();
+                                @endphp
+
+                                @if($interview)
+                                <a href="{{ route('evaluations.show', $interview->id) }}" class="text-blue-500 hover:underline">View</a>
+                                @else
+                                <span>No interview available</span>
+                                @endif
+
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="7" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                                    Aucun candidat refusé trouvé
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="7" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                Aucun candidat refusé trouvé
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>

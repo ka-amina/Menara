@@ -30,7 +30,7 @@ class OfferController extends Controller
         $companiesInputs=Company::all();
         
 
-        if (Gate::allows('isAdmin')) {
+        if (Gate::allows('canAccessCandidatesAndInterviews')) {
             $offers = Offer::paginate(6);
         } else {
             $companyIds = $companies->pluck('id');

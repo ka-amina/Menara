@@ -165,7 +165,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <h3 class="font-semibold text-gray-800">
-                                    {{ $interview->candidate->position ?? 'N/A' }} -
+                                    {{ $interview->candidate->offer->job->title ?? 'N/A' }} -
                                     {{ $interview->candidate->first_name }}
                                     {{ $interview->candidate->last_name }}
                                 </h3>

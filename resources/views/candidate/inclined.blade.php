@@ -68,9 +68,9 @@
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Date d'entretien
                             </th>
-                            <!-- <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Actions
-                            </th> -->
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,7 +90,7 @@
                                 </div>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->position }}</p>
+                                <p class="text-gray-900 whitespace-no-wrap">{{ $candidate->offer->job->title }}</p>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p class="text-gray-900 whitespace-no-wrap">
@@ -107,6 +107,20 @@
                                 <p class="text-gray-900 whitespace-no-wrap">
                                     {{ $latestInterview ? $latestInterview->scheduled_at->format('d/m/Y') : 'Non planifié' }}
                                 </p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                @php
+                                $interview = $candidate->interviews
+                                ->where('offer_id', $candidate->offer_id)
+                                ->sortByDesc('scheduled_at')
+                                ->first();
+                                @endphp
+
+                                @if($interview)
+                                <a href="{{ route('evaluations.show', $interview->id) }}" class="text-blue-500 hover:underline">View</a>
+                                @else
+                                <span>No interview available</span>
+                                @endif
                             </td>
                         </tr>
                         @empty

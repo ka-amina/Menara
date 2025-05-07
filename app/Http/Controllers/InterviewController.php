@@ -104,12 +104,12 @@ class InterviewController extends Controller
 
 
 
-            // $candidate->notify(new InterviewScheduledForCandidate($interviewDetails));
+            $candidate->notify(new InterviewScheduledForCandidate($interviewDetails));
 
             $candidateFullName = $candidate->first_name . ' ' . $candidate->last_name;
 
             $interviewer = User::find($request->interviewer_id);
-            // $interviewer->notify(new InterviewScheduledForInterviewer($interviewDetails, $candidateFullName));
+            $interviewer->notify(new InterviewScheduledForInterviewer($interviewDetails, $candidateFullName));
 
             return redirect()->route('evaluations')
                 ->with('success', 'Interview scheduled successfully with Zoom meeting link.');
@@ -140,9 +140,10 @@ class InterviewController extends Controller
     {
         $interview = Interview::findOrFail($interview->id);
         // $result=Evaluation::where('candidate_id',$interview->candidate_id)
+        // dd(Auth::user()->id,$interview->interviewer->id);
         $result = Evaluation::where('candidate_id', $interview->candidate_id)
             ->where('offer_id', $interview->offer_id)
-            ->where('interviewer_id', Auth::user()->id)
+            ->where('interviewer_id', $interview->interviewer_id)
             ->first();
 
         // dd($interview->candidate->first_name);
