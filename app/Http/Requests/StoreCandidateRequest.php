@@ -24,7 +24,7 @@ class StoreCandidateRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:candidates',
+            'email' => 'required|email|max:255',
             'phone_number' => 'required|string|max:20',
             'cv' => 'required|file|mimes:pdf,doc,docx',
             'offer_id' => 'required|exists:offers,id',
@@ -42,7 +42,7 @@ class StoreCandidateRequest extends FormRequest
             'email.required' => 'Email address is required.',
             'email.email' => 'Please enter a valid email address.',
             'email.max' => 'Email cannot exceed 255 characters.',
-            'email.unique' => 'This email address is already registered.',
+            // 'email.unique' => 'This email address is already registered.',
 
             'phone_number.required' => 'Phone number is required.',
             'phone_number.max' => 'Phone number cannot exceed 20 characters.',
