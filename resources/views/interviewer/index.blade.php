@@ -75,7 +75,8 @@
         <!-- Recruitment Progress Chart & Task Assignment -->
 
         <!-- Today's Schedule -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+         
+        <!-- <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-gray-800">Today's Schedule</h2>
                 <div class="text-sm text-gray-600">
@@ -198,7 +199,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
 
 
     </div>
