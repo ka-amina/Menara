@@ -96,7 +96,7 @@
                 <h3 id="evaluateh" class="text-xl font-semibold text-gray-800">Évaluation du Candidat</h3>
 
                 @if (!$result)
-                @can('isInterviewer')
+                @if(Auth::user()->id === $interview->interviewer_id)
                 <form method="POST" action="{{ route('evaluations.store') }}">
                     @csrf
                     <input type="hidden" name="candidate_id" value="{{ $interview->candidate->id }}">
@@ -137,7 +137,11 @@
                         </button>
                     </div>
                 </form>
-                @endcan
+                @else
+                <div class="mt-6 text-yellow-600 font-semibold">
+                    This candidate hasn't been evaluated yet.
+                </div>
+                @endif
                 @else
                 <div id="candidate-result">
                     <div class="mt-4">

@@ -1,51 +1,51 @@
 @extends('layouts.app')
-@section('title', 'Menara - Forget Password')
+
+@section('title', 'Menara - Forgot Password')
 
 @section('content')
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-xl shadow-md w-96">
+        <form action="{{ route('forgot') }}" method="POST">
+            @csrf
+            <div class="text-center mb-8">
+                <img id="profile-image-preview" src="{{ asset('logo_transparent.png') }}" alt="Profile" class="w-24 h-24 object-cover mx-auto">
+            </div>
 
-<div
-    class="max-w-md w-full mx-auto rounded-xl shadow-[0_2px_10px_-2px_rgba(195,169,50,0.5)] p-8 relative mt-12">
-    <form action="{{ route('forgot') }}" method="POST">
-    @csrf
-    <div class="flex justify-center my-5">
-    <img id="profile-image-preview" src="{{ asset('logo_transparent.png') }}" alt="Profile" class=" h-24 object-cover ">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-primary mb-4">Forgot Password</h2>
+                <p class="text-gray-600">
+                    Enter the email address associated with your account
+                </p>
+            </div>
 
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                <input
+                    name="email"
+                    id="email"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary"
+                    type="email"
+                    placeholder="name@gmail.com"
+                    value="{{ old('email') }}">
+                @error('email')
+                    <div class="text-red-500 mt-2">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="text-center">
+                <button
+                    type="submit"
+                    class="w-full bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    Send Reset Link
+                </button>
+            </div>
+
+            <div class="text-center mt-6">
+                <a href="{{route('login')}}" class="text-primary hover:underline">
+                    Back to Login
+                </a>
+            </div>
+        </form>
     </div>
-        <div class="flex justify-center my-5">
-            <h2 class="text-2xl font-bold text-primary">Forgot Password</h2>
-        </div>
-
-        <div class="text-center mb-6">
-            <p class="text-gray-600">
-                Enter the email address associated with your account
-            </p>
-        </div>
-
-        <div class="flex flex-col p-2">
-            <label for="email" class="mb-2">Email Address</label>
-            <input
-            name="email"
-                id="email"
-                class="p-2 border-b border-primary"
-                type="email"
-                placeholder="name@gmail.com"
-                 />
-        </div>
-
-        <div class="flex justify-center">
-            <button
-                type="submit"
-                class="my-4 rounded-md w-full bg-primary text-white hover:bg-primary-hover p-2">
-                Send Reset Link
-            </button>
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="{{route('login')}}" class="text-primary hover:underline">
-                Back to Login
-            </a>
-        </div>
-    </form>
 </div>
-
 @endsection

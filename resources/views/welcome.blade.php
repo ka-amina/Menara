@@ -49,10 +49,30 @@
         .faq-item:hover {
             background-color: #f9fafb;
         }
+
+        #mobile-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            width: 100%;
+            /* Ensure it's above everything */
+            background: white;
+            /* Solid background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #mobile-menu.hidden {
+            display: none;
+        }
+
+        #mobile-menu a {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
+    <!-- Header -->
     <!-- Header -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -70,25 +90,23 @@
             </nav>
             <div class="flex items-center space-x-4">
                 <a href="{{route('login')}}" class="hidden md:inline-block font-medium text-blue-600 hover:text-blue-700">Connexion</a>
-                <a href="{{route('companyregister')}}" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all">S'inscrire</a>
+                <a href="{{route('companyregister')}}" class="hidden md:inline-block bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all">S'inscrire</a>
             </div>
-            <button class="md:hidden text-gray-700 focus:outline-none">
+            <button class="md:hidden text-gray-700 focus:outline-none" id="menu-toggle">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="bg-white shadow-md hidden" id="mobile-menu">
+            <div class="container mx-auto px-4 py-3 space-y-3">
+                <a href="{{route('companyregister')}}" class="block font-medium text-blue-600 hover:text-blue-700 py-2">S'inscrire</a>
+                <a href="{{route('login')}}" class="block font-medium text-blue-600 hover:text-blue-700 py-2">Connexion</a>
+            </div>
+        </div>
     </header>
 
-    <!-- Mobile Menu (Hidden by default) -->
-    <div class="md:hidden bg-white shadow-md hidden" id="mobile-menu">
-        <div class="container mx-auto px-4 py-3 space-y-3">
-            <a href="#" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
-            <a href="#how-it-works" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Comment ça marche</a>
-            <a href="#features" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Avantages</a>
-            <a href="#testimonials" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">Témoignages</a>
-            <a href="#faq" class="block font-medium text-gray-700 hover:text-blue-600 transition-colors">FAQ</a>
-            <a href="#" class="block font-medium text-blue-600 hover:text-blue-700 py-2">Connexion</a>
-        </div>
-    </div>
+
 
     <!-- Hero Section -->
     <section class="py-20 bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-800 text-white hero-pattern relative overflow-hidden">
@@ -422,14 +440,24 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Mobile menu toggle
-            const menuButton = document.querySelector('button.md:hidden');
+            const menuToggle = document.getElementById('menu-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
 
-            if (menuButton && mobileMenu) {
-                menuButton.addEventListener('click', function() {
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
                     mobileMenu.classList.toggle('hidden');
                 });
             }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                // console.log("clicked");
+
+                const isClickInside = menuToggle.contains(event.target) || mobileMenu.contains(event.target);
+                if (!isClickInside) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
 
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
