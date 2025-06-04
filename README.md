@@ -1,66 +1,129 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# README
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
 
-## About Laravel
+### Project Name: Menara
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Description
+Menara is a web application developed with PHP Laravel, designed to help recruiters efficiently manage the recruitment process. It focuses on preparing, tracking, and evaluating technical and cross-functional interviews, as well as managing job offers. The application aims to centralize candidate and interview management, facilitate skill evaluation, improve recruitment process traceability, automate candidate communication, optimize interview scheduling, and enable companies to create and publish job offers.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Target Audience
+- Recruiters
+- HR Managers
+- Department Heads
+- HR Teams
+- Companies
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Project Objectives
+- Centralize the management of candidates and interviews.
+- Facilitate the evaluation of technical and cross-functional skills.
+- Improve the traceability of the recruitment process.
+- Automate communication with candidates.
+- Optimize interview scheduling.
+- Enable companies to create and publish job offers.
 
-## Learning Laravel
+### Technical Objectives
+- Develop a secure and high-performance application.
+- Create an intuitive and responsive user interface.
+- Ensure the flexibility and extensibility of the application.
+- Implement robust authentication.
+- Set up custom role management.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Functional Requirements
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### User and Role Management
+- Secure authentication (login, password reset, etc.).
+- Customizable roles (Admin, Recruiter, Company).
+- Candidate profile management (creation, tracking, search).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Candidate Management
+- Create, track, and search detailed candidate profiles.
+- Manage resumes and other candidate-related documents.
+- Display complete profiles of candidates who have had interviews, including scores and status (accepted, rejected).
 
-## Laravel Sponsors
+### Job Offer Management
+- Create, modify, and delete job offers.
+- Automatic publication of job offers.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Task Management
+- Manage recruiter tasks (interview assignments, task tracking, scheduling via an integrated calendar).
+- Each recruiter can view their assigned tasks for the day.
 
-### Premium Partners
+### Evaluation Repository
+- Create and manage categorized questionnaires (technical and administrative).
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Interview Management
+- Schedule and organize interviews with date and meeting link management.
+- Automatically generate evaluation reports.
+- Notify candidates of their status within 24 hours after the interview via email.
 
-## Contributing
+### Front Office and Back Office
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Front Office (Recruiters)
+1. **Dashboard**
+   - Daily task calendar: Interactive view of assigned tasks for the day.
+   - Upcoming interviews: List of scheduled interviews.
+   - Notifications and reminders: Automated alerts for tasks and events.
+   - Statistics: Visualization of individual performance.
+2. **Interview Management**
+   - Interview list: Filters to display interviews (by date, status).
+   - Evaluation: Skill rating form for technical and administrative skills.
+   - Reports: Generation of reports.
+3. **Task Management**
+   - Task list: Detailed view of tasks assigned to the recruiter.
+   - Update: Modify task status (in progress, completed).
 
-## Code of Conduct
+#### Front Office (Company)
+- Overview of created job offers.
+- Statistics on applications.
+- Manage job offers: create, modify, delete.
+- Track applications by job offer.
+- Generate advanced reports and statistics.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Back Office (Administrators)
+- **Admin Dashboard**
+  - Complete management of recruiters: Add, delete, modify.
+  - Assign tasks to recruiters: Interview and specific task assignments.
+  - Global supervision of the recruitment process: Access to all data, interviews, and candidates.
+  - Reports and analytics: Generate advanced recruitment statistics.
 
-## Security Vulnerabilities
+## Technologies Used
+- Backend: PHP Laravel
+- Database: MySQL
+- Frontend: HTML, CSS, JavaScript (Laravel Framework)
+- Design Pattern: Repository Pattern
+- Version Control: Git
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Installation
 
-## License
+### Prerequisites
+- PHP 
+- MySQL
+- Composer
+- Node.js and npm (for frontend assets)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ka-amina/Menara
+   cd menara
+   ```
+2. Install dependencies:
+   ``` bash
+   composer install
+   npm install
+   ```
+3. Copy the .env.example file to .env and configure your database settings:
+
+   ``` bash
+   cp .env.example .env
+   ```
+4. Run database migrations:
+   ``` bash
+   php artisan migrate
+   ```
+5. Run database migrations:
+   ```bash
+   php artisan migrate
+   ```
+6. 
