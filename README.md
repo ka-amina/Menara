@@ -126,4 +126,35 @@ Menara is a web application developed with PHP Laravel, designed to help recruit
    ```bash
    php artisan migrate
    ```
-6. 
+6. create admin user by running the seeder  :
+   ```bash
+   php artisan db:seed --class=DatabaseSeeder
+   ```
+7. Compile frontend assets:
+    ```bash 
+    npm run dev
+    ```
+8. Start the development server:
+    ```bash
+    php artisan serve
+    ```
+8. Access the application at http://localhost:8000.
+
+the admin account :
+ - email: amina@admin.com
+ - password: amina12345
+
+## Acknowledgments
+
+- [Laravel](https://laravel.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Alpine.js](https://alpinejs.dev/)
+
+## Author
+
+- [Amina](https://github.com/ka-amina)
+
+## Contact
+
+- Email: aminakara400@gmail.com
+- GitHub: [ka-amina](https://github.com/ka-amina)
