@@ -28,4 +28,5 @@ class CandidateSeeder extends Seeder
             ]);
         }
     }
+
 }
